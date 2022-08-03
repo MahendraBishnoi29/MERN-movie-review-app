@@ -1,7 +1,7 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcryptjs");
 
-exports.createUser = async (req, res) => {
+const createUser = async (req, res) => {
   const { name, email, password } = req.body;
   const existingUser = await User.findOne({ email });
   if (existingUser) {
@@ -19,3 +19,5 @@ exports.createUser = async (req, res) => {
   }
   res.status(201).json({ user: newUser });
 };
+
+module.exports = { createUser };
