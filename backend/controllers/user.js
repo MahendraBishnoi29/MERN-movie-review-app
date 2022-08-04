@@ -108,6 +108,57 @@ const verifyEmail = async (req, res) => {
   res.json({ message: "Your Email is Verified " });
 };
 
+// Resend Verification Token for Email
+const resendEmailVerificationToken = async (req, res) => {
+  const { userId } = req.body;
+  const user = await User.findById(userId);
+  if (!user) return res.json({ error: "User Not Found" });
+
+  if (user.isVerified) return res.json({ info: "Email is Already Verified" });
+
+  const alreadyHasToken = await mailVerifyTokenSchema.findOne({
+    owner: userId,
+  });
+  if (alreadyHasToken)
+    return res.json({
+      info: "It's not an hour since you signed up, please request a new Token after 1 hour.",
+    });
+
+  let OTP = "";
+  for (let i = 0; i <= 5; i++) {
+    const randomVal = Math.round(Math.random() * 9);
+    OTP += randomVal;
+  }
+
+  //Store OTP & Token inside our DB
+  const newEmailVerifyToken = new mailVerifyTokenSchema({
+    owner: user._id,
+    token: OTP,
+  });
+
+  await newEmailVerifyToken.save();
+
+  var transport = nodemailer.createTransport({
+    host: "smtp.mailtrap.io",
+    port: 2525,
+    auth: {
+      user: "7db3d4874b68dd",
+      pass: "ce5e5966e5f191",
+    },
+  });
+
+  transport.sendMail({
+    from: "verify@movieapp.com",
+    to: user.email,
+    subject: "Email Verification",
+    html: `<p>Your New OTP for Email verification</P>
+       <h1>${OTP}</h1>
+    `,
+  });
+
+  res.json({ message: "New OTP has been Sent to your Registered Email" });
+};
+
 // Login User Function
 
-module.exports = { createUser, verifyEmail };
+module.exports = { createUser, verifyEmail, resendEmailVerificationToken };
