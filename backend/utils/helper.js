@@ -1,6 +1,7 @@
 const crypto = require("crypto");
-const { resolve } = require("path");
+const nodemailer = require("nodemailer");
 
+// For Password Resetting
 const generateRandomByte = () => {
   return new Promise((resolve, reject) => {
     crypto.randomBytes(30, (err, bufferData) => {
@@ -14,4 +15,4 @@ const generateRandomByte = () => {
   });
 };
 
-module.exports = generateRandomByte;
+module.exports = { generateRandomByte };
