@@ -3,6 +3,8 @@ const bcrypt = require("bcryptjs");
 const mailVerifyTokenSchema = require("../models/mailVerifyTokenSchema");
 const nodemailer = require("nodemailer");
 const { isValidObjectId } = require("mongoose");
+const passwordResetModel = require("../models/passwordResetModel");
+const generateRandomByte = require("../utils/helper");
 
 // Register User Function
 const createUser = async (req, res) => {
@@ -159,6 +161,57 @@ const resendEmailVerificationToken = async (req, res) => {
   res.json({ message: "New OTP has been Sent to your Registered Email" });
 };
 
-// Login User Function
+// Password Reset Function
+const forgetPassword = async (req, res) => {
+  const { email } = req.body;
 
-module.exports = { createUser, verifyEmail, resendEmailVerificationToken };
+  if (!email) return res.json({ error: "Email is Missing!" });
+
+  const user = await User.findOne({ email });
+  if (!user) return res.json({ error: "User Not Found" });
+
+  const alreadyHasToken = await passwordResetModel.findOne({ owner: user._id });
+  if (alreadyHasToken)
+    return res.json({
+      info: "It's not an hour since you signed up, please request a new Token after 1 hour.",
+    });
+
+  const token = await generateRandomByte();
+
+  const passwordResetToken = await passwordResetModel({
+    owner: user._id,
+    token,
+  });
+  await passwordResetToken.save();
+
+  const resetPasswordUrl = `http://localhost:3000/reset-password?token=${token}&id=${user._id}`;
+
+  var transport = nodemailer.createTransport({
+    host: "smtp.mailtrap.io",
+    port: 2525,
+    auth: {
+      user: "7db3d4874b68dd",
+      pass: "ce5e5966e5f191",
+    },
+  });
+
+  transport.sendMail({
+    from: "security@movieapp.com",
+    to: user.email,
+    subject: "Forgot Password",
+    html: `<p>Reset You Password By Clicking on The Link Below</P>
+       <a href='${resetPasswordUrl}' >Click Here</a>
+    `,
+  });
+
+  res.json({
+    message: "Link for Resetting Password has been sent to Your Email ;)",
+  });
+};
+
+module.exports = {
+  createUser,
+  verifyEmail,
+  resendEmailVerificationToken,
+  forgetPassword,
+};
