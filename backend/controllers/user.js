@@ -4,7 +4,7 @@ const mailVerifyTokenSchema = require("../models/mailVerifyTokenSchema");
 const nodemailer = require("nodemailer");
 const { isValidObjectId } = require("mongoose");
 const passwordResetModel = require("../models/passwordResetModel");
-const generateRandomByte = require("../utils/helper");
+const { generateRandomByte } = require("../utils/helper");
 
 // Register User Function
 const createUser = async (req, res) => {
