@@ -1,11 +1,10 @@
+const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
-const bcrypt = require("bcrypt");
 const mailVerifyTokenSchema = require("../models/mailVerifyTokenSchema");
 const nodemailer = require("nodemailer");
 const { isValidObjectId } = require("mongoose");
 const passwordResetModel = require("../models/passwordResetModel");
 const { generateRandomByte } = require("../utils/helper");
-const comparePassword = require("../models/passwordResetModel");
 
 // Register User Function
 const createUser = async (req, res) => {
@@ -250,8 +249,26 @@ const resetPassword = async (req, res) => {
   });
 };
 
+// Login Function
+const LogIn = async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+  if (!user) return res.json({ error: "No User Found With This Email!" });
+
+  const matched = await user.comparePassword(password);
+  if (!matched) return res.json({ error: "Email/Password is Wrong!" });
+
+  const { _id, name } = user;
+
+  const jwtToken = jwt.sign({ userId: _id }, "urr4jfe4dIKAFDf0934");
+
+  res.json({ user: { id: _id, name, email, token: jwtToken } });
+};
+
 module.exports = {
   createUser,
+  LogIn,
   verifyEmail,
   resendEmailVerificationToken,
   forgetPassword,
