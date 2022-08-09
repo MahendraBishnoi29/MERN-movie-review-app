@@ -1,10 +1,11 @@
 const User = require("../models/userModel");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const mailVerifyTokenSchema = require("../models/mailVerifyTokenSchema");
 const nodemailer = require("nodemailer");
 const { isValidObjectId } = require("mongoose");
 const passwordResetModel = require("../models/passwordResetModel");
 const { generateRandomByte } = require("../utils/helper");
+const comparePassword = require("../models/passwordResetModel");
 
 // Register User Function
 const createUser = async (req, res) => {
@@ -16,9 +17,7 @@ const createUser = async (req, res) => {
       .json({ error: "A User With That Email Already Exist!!" });
   }
 
-  // Hash Password
-  const hashedPassword = bcrypt.hashSync(password);
-  const newUser = new User({ name, email, password: hashedPassword });
+  const newUser = new User({ name, email, password });
 
   try {
     await newUser.save();
@@ -209,9 +208,53 @@ const forgetPassword = async (req, res) => {
   });
 };
 
+const sendResetPasswordTokenStatus = (req, res) => {
+  res.json({ valid: true });
+};
+
+// Reset Password
+const resetPassword = async (req, res) => {
+  const { newPassword, userId } = req.body;
+
+  const user = await User.findById(userId);
+
+  const matched = await user.comparePassword(newPassword);
+  if (matched)
+    return res.json({
+      error: "New password must be different from the old one",
+    });
+  user.password = newPassword;
+  await user.save();
+
+  await passwordResetModel.findByIdAndDelete(req.resetToken._id);
+
+  const transport = nodemailer.createTransport({
+    host: "smtp.mailtrap.io",
+    port: 2525,
+    auth: {
+      user: "7db3d4874b68dd",
+      pass: "ce5e5966e5f191",
+    },
+  });
+
+  transport.sendMail({
+    from: "security@movieapp.com",
+    to: user.email,
+    subject: "Password Reset Successful",
+    html: `<h2> Password Reset Successful, You can Use Your New Password. </h2>
+    `,
+  });
+
+  res.json({
+    message: "Password Reset Successfully, You Can Use Your New Password",
+  });
+};
+
 module.exports = {
   createUser,
   verifyEmail,
   resendEmailVerificationToken,
   forgetPassword,
+  sendResetPasswordTokenStatus,
+  resetPassword,
 };
