@@ -44,8 +44,8 @@ const createUser = async (req, res) => {
     host: "smtp.mailtrap.io",
     port: 2525,
     auth: {
-      user: "7db3d4874b68dd",
-      pass: "ce5e5966e5f191",
+      user: process.env.MAIL_TRAP_USER,
+      pass: process.env.MAIL_TRAP_PASS,
     },
   });
 
@@ -93,8 +93,8 @@ const verifyEmail = async (req, res) => {
     host: "smtp.mailtrap.io",
     port: 2525,
     auth: {
-      user: "7db3d4874b68dd",
-      pass: "ce5e5966e5f191",
+      user: process.env.MAIL_TRAP_USER,
+      pass: process.env.MAIL_TRAP_PASS,
     },
   });
 
@@ -142,8 +142,8 @@ const resendEmailVerificationToken = async (req, res) => {
     host: "smtp.mailtrap.io",
     port: 2525,
     auth: {
-      user: "7db3d4874b68dd",
-      pass: "ce5e5966e5f191",
+      user: process.env.MAIL_TRAP_USER,
+      pass: process.env.MAIL_TRAP_PASS,
     },
   });
 
@@ -188,8 +188,8 @@ const forgetPassword = async (req, res) => {
     host: "smtp.mailtrap.io",
     port: 2525,
     auth: {
-      user: "7db3d4874b68dd",
-      pass: "ce5e5966e5f191",
+      user: process.env.MAIL_TRAP_USER,
+      pass: process.env.MAIL_TRAP_PASS,
     },
   });
 
@@ -231,15 +231,15 @@ const resetPassword = async (req, res) => {
     host: "smtp.mailtrap.io",
     port: 2525,
     auth: {
-      user: "7db3d4874b68dd",
-      pass: "ce5e5966e5f191",
+      user: process.env.MAIL_TRAP_USER,
+      pass: process.env.MAIL_TRAP_PASS,
     },
   });
 
   transport.sendMail({
     from: "security@movieapp.com",
     to: user.email,
-    subject: "Password Reset Successful",
+    subject: "Password Reset Successfull",
     html: `<h2> Password Reset Successful, You can Use Your New Password. </h2>
     `,
   });
@@ -261,7 +261,7 @@ const LogIn = async (req, res) => {
 
   const { _id, name } = user;
 
-  const jwtToken = jwt.sign({ userId: _id }, "urr4jfe4dIKAFDf0934");
+  const jwtToken = jwt.sign({ userId: _id }, process.env.JWT_SECRET);
 
   res.json({ user: { id: _id, name, email, token: jwtToken } });
 };
