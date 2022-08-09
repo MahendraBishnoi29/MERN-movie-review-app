@@ -13,7 +13,7 @@ const isValidPassResetToken = async (req, res, next) => {
 
   const matched = await resetToken.compareToken(token);
   if (!matched)
-    return res.json({ error: "Unauthorized access, Invalid request" });
+    return res.json({ error: "Token Not Matched, Invalid Request" });
 
   req.resetToken = resetToken;
 
