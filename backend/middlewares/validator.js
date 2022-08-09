@@ -1,7 +1,7 @@
 const { check, validationResult } = require("express-validator");
 
 // Validate Complete User With All Fields
-exports.Validator = [
+exports.SignUpValidator = [
   check("name").trim().not().isEmpty().withMessage("Name is missing!"),
   check("email").normalizeEmail().isEmail().withMessage("Email is Invalid!!"),
   check("password")
@@ -22,6 +22,11 @@ exports.validatePassword = [
     .withMessage("Please Enter Your New Password!")
     .isLength({ min: 6, max: 15 })
     .withMessage("Password must be 6 to 15 characters long!"),
+];
+
+exports.SignInValidator = [
+  check("email").normalizeEmail().isEmail().withMessage("Wrong Email!"),
+  check("password").trim().not().isEmpty().withMessage("Wrong Password!"),
 ];
 
 // For formating Error Message
