@@ -1,5 +1,7 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import Input from "../../Form/Input";
+import Submit from "../../Form/Submit";
 import Title from "../../Form/Title.tsx";
 import Container from "../../navbar/Container";
 
@@ -11,6 +13,21 @@ const SignIn = () => {
           <Title>SignIn 🔑</Title>
           <Input name="email" label="Email" placeholder="johnwick@gmail.com" />
           <Input name="password" label="Password" placeholder="********" />
+          <Submit value="Sign In" />
+          <div className="flex justify-between">
+            <a
+              className="text-dark-subtle hover:text-white transition"
+              href="#"
+            >
+              Forget Password?
+            </a>
+            <a
+              className="text-dark-subtle hover:text-white transition"
+              href="#"
+            >
+              Sign Up
+            </a>
+          </div>
         </form>
       </Container>
     </div>
