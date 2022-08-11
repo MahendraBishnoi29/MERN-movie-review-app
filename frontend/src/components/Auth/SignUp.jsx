@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
+import CustomLink from "../CustomLink/CustomLink";
 import Input from "../Form/Input";
 import Submit from "../Form/Submit";
 import Title from "../Form/Title";
@@ -16,18 +17,8 @@ const SignUp = () => {
           <Input name="password" label="Password" placeholder="********" />
           <Submit value="Sign Up" />
           <div className="flex justify-between">
-            <a
-              className="text-dark-subtle hover:text-white transition"
-              href="#"
-            >
-              Forget Password?
-            </a>
-            <a
-              className="text-dark-subtle hover:text-white transition"
-              href="#"
-            >
-              Sign In
-            </a>
+            <CustomLink to="/forget-password">Forget Password?</CustomLink>
+            <CustomLink to="/signIn">Sign In</CustomLink>
           </div>
         </form>
       </Container>
