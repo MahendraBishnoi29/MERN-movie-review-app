@@ -1,5 +1,6 @@
 import React from "react";
 import { BsFillSunFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
 import Container from "./Container";
 
 const Navbar = () => {
@@ -7,11 +8,13 @@ const Navbar = () => {
     <div className="bg-secondary shadow-sm shadow-gray-500">
       <Container className="p-2">
         <div className="flex justify-between items-center">
-          <img
-            src="./logo2.png"
-            className="cursor-pointer h-10"
-            alt="appLogo"
-          />
+          <Link to="/">
+            <img
+              src="./logo2.png"
+              className="cursor-pointer h-10"
+              alt="appLogo"
+            />
+          </Link>
 
           <ul className="flex items-center space-x-4">
             <li>
@@ -26,7 +29,9 @@ const Navbar = () => {
                 placeholder="Search a movie"
               />
             </li>
-            <li className="text-white font-semibold text-lg ">LogIn</li>
+            <Link className="text-white font-semibold text-lg " to="signIn">
+              <li>LogIn</li>
+            </Link>
           </ul>
         </div>
       </Container>
