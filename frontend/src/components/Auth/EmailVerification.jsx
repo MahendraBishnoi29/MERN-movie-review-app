@@ -2,8 +2,6 @@ import React from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import CustomLink from "../CustomLink/CustomLink";
-import Input from "../Form/Input";
 import Submit from "../Form/Submit";
 import Title from "../Form/Title";
 import Container from "../Navbar/Container";
@@ -69,7 +67,7 @@ const EmailVerification = () => {
                   onChange={(e) => handleOtpChange(e, i)}
                   key={i}
                   type="number"
-                  className="text-white border-dark-subtle text-xl font-semibold w-12 h-12 border-2 bg-transparent focus:border-white rounded outline-none text-center"
+                  className="text-white border-dark-subtle text-xl font-semibold w-12 h-12 border-2 bg-transparent focus:border-white rounded outline-none text-center mb-2"
                 />
               );
             })}
