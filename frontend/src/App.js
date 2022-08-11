@@ -1,4 +1,5 @@
 import "./App.css";
+// Components
 import Navbar from "./components/Navbar/Navbar";
 import SignIn from "./components/Auth/SignIn";
 import SignUp from "./components/Auth/SignUp";
@@ -6,6 +7,7 @@ import EmailVerification from "./components/Auth/EmailVerification";
 import Home from "./components/Home/Home";
 import ForgetPassword from "./components/Auth/ForgetPassword";
 import ConfirmPassword from "./components/Auth/ConfirmPassword";
+// Router
 import { Routes, Route } from "react-router-dom";
 
 function App() {
