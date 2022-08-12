@@ -2,6 +2,8 @@ import React from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { commonModalClasses } from "../../utils/theme";
+import FormContainer from "../Form/formContainer/FormContainer";
 import Submit from "../Form/Submit";
 import Title from "../Form/Title";
 import Container from "../Navbar/Container";
@@ -47,12 +49,12 @@ const EmailVerification = () => {
   }, [activeOtpIndex]);
 
   return (
-    <div className="fixed inset-0 bg-primary -z-10 flex justify-center items-center">
+    <FormContainer>
       <Container>
-        <form className="bg-secondary rounded space-y-3 p-6 ">
+        <form className={commonModalClasses}>
           <div>
             <Title>Enter the OTP to Verify Your Account</Title>
-            <p className="text-center text-dark-subtle">
+            <p className="text-center text-light-subtle dark:text-dark-subtle">
               OTP has been sent to your Email
             </p>
           </div>
@@ -67,7 +69,7 @@ const EmailVerification = () => {
                   onChange={(e) => handleOtpChange(e, i)}
                   key={i}
                   type="number"
-                  className="text-white border-dark-subtle text-xl font-semibold w-12 h-12 border-2 bg-transparent focus:border-white rounded outline-none text-center mb-2"
+                  className="dark:text-white text-primary border-light-subtle dark:border-dark-subtle text-xl font-semibold w-12 h-12 border-2 bg-transparent dark:focus:border-white focus:border-primary rounded outline-none text-center mb-2"
                 />
               );
             })}
@@ -76,7 +78,7 @@ const EmailVerification = () => {
           <Submit value="Send Link" />
         </form>
       </Container>
-    </div>
+    </FormContainer>
   );
 };
 

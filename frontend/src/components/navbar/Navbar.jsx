@@ -23,7 +23,7 @@ const Navbar = () => {
             <li>
               <button
                 onClick={toggleTheme}
-                className="bg-dark-subtle p-1 rounded"
+                className="dark:bg-white  bg-dark-subtle p-1 rounded"
               >
                 <BsFillSunFill className="text-secondary" size={22} />
               </button>

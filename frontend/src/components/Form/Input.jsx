@@ -6,12 +6,14 @@ const Input = ({ name, placeholder, label, ...rest }) => {
       <input
         name={name}
         id="email"
-        className="text-white outline-none bg-transparent rounded border-2 border-dark-subtle  w-full focus:border-white p-1 transition peer"
+        className="dark:text-white outline-none bg-transparent rounded border-2 dark:border-dark-subtle border-light-subtle  w-full dark:focus:border-white focus:border-primary p-1 transition peer"
         placeholder={placeholder}
         {...rest}
       />
       <label
-        className="font-semibold text-dark-subtle peer-focus:text-white self-start mb-1"
+        className="font-semibold 
+        text-light-subtle
+        dark:text-dark-subtle dark:peer-focus:text-white peer-focus:text-primary self-start mb-1 transition"
         htmlFor={name}
       >
         {label}
