@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { useState } from "react";
-import toast, { Toaster, useToaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
+import { createUser } from "../../api/auth";
 import { commonModalClasses } from "../../utils/theme";
 import CustomLink from "../CustomLink/CustomLink";
 import FormContainer from "../Form/formContainer/FormContainer";
@@ -10,6 +11,7 @@ import Submit from "../Form/Submit";
 import Title from "../Form/Title";
 import Container from "../Navbar/Container";
 
+// Validating User Fields
 const validateUserInfo = ({ name, email, password }) => {
   const isValidName = /^[a-z A-Z]+$/;
   // eslint-disable-next-line no-useless-escape
@@ -36,19 +38,24 @@ const SignUp = () => {
     password: "",
   });
 
-  // Toaster
-
   const handleChange = ({ target }) => {
     const { value, name } = target;
     setUserInfo({ ...userInfo, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { ok, error } = validateUserInfo(userInfo);
-    if (!ok) {
-      toast.error(error);
-      return console.log(error);
+    if (!ok) return toast.error(error);
+
+    const res = await createUser(userInfo);
+
+    if (res.error) {
+      toast.error(res.error);
+      return console.log(res.error);
+    } else {
+      toast.success("Sign Up Successful");
+      console.log(res.user);
     }
   };
 
