@@ -58,7 +58,13 @@ const createUser = async (req, res) => {
     `,
   });
 
-  res.status(201).json({ user: "User is Created & OTP has sent to mail" });
+  res.status(201).json({
+    user: {
+      id: newUser._id,
+      name: newUser.name,
+      email: newUser.email,
+    },
+  });
 };
 
 // Function For Verifying Email & UserID Token
