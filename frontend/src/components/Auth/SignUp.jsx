@@ -53,12 +53,14 @@ const SignUp = () => {
 
     const res = await createUser(userInfo);
 
+    navigate("/email-verification", {
+      state: { user: res.user },
+      replace: true,
+    });
+
     if (res.error) {
       toast.error(res.error);
-      navigate("/email-verification", {
-        state: { user: res.user },
-        replace: true,
-      });
+
       return console.log(res.error);
     } else {
       toast.success("Sign Up Successful");
