@@ -2,6 +2,7 @@ import React from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { commonModalClasses } from "../../utils/theme";
 import FormContainer from "../Form/formContainer/FormContainer";
 import Submit from "../Form/Submit";
@@ -14,6 +15,11 @@ const EmailVerification = () => {
   const [otp, setOtp] = useState(new Array(OTP_LENGTH).fill(""));
   const [activeOtpIndex, setActiveOtpIndex] = useState(0);
   const inputRef = useRef();
+
+  const navigate = useNavigate();
+
+  const { state } = useLocation();
+  const user = state?.user;
 
   const focusNextInputField = (index) => {
     setActiveOtpIndex(index + 1);
@@ -47,6 +53,10 @@ const EmailVerification = () => {
   useEffect(() => {
     inputRef.current?.focus();
   }, [activeOtpIndex]);
+
+  useEffect(() => {
+    if (!user) navigate("/not-found");
+  }, [user]);
 
   return (
     <FormContainer>
