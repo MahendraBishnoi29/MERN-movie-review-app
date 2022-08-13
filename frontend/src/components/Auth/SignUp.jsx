@@ -2,6 +2,7 @@
 import React from "react";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { createUser } from "../../api/auth";
 import { commonModalClasses } from "../../utils/theme";
 import CustomLink from "../CustomLink/CustomLink";
@@ -38,6 +39,8 @@ const SignUp = () => {
     password: "",
   });
 
+  const navigate = useNavigate();
+
   const handleChange = ({ target }) => {
     const { value, name } = target;
     setUserInfo({ ...userInfo, [name]: value });
@@ -52,6 +55,10 @@ const SignUp = () => {
 
     if (res.error) {
       toast.error(res.error);
+      navigate("/email-verification", {
+        state: { user: res.user },
+        replace: true,
+      });
       return console.log(res.error);
     } else {
       toast.success("Sign Up Successful");
