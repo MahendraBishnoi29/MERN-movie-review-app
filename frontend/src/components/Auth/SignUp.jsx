@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { createUser } from "../../api/auth";
+import { useNotification } from "../../hooks";
 import { commonModalClasses } from "../../utils/theme";
 import CustomLink from "../CustomLink/CustomLink";
 import FormContainer from "../Form/formContainer/FormContainer";
@@ -39,6 +39,8 @@ const SignUp = () => {
     password: "",
   });
 
+  const { updateNotification } = useNotification();
+
   const navigate = useNavigate();
 
   const handleChange = ({ target }) => {
@@ -49,9 +51,10 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { ok, error } = validateUserInfo(userInfo);
-    if (!ok) return toast.error(error);
+    if (!ok) return updateNotification("error", error);
 
     const res = await createUser(userInfo);
+    updateNotification("success", res.message);
 
     navigate("/email-verification", {
       state: { user: res.user },
@@ -59,11 +62,8 @@ const SignUp = () => {
     });
 
     if (res.error) {
-      toast.error(res.error);
-
-      return console.log(res.error);
+      return updateNotification(res.error);
     } else {
-      toast.success("Sign Up Successful");
       console.log(res.user);
     }
   };
@@ -72,33 +72,6 @@ const SignUp = () => {
 
   return (
     <FormContainer>
-      {/* Toast */}
-      <Toaster
-        containerStyle={{
-          top: 75,
-          left: 20,
-          bottom: 20,
-          right: 20,
-        }}
-        toastOptions={{
-          // Define default options
-
-          duration: 2500,
-          style: {
-            background: "#363636",
-            color: "#fff",
-          },
-
-          // Default options for specific types
-          success: {
-            duration: 2500,
-            theme: {
-              primary: "green",
-              secondary: "black",
-            },
-          },
-        }}
-      />
       <Container>
         <form onSubmit={handleSubmit} className={commonModalClasses + " w-72"}>
           <Title>SignUp 🐛</Title>
