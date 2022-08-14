@@ -59,6 +59,7 @@ const createUser = async (req, res) => {
   });
 
   res.status(201).json({
+    message: "Signed Up Successfully 🎉",
     user: {
       id: newUser._id,
       name: newUser.name,
@@ -111,7 +112,7 @@ const verifyEmail = async (req, res) => {
     html: `<h2>Welcome To MERN Movie Review App 🤗</h2>`,
   });
 
-  res.json({ message: "Your Email is Verified " });
+  res.json({ message: "Your Email is Verified ✔" });
 };
 
 // Resend Verification Token for Email
