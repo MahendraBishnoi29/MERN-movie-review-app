@@ -33,6 +33,9 @@ const SignIn = () => {
   });
 
   const { handleLogIn, authInfo } = useAuth();
+  const { isPending } = authInfo;
+
+  console.log(authInfo);
 
   const handleChange = ({ target }) => {
     const { value, name } = target;
@@ -45,7 +48,6 @@ const SignIn = () => {
     if (!ok) return toast.error(error);
 
     handleLogIn(userInfo.email, userInfo.password);
-    toast.success("Signed In 🎉");
   };
 
   return (
@@ -68,7 +70,7 @@ const SignIn = () => {
             label="Password"
             placeholder="********"
           />
-          <Submit value="Sign In" />
+          <Submit value="Sign In" busy={isPending} />
           <div className="flex justify-between">
             <CustomLink to="/forget-password">Forget Password?</CustomLink>
             <CustomLink to="/signUp">Sign Up</CustomLink>
