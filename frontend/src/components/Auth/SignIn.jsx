@@ -21,7 +21,7 @@ const validateUserInfo = ({ email, password }) => {
   if (!password.trim())
     return { ok: false, error: "Please Enter Your Password" };
   if (password.length < 6)
-    return { ok: false, error: "Password Must Be 6 Characters Long" };
+    return { ok: false, error: "Wrong Password/Must Be 6 Characters Long" };
 
   return { ok: true };
 };
