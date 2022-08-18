@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { verifyUserEmail } from "../../api/auth";
-import { useNotification } from "../../hooks";
 import { commonModalClasses } from "../../utils/theme";
 import FormContainer from "../Form/formContainer/FormContainer";
 import Submit from "../Form/Submit";
@@ -27,8 +26,6 @@ const EmailVerification = () => {
   const [otp, setOtp] = useState(new Array(OTP_LENGTH).fill(""));
   const [activeOtpIndex, setActiveOtpIndex] = useState(0);
   const inputRef = useRef();
-
-  const { updateNotification } = useNotification();
 
   const navigate = useNavigate();
 
