@@ -26,8 +26,8 @@ const validateUserInfo = ({ name, email, password }) => {
 
   if (!password.trim())
     return { ok: false, error: "Please Enter Your Password" };
-  if (password.length < 8)
-    return { ok: false, error: "Password Must Be 8 Characters Long" };
+  if (password.length < 6)
+    return { ok: false, error: "Password Must Be 6 Characters Long" };
 
   return { ok: true };
 };
