@@ -26,3 +26,18 @@ export const verifyUserEmail = async (userInfo) => {
     return error.message || error;
   }
 };
+
+// LogIn User
+export const SignInUser = async (userInfo) => {
+  console.log(userInfo);
+  try {
+    const { data } = await client.post("/user/sign-in", userInfo);
+    return data;
+  } catch (error) {
+    console.log(error.message);
+    const { res } = error;
+    if (res?.data) return res.data;
+
+    return error.message || error;
+  }
+};
