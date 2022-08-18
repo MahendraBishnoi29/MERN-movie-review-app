@@ -2,8 +2,8 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { createUser } from "../../api/auth";
-import { useNotification } from "../../hooks";
 import { commonModalClasses } from "../../utils/theme";
 import CustomLink from "../CustomLink/CustomLink";
 import FormContainer from "../Form/formContainer/FormContainer";
@@ -39,8 +39,6 @@ const SignUp = () => {
     password: "",
   });
 
-  const { updateNotification } = useNotification();
-
   const navigate = useNavigate();
 
   const handleChange = ({ target }) => {
@@ -51,10 +49,10 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { ok, error } = validateUserInfo(userInfo);
-    if (!ok) return updateNotification("error", error);
+    if (!ok) return toast.error(error);
 
     const res = await createUser(userInfo);
-    updateNotification("success", res.message);
+    toast.success(res.message);
 
     navigate("/email-verification", {
       state: { user: res.user },
@@ -62,7 +60,7 @@ const SignUp = () => {
     });
 
     if (res.error) {
-      return updateNotification(res.error);
+      return toast.error(res.error);
     } else {
       console.log(res.user);
     }

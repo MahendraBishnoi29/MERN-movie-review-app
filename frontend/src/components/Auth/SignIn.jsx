@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 // import { useNavigate } from "react-router-dom";
-import { useAuth, useNotification } from "../../hooks";
+import { useAuth } from "../../hooks";
 import { commonModalClasses } from "../../utils/theme";
 import CustomLink from "../CustomLink/CustomLink";
 import FormContainer from "../Form/formContainer/FormContainer";
@@ -31,9 +32,7 @@ const SignIn = () => {
     password: "",
   });
 
-  const { updateNotification } = useNotification();
   const { handleLogIn, authInfo } = useAuth();
-  console.log(authInfo);
 
   const handleChange = ({ target }) => {
     const { value, name } = target;
@@ -43,10 +42,10 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { ok, error } = validateUserInfo(userInfo);
-    if (!ok) return updateNotification("error", error);
+    if (!ok) return toast.error(error);
 
     handleLogIn(userInfo.email, userInfo.password);
-    console.log(userInfo.email, userInfo.password);
+    toast.success("Signed In 🎉");
   };
 
   return (

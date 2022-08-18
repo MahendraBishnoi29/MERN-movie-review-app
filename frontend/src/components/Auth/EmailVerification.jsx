@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { verifyUserEmail } from "../../api/auth";
 import { useNotification } from "../../hooks";
 import { commonModalClasses } from "../../utils/theme";
@@ -65,14 +66,16 @@ const EmailVerification = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!isValidOTP(otp)) return updateNotification("Invalid OTP", error);
+    if (!isValidOTP(otp)) return toast.error("Invalid OTP");
     // Submit OTP & verify User
     const { error, message } = await verifyUserEmail({
       OTP: otp.join(""),
       userId: user.id,
     });
-    if (error) return updateNotification("error", error);
-    updateNotification("success", message);
+
+    if (error) return toast.error(error);
+
+    toast.success(message);
   };
 
   useEffect(() => {
