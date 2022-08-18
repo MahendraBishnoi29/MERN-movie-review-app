@@ -65,7 +65,7 @@ const EmailVerification = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!isValidOTP(otp)) return console.log("Invalid OTP");
+    if (!isValidOTP(otp)) return updateNotification("Invalid OTP", error);
     // Submit OTP & verify User
     const { error, message } = await verifyUserEmail({
       OTP: otp.join(""),
@@ -81,6 +81,7 @@ const EmailVerification = () => {
 
   useEffect(() => {
     if (!user) navigate("/not-found");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (
