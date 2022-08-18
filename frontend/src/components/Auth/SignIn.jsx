@@ -1,5 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+import { useAuth, useNotification } from "../../hooks";
 import { commonModalClasses } from "../../utils/theme";
 import CustomLink from "../CustomLink/CustomLink";
 import FormContainer from "../Form/formContainer/FormContainer";
@@ -8,14 +10,65 @@ import Submit from "../Form/Submit";
 import Title from "../Form/Title";
 import Container from "../Navbar/Container";
 
+const validateUserInfo = ({ email, password }) => {
+  // eslint-disable-next-line no-useless-escape
+  const isValidEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+  if (!email.trim()) return { ok: false, error: "Please Enter Your Email" };
+  if (!isValidEmail.test(email)) return { ok: false, error: "Invalid Email" };
+
+  if (!password.trim())
+    return { ok: false, error: "Please Enter Your Password" };
+  if (password.length < 6)
+    return { ok: false, error: "Password Must Be 6 Characters Long" };
+
+  return { ok: true };
+};
+
 const SignIn = () => {
+  const [userInfo, setUserInfo] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { updateNotification } = useNotification();
+  const { handleLogIn, authInfo } = useAuth();
+  console.log(authInfo);
+
+  const handleChange = ({ target }) => {
+    const { value, name } = target;
+    setUserInfo({ ...userInfo, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { ok, error } = validateUserInfo(userInfo);
+    if (!ok) return updateNotification("error", error);
+
+    handleLogIn(userInfo.email, userInfo.password);
+    console.log(userInfo.email, userInfo.password);
+  };
+
   return (
     <FormContainer>
       <Container>
-        <form className={commonModalClasses + " w-72"}>
+        <form onSubmit={handleSubmit} className={commonModalClasses + " w-72"}>
           <Title>SignIn 🔑</Title>
-          <Input name="email" label="Email" placeholder="johnwick@gmail.com" />
-          <Input name="password" label="Password" placeholder="********" />
+          <Input
+            onChange={handleChange}
+            value={userInfo.email}
+            name="email"
+            label="Email"
+            placeholder="johnwick@gmail.com"
+          />
+          <Input
+            onChange={handleChange}
+            value={userInfo.password}
+            name="password"
+            type="password"
+            label="Password"
+            placeholder="********"
+          />
           <Submit value="Sign In" />
           <div className="flex justify-between">
             <CustomLink to="/forget-password">Forget Password?</CustomLink>
