@@ -21,7 +21,7 @@ const createUser = async (req, res) => {
   try {
     await newUser.save();
   } catch (err) {
-    console.log("error creating user", err.message);
+    res.json({ error: "Error Creating User!!" });
   }
 
   // Generate 6 digit OTP
@@ -112,7 +112,12 @@ const verifyEmail = async (req, res) => {
     html: `<h2>Welcome To MERN Movie Review App 🤗</h2>`,
   });
 
-  res.json({ message: "Your Email is Verified ✔" });
+  const jwtToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+
+  res.json({
+    user: { id: user._id, name: user.name, email: user.email, token: jwtToken },
+    message: "Your Email is Verified ✔",
+  });
 };
 
 // Resend Verification Token for Email
@@ -214,6 +219,7 @@ const forgetPassword = async (req, res) => {
   });
 };
 
+// Reset Token Status
 const sendResetPasswordTokenStatus = (req, res) => {
   res.json({ valid: true });
 };
