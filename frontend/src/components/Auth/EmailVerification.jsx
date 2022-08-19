@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { verifyUserEmail } from "../../api/auth";
+import { resendEmailVerificationToken, verifyUserEmail } from "../../api/auth";
 import { useAuth } from "../../hooks";
 import { commonModalClasses } from "../../utils/theme";
 import FormContainer from "../Form/formContainer/FormContainer";
@@ -31,7 +31,7 @@ const EmailVerification = () => {
   const navigate = useNavigate();
   const { isAuth, authInfo } = useAuth();
   const { isLoggedIn, profile } = authInfo;
-  const { isVerified } = profile?.isVerified;
+  const isVerified = profile?.isVerified;
   const { state } = useLocation();
   const user = state?.user;
 
@@ -56,6 +56,14 @@ const EmailVerification = () => {
     else focusNextInputField(index);
 
     setOtp([...newOtp]);
+  };
+
+  // Resend OTP for Email Verification
+  const handleOtpResend = async () => {
+    const { error, message } = await resendEmailVerificationToken(user.id);
+    if (error) return toast.error(error);
+
+    toast.warning(message);
   };
 
   const handleKeyDown = ({ key }, index) => {
@@ -90,9 +98,10 @@ const EmailVerification = () => {
 
   useEffect(() => {
     if (!user) navigate("/not-found");
-    if (isLoggedIn && isVerified) navigate("/");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, isLoggedIn]);
+    if (isLoggedIn && isVerified) {
+      return navigate("/");
+    }
+  }, [user, isLoggedIn, isVerified, navigate]);
 
   return (
     <FormContainer>
@@ -121,7 +130,16 @@ const EmailVerification = () => {
             })}
           </div>
 
-          <Submit value="Verify Email" />
+          <div className="text-center">
+            <Submit value="Verify Email" />
+            <button
+              onClick={handleOtpResend}
+              type="button"
+              className="dark:text-white text-blue-500 font-semibold hover:underline mt-4"
+            >
+              I Don't Have OTP?
+            </button>
+          </div>
         </form>
       </Container>
     </FormContainer>
