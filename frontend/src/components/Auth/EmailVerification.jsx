@@ -30,7 +30,8 @@ const EmailVerification = () => {
 
   const navigate = useNavigate();
   const { isAuth, authInfo } = useAuth();
-  const { isLoggedIn } = authInfo;
+  const { isLoggedIn, profile } = authInfo;
+  const { isVerified } = profile?.isVerified;
   const { state } = useLocation();
   const user = state?.user;
 
@@ -89,7 +90,7 @@ const EmailVerification = () => {
 
   useEffect(() => {
     if (!user) navigate("/not-found");
-    if (isLoggedIn) navigate("/");
+    if (isLoggedIn && isVerified) navigate("/");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, isLoggedIn]);
 
