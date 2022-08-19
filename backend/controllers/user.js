@@ -139,7 +139,8 @@ const resendEmailVerificationToken = async (req, res) => {
   });
   if (alreadyHasToken)
     return res.json({
-      info: "It's not an hour since you signed up, please request a new Token after 1 hour.",
+      message:
+        "It's not an hour since you signed up, please request a new Token after 1 hour.",
     });
 
   let OTP = "";
