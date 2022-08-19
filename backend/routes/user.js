@@ -23,7 +23,7 @@ router.post("/sign-up", SignUpValidator, validate, createUser);
 router.post("/sign-in", SignInValidator, validate, LogIn);
 router.post("/verify-email", verifyEmail);
 router.post("/resend-email-verifyToken", resendEmailVerificationToken);
-router.post("/forget-password", forgetPassword);
+router.post("/forgot-password", forgetPassword);
 router.post(
   "/verify-password-reset-token",
   isValidPassResetToken,
