@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { verifyUserEmail } from "../../api/auth";
+import { useAuth } from "../../hooks";
 import { commonModalClasses } from "../../utils/theme";
 import FormContainer from "../Form/formContainer/FormContainer";
 import Submit from "../Form/Submit";
@@ -28,7 +29,8 @@ const EmailVerification = () => {
   const inputRef = useRef();
 
   const navigate = useNavigate();
-
+  const { isAuth, authInfo } = useAuth();
+  const { isLoggedIn } = authInfo;
   const { state } = useLocation();
   const user = state?.user;
 
@@ -65,7 +67,11 @@ const EmailVerification = () => {
     e.preventDefault();
     if (!isValidOTP(otp)) return toast.error("Invalid OTP");
     // Submit OTP & verify User
-    const { error, message } = await verifyUserEmail({
+    const {
+      error,
+      message,
+      user: userResponse,
+    } = await verifyUserEmail({
       OTP: otp.join(""),
       userId: user.id,
     });
@@ -73,6 +79,8 @@ const EmailVerification = () => {
     if (error) return toast.error(error);
 
     toast.success(message);
+    localStorage.setItem("auth-token", userResponse.token);
+    isAuth();
   };
 
   useEffect(() => {
@@ -81,8 +89,9 @@ const EmailVerification = () => {
 
   useEffect(() => {
     if (!user) navigate("/not-found");
+    if (isLoggedIn) navigate("/");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user, isLoggedIn]);
 
   return (
     <FormContainer>
