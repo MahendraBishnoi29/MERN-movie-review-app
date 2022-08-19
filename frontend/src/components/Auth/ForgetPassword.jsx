@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { forgotPassword } from "../../api/auth";
 import { isValidEmail } from "../../utils/helper";
@@ -14,8 +13,6 @@ import Container from "../Navbar/Container";
 
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");
-
-  const navigate = useNavigate();
 
   const handleChange = ({ target }) => {
     const { value } = target;
