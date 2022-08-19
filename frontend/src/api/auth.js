@@ -73,3 +73,19 @@ export const forgotPassword = async (email) => {
     return error.message || error;
   }
 };
+// verify-password-reset-token
+export const verifyPasswordResetToken = async (token, userId) => {
+  try {
+    const { data } = await client.post("/user/verify-password-reset-token", {
+      token,
+      userId,
+    });
+    return data;
+  } catch (error) {
+    console.log(error.message);
+    const { res } = error;
+    if (res?.data) return res.data;
+
+    return error.message || error;
+  }
+};
