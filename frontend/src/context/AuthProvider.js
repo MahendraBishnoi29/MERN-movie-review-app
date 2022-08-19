@@ -20,8 +20,11 @@ const AuthProvider = ({ children }) => {
     const { error, user } = await SignInUser({ email, password });
 
     if (error) {
+      toast.error(error);
       return setAuthInfo({ ...authInfo, isPending: false, error });
     }
+
+    toast.success("Signed In 🎉");
 
     setAuthInfo({
       profile: { ...user },
@@ -41,7 +44,10 @@ const AuthProvider = ({ children }) => {
 
     const { error, user } = await getIsAuth(token);
 
-    if (error) return setAuthInfo({ ...authInfo, isPending: false, error });
+    if (error) {
+      toast.error(error);
+      return setAuthInfo({ ...authInfo, isPending: false, error });
+    }
     setAuthInfo({
       profile: { ...user },
       isLoggedIn: true,
