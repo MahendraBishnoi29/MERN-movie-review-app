@@ -4,7 +4,7 @@ const passwordResetModel = require("../models/passwordResetModel");
 const isValidPassResetToken = async (req, res, next) => {
   const { token, userId } = req.body;
 
-  if (!token.trim() || !isValidObjectId(userId))
+  if (!token?.trim() || !isValidObjectId(userId))
     return res.json({ error: "Invalid Request" });
 
   const resetToken = await passwordResetModel.findOne({ owner: userId });
