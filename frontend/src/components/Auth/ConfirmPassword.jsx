@@ -13,8 +13,10 @@ import Title from "../Form/Title";
 import Container from "../Navbar/Container";
 
 const ConfirmPassword = () => {
-  // http://localhost:3000/reset-password?token=a24d829a36c1de6d961012fa8cd99aa096cce9c500b6a346085950b5e5f1&id=62ff7398daa1e2162d492434
-
+  const [password, setPassword] = useState({
+    newPassword: "",
+    confirmPassword: "",
+  });
   const [verifying, setVerifying] = useState(true);
   const [valid, setValid] = useState(false);
 
@@ -42,6 +44,24 @@ const ConfirmPassword = () => {
     }
 
     setValid(true);
+  };
+
+  const handleChange = ({ target }) => {
+    const { name, value } = target;
+    setPassword({ ...password, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!password.newPassword)
+      return toast.error("Please Enter Your New Password!");
+
+    if (password.newPassword.trim().length < 6)
+      return toast.error("Password Must be 6 Character Long..");
+
+    if (password.newPassword !== password.confirmPassword)
+      return toast.error("Password Do Not Match!");
   };
 
   if (verifying)
@@ -72,15 +92,19 @@ const ConfirmPassword = () => {
   return (
     <FormContainer>
       <Container>
-        <form className={commonModalClasses + " w-80"}>
+        <form onSubmit={handleSubmit} className={commonModalClasses + " w-80"}>
           <Title>Enter New Password</Title>
           <Input
-            name="password"
+            value={password.newPassword}
+            onChange={handleChange}
+            name="newPassword"
             label="New Password"
             placeholder="new password"
             type="password"
           />
           <Input
+            value={password.confirmPassword}
+            onChange={handleChange}
             name="confirmPassword"
             label="Confirm New Password"
             placeholder="confirm password"
