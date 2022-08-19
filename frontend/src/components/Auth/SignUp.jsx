@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { createUser } from "../../api/auth";
 import { useAuth } from "../../hooks";
+import { isValidEmail } from "../../utils/helper";
 import { commonModalClasses } from "../../utils/theme";
 import CustomLink from "../CustomLink/CustomLink";
 import FormContainer from "../Form/formContainer/FormContainer";
@@ -16,14 +17,12 @@ import Container from "../Navbar/Container";
 // Validating User Fields
 const validateUserInfo = ({ name, email, password }) => {
   const isValidName = /^[a-z A-Z]+$/;
-  // eslint-disable-next-line no-useless-escape
-  const isValidEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
   if (!name.trim()) return { ok: false, error: "Name is Missing!" };
   if (!isValidName.test(name)) return { ok: false, error: "Invalid Name" };
 
   if (!email.trim()) return { ok: false, error: "Please Enter Your Email" };
-  if (!isValidEmail.test(email)) return { ok: false, error: "Invalid Email" };
+  if (!isValidEmail(email)) return { ok: false, error: "Invalid Email" };
 
   if (!password.trim())
     return { ok: false, error: "Please Enter Your Password" };
