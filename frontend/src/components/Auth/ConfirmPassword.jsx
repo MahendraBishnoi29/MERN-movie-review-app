@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ImSpinner3 } from "react-icons/im";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { verifyPasswordResetToken } from "../../api/auth";
+import { resetPassword, verifyPasswordResetToken } from "../../api/auth";
 import { commonModalClasses } from "../../utils/theme";
 import FormContainer from "../Form/formContainer/FormContainer";
 import Input from "../Form/Input";
@@ -62,6 +62,17 @@ const ConfirmPassword = () => {
 
     if (password.newPassword !== password.confirmPassword)
       return toast.error("Password Do Not Match!");
+
+    const { error, message } = await resetPassword({
+      newPassword: password.newPassword,
+      userId: id,
+      token,
+    });
+
+    if (error) return toast.error(error);
+
+    toast.success(message);
+    navigate("/signIn", { replace: true });
   };
 
   if (verifying)
