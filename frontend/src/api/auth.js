@@ -43,7 +43,6 @@ export const SignInUser = async (userInfo) => {
 
 // Verify JWT Token of User
 export const getIsAuth = async (token) => {
-  console.log(token);
   try {
     const { data } = await client.get("/user/is-auth", {
       headers: {
@@ -51,6 +50,20 @@ export const getIsAuth = async (token) => {
         accept: "application/json",
       },
     });
+    return data;
+  } catch (error) {
+    console.log(error.message);
+    const { res } = error;
+    if (res?.data) return res.data;
+
+    return error.message || error;
+  }
+};
+
+// Forgot Password
+export const forgotPassword = async (email) => {
+  try {
+    const { data } = await client.post("/user/forgot-password", { email });
     return data;
   } catch (error) {
     console.log(error.message);
