@@ -1,5 +1,6 @@
 import React, { createContext, useState } from "react";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 import { getIsAuth, SignInUser } from "../api/auth";
 
 export const AuthContext = createContext();
@@ -49,12 +50,23 @@ const AuthProvider = ({ children }) => {
     });
   };
 
+  const handleLogOut = () => {
+    localStorage.removeItem("auth-token");
+    setAuthInfo({
+      ...defaultAuthInfo,
+    });
+    toast.success("Logged Out");
+  };
+
   useEffect(() => {
     isAuth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <AuthContext.Provider value={{ authInfo, handleLogIn, isAuth }}>
+    <AuthContext.Provider
+      value={{ authInfo, handleLogIn, isAuth, handleLogOut }}
+    >
       {children}
     </AuthContext.Provider>
   );

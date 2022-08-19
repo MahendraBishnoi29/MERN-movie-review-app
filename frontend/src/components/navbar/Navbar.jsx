@@ -6,7 +6,7 @@ import Container from "./Container";
 
 const Navbar = () => {
   const { toggleTheme } = useTheme();
-  const { authInfo } = useAuth();
+  const { authInfo, handleLogOut } = useAuth();
   const { isLoggedIn } = authInfo;
 
   return (
@@ -38,7 +38,10 @@ const Navbar = () => {
               />
             </li>
             {isLoggedIn ? (
-              <button className="text-white font-semibold text-lg ">
+              <button
+                onClick={handleLogOut}
+                className="text-white font-semibold text-lg "
+              >
                 Log Out
               </button>
             ) : (
