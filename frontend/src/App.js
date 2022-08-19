@@ -23,7 +23,7 @@ function App() {
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/email-verification" element={<EmailVerification />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
-        <Route path="/confirm-password" element={<ConfirmPassword />} />
+        <Route path="/reset-password" element={<ConfirmPassword />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
       <ToastContainer
