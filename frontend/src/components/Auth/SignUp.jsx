@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { createUser } from "../../api/auth";
+import { useAuth } from "../../hooks";
 import { commonModalClasses } from "../../utils/theme";
 import CustomLink from "../CustomLink/CustomLink";
 import FormContainer from "../Form/formContainer/FormContainer";
@@ -40,6 +41,8 @@ const SignUp = () => {
   });
 
   const navigate = useNavigate();
+  const { authInfo } = useAuth();
+  const { isLoggedIn } = authInfo;
 
   const handleChange = ({ target }) => {
     const { value, name } = target;
@@ -65,6 +68,10 @@ const SignUp = () => {
       console.log(res.user);
     }
   };
+
+  useEffect(() => {
+    if (isLoggedIn) navigate("/");
+  }, [isLoggedIn, navigate]);
 
   const { name, email, password } = userInfo;
 

@@ -1,5 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 // import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks";
@@ -32,10 +34,9 @@ const SignIn = () => {
     password: "",
   });
 
+  const navigate = useNavigate();
   const { handleLogIn, authInfo } = useAuth();
-  const { isPending } = authInfo;
-
-  console.log(authInfo);
+  const { isPending, isLoggedIn } = authInfo;
 
   const handleChange = ({ target }) => {
     const { value, name } = target;
@@ -49,6 +50,10 @@ const SignIn = () => {
 
     handleLogIn(userInfo.email, userInfo.password);
   };
+
+  useEffect(() => {
+    if (isLoggedIn) navigate("/");
+  }, [isLoggedIn, navigate]);
 
   return (
     <FormContainer>
