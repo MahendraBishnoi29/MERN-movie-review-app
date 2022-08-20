@@ -24,12 +24,20 @@ exports.validatePassword = [
     .withMessage("Password must be 6 to 15 characters long!"),
 ];
 
+// Sign In Validator
 exports.SignInValidator = [
   check("email").normalizeEmail().isEmail().withMessage("Wrong/Invalid Email!"),
   check("password").trim().not().isEmpty().withMessage("Password is missing!"),
 ];
 
-// For formating Error Message
+// Actor Info Validator
+exports.actorInfoValidator = [
+  check("name").trim().not().isEmpty().withMessage("Actor Name Is Required!"),
+  check("about").trim().not().isEmpty().withMessage("About Field is Required!"),
+  check("gender").trim().not().isEmpty().withMessage("Gender is Required!"),
+];
+
+// For formating Error Message for all Above 🛠🛠
 exports.validate = (req, res, next) => {
   const error = validationResult(req).array();
   if (error.length) {
