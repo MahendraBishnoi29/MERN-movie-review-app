@@ -96,4 +96,29 @@ const updateActor = async (req, res) => {
   });
 };
 
-module.exports = { createActor, updateActor };
+// DELETE ACTOR
+const deleteActor = async (req, res) => {
+  const { actorId } = req.params;
+
+  if (!isValidObjectId(actorId))
+    return res.json({ message: "Invalid Request!" });
+
+  const actor = await Actor.findById(actorId);
+
+  if (!actor) return res.json({ error: "No Actor Found With This ID" });
+
+  const public_id = actor.avatar?.public_id;
+
+  // Remove Old Image If There was Any
+  if (public_id) {
+    const { result } = await cloudinary.v2.uploader.destroy(public_id);
+    if (result !== "ok") {
+      res.json({ error: "Could Not Remove Image From Cloud!" });
+    }
+  }
+
+  await Actor.findByIdAndDelete(actorId);
+  res.json({ message: "Actor Deleted " });
+};
+
+module.exports = { createActor, updateActor, deleteActor };
