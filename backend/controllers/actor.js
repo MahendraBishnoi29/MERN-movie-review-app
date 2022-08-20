@@ -62,7 +62,7 @@ const updateActor = async (req, res) => {
 
   // Remove Old Image If There was Any
   if (public_id && file) {
-    const { result } = await cloudinary.uploader.destroy(public_id);
+    const { result } = await cloudinary.v2.uploader.destroy(public_id);
     if (result !== "ok") {
       res.json({ error: "Could Not Remove Image From Cloud!" });
     }
