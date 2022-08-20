@@ -40,48 +40,48 @@ cloudinary.config({
 // };
 
 // UPDATE ACTOR FUNCTION
-// const updateActor = async (req, res) => {
-//   const { name, about, gender } = req.body;
-//   const { file } = req;
-//   const { actorId } = req.params;
+const updateActor = async (req, res) => {
+  const { name, about, gender } = req.body;
+  const { file } = req;
+  const { actorId } = req.params;
 
-//   if (!isValidObjectId(actorId))
-//     return res.json({ message: "Invalid Request!" });
+  if (!isValidObjectId(actorId))
+    return res.json({ message: "Invalid Request!" });
 
-//   const actor = await Actor.findById(actorId);
+  const actor = await Actor.findById(actorId);
 
-//   if (!actor) return res.json({ error: "No Actor Found With This ID" });
+  if (!actor) return res.json({ error: "No Actor Found With This ID" });
 
-//   const public_id = actor.avatar?.public_id;
+  const public_id = actor.avatar?.public_id;
 
-//   // Remove Old Image If There was Any
-//   if (public_id && file) {
-//     const { result } = await cloudinary.uploader.destroy(public_id);
-//     if (result !== "ok") {
-//       res.json({ error: "Could Not Remove Image From Cloud!" });
-//     }
-//   }
+  // Remove Old Image If There was Any
+  if (public_id && file) {
+    const { result } = await cloudinary.uploader.destroy(public_id);
+    if (result !== "ok") {
+      res.json({ error: "Could Not Remove Image From Cloud!" });
+    }
+  }
 
-//   if (file) {
-//     const { secure_url, public_id } = await cloudinary.uploader.upload(
-//       file?.path
-//     );
-//     actor.avatar = { url: secure_url, public_id };
-//   }
+  if (file) {
+    const { secure_url, public_id } = await cloudinary.uploader.upload(
+      file?.path
+    );
+    actor.avatar = { url: secure_url, public_id };
+  }
 
-//   actor.name = name;
-//   actor.about = about;
-//   actor.gender = gender;
+  actor.name = name;
+  actor.about = about;
+  actor.gender = gender;
 
-//   await actor.save();
+  await actor.save();
 
-//   res.status(201).json({
-//     id: actor._id,
-//     name,
-//     about,
-//     gender,
-//     avatar: actor.avatar?.url,
-//   });
-// };
+  res.status(201).json({
+    id: actor._id,
+    name,
+    about,
+    gender,
+    avatar: actor.avatar?.url,
+  });
+};
 
 module.exports = { createActor, updateActor };
