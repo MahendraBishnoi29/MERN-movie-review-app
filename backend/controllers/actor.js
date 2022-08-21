@@ -129,4 +129,30 @@ const searchActor = async (req, res) => {
   res.json(result);
 };
 
-module.exports = { createActor, updateActor, deleteActor, searchActor };
+// GET LATEST 12 ACTORS FUNCTION
+const getLatestActor = async (req, res) => {
+  const result = await Actor.find({}).sort({ createdAt: "-1" }).limit(12);
+  res.json(result);
+};
+
+// GET SINGLE ACTOR
+const getSingleActor = async (req, res) => {
+  const { id } = req.params;
+
+  if (!isValidObjectId(id))
+    return res.json({ error: "No Actor Found With This Id!" });
+
+  const actor = await Actor.findById(id);
+  if (!actor)
+    return res.status(404).json({ error: "Invalid Request, actor not found " });
+  res.json(actor);
+};
+
+module.exports = {
+  createActor,
+  updateActor,
+  deleteActor,
+  searchActor,
+  getLatestActor,
+  getSingleActor,
+};
