@@ -1,13 +1,7 @@
 const Actor = require("../models/actor");
-const cloudinary = require("cloudinary");
+const cloudinary = require("../utils/cloud");
 const { isValidObjectId } = require("mongoose");
-
-cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.CLOUD_API_KEY,
-  api_secret: process.env.CLOUD_API_SECRET,
-  secure: true,
-});
+const { uploadImageToCloud } = require("../utils/helper");
 
 // Create ACTOR Function
 const createActor = async (req, res) => {
@@ -18,16 +12,8 @@ const createActor = async (req, res) => {
     const newActor = new Actor({ name, about, gender });
 
     if (file) {
-      const { secure_url, public_id } = await cloudinary.v2.uploader.upload(
-        file?.path,
-        {
-          gravity: "face",
-          height: 500,
-          width: 500,
-          crop: "thumb",
-        }
-      );
-      newActor.avatar = { url: secure_url, public_id };
+      const { url, public_id } = await uploadImageToCloud(file?.path);
+      newActor.avatar = { url, public_id };
     }
 
     await newActor.save();
@@ -69,16 +55,8 @@ const updateActor = async (req, res) => {
   }
 
   if (file) {
-    const { secure_url, public_id } = await cloudinary.v2.uploader.upload(
-      file?.path,
-      {
-        gravity: "face",
-        height: 500,
-        width: 500,
-        crop: "thumb",
-      }
-    );
-    actor.avatar = { url: secure_url, public_id };
+    const { url, public_id } = await uploadImageToCloud(file?.path);
+    actor.avatar = { url, public_id };
   }
 
   actor.name = name;
