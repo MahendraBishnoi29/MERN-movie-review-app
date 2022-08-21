@@ -18,6 +18,7 @@ exports.handleNotFound = (req, res) => {
   res.status(404).json({ error: "No Routes Found" });
 };
 
+// IMAGE UPLOAD FUNCTION
 exports.uploadImageToCloud = async (file) => {
   const { secure_url: url, public_id } = await cloudinary.v2.uploader.upload(
     file,
@@ -30,4 +31,17 @@ exports.uploadImageToCloud = async (file) => {
   );
 
   return { url, public_id };
+};
+
+// FORMAT ACTOR
+exports.formatActor = (actor) => {
+  const { name, gender, about, _id, avatar } = actor;
+
+  return {
+    id: _id,
+    name,
+    about,
+    gender,
+    avatar: avatar?.url,
+  };
 };
