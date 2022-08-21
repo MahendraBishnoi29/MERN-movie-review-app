@@ -1,8 +1,8 @@
 const express = require("express");
-const { uploadTrailer } = require("../controllers/movie");
+const { uploadTrailer, createMovie } = require("../controllers/movie");
 const router = express.Router();
 const { IsAuth, isAdmin } = require("../middlewares/authMiddlware");
-const { uploadVideo } = require("../middlewares/multer");
+const { uploadVideo, uploadImage } = require("../middlewares/multer");
 
 router.post(
   "/upload-trailer",
@@ -10,6 +10,14 @@ router.post(
   isAdmin,
   uploadVideo.single("video"),
   uploadTrailer
+);
+
+router.post(
+  "/create",
+  IsAuth,
+  isAdmin,
+  uploadImage.single("poster"),
+  createMovie
 );
 
 module.exports = router;
