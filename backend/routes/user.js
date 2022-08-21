@@ -10,6 +10,7 @@ const {
   resetPassword,
   LogIn,
 } = require("../controllers/user");
+const { IsAuth } = require("../middlewares/authMiddlware");
 const isValidPassResetToken = require("../middlewares/user");
 const {
   validatePassword,
@@ -17,7 +18,6 @@ const {
   SignUpValidator,
   SignInValidator,
 } = require("../middlewares/validator");
-const { IsAuth } = require("../middlewares/authMiddlware");
 
 router.post("/sign-up", SignUpValidator, validate, createUser);
 router.post("/sign-in", SignInValidator, validate, LogIn);
