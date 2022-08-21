@@ -16,4 +16,25 @@ const uploadTrailer = async (req, res) => {
   res.status(201).json({ url, public_id });
 };
 
-module.exports = { uploadTrailer };
+// CREATE MOVIE FUNCTION
+const createMovie = async (req, res) => {
+  const { file, body } = req;
+
+  const {
+    title,
+    storyLine,
+    director,
+    releaseDate,
+    status,
+    type,
+    genres,
+    tags,
+    cast,
+    writers,
+    poster,
+    trailer,
+    language,
+  } = body;
+};
+
+module.exports = { uploadTrailer, createMovie };
