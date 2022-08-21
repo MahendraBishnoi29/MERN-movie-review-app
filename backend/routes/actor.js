@@ -27,7 +27,7 @@ router.post(
   updateActor
 );
 
-router.delete("/:actorId", deleteActor);
+router.delete("/delete/:actorId", deleteActor);
 router.get("/search", searchActor);
 router.get("/latest-uploads", getLatestActor);
 router.get("/single/:id", getSingleActor);
