@@ -279,11 +279,13 @@ const LogIn = async (req, res) => {
   const matched = await user.comparePassword(password);
   if (!matched) return res.json({ error: "Email/Password is Wrong!" });
 
-  const { _id, name, isVerified } = user;
+  const { _id, name, role, isVerified } = user;
 
   const jwtToken = jwt.sign({ userId: _id }, process.env.JWT_SECRET);
 
-  res.json({ user: { id: _id, name, email, token: jwtToken, isVerified } });
+  res.json({
+    user: { id: _id, name, email, role, token: jwtToken, isVerified },
+  });
 };
 
 module.exports = {
