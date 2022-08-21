@@ -1,7 +1,7 @@
 const Actor = require("../models/actor");
 const cloudinary = require("../utils/cloud");
 const { isValidObjectId } = require("mongoose");
-const { uploadImageToCloud } = require("../utils/helper");
+const { uploadImageToCloud, formatActor } = require("../utils/helper");
 
 // Create ACTOR Function
 const createActor = async (req, res) => {
@@ -18,13 +18,7 @@ const createActor = async (req, res) => {
 
     await newActor.save();
 
-    res.status(201).json({
-      id: newActor._id,
-      name,
-      about,
-      gender,
-      avatar: newActor.avatar?.url,
-    });
+    res.status(201).json(formatActor(newActor));
   } catch (error) {
     console.log(error.message);
     res.json({ error: "Failed to create Actor" });
@@ -65,13 +59,7 @@ const updateActor = async (req, res) => {
 
   await actor.save();
 
-  res.status(201).json({
-    id: actor._id,
-    name,
-    about,
-    gender,
-    avatar: actor.avatar?.url,
-  });
+  res.status(201).json(formatActor(actor));
 };
 
 // DELETE ACTOR
@@ -99,18 +87,20 @@ const deleteActor = async (req, res) => {
   res.json({ message: "Actor Deleted " });
 };
 
-// SEARCH ACTOR FUNCTION
+// SEARCH ACTORS FUNCTION
 const searchActor = async (req, res) => {
   const { query } = req;
 
   const result = await Actor.find({ $text: { $search: `"${query.name}"` } });
-  res.json(result);
+  const actors = result.map((actor) => formatActor(actor));
+  res.json(actors);
 };
 
 // GET LATEST 12 ACTORS FUNCTION
 const getLatestActor = async (req, res) => {
   const result = await Actor.find({}).sort({ createdAt: "-1" }).limit(12);
-  res.json(result);
+  const latestActor = result.map((actor) => formatActor(actor));
+  res.json(latestActor);
 };
 
 // GET SINGLE ACTOR
@@ -123,7 +113,8 @@ const getSingleActor = async (req, res) => {
   const actor = await Actor.findById(id);
   if (!actor)
     return res.status(404).json({ error: "Invalid Request, actor not found " });
-  res.json(actor);
+
+  res.json(formatActor(actor));
 };
 
 module.exports = {
