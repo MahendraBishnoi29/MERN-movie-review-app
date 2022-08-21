@@ -1,4 +1,5 @@
 const crypto = require("crypto");
+const cloudinary = require("./cloud");
 
 // For Password Resetting
 exports.generateRandomByte = () => {
@@ -15,4 +16,18 @@ exports.generateRandomByte = () => {
 
 exports.handleNotFound = (req, res) => {
   res.status(404).json({ error: "No Routes Found" });
+};
+
+exports.uploadImageToCloud = async (file) => {
+  const { secure_url: url, public_id } = await cloudinary.v2.uploader.upload(
+    file,
+    {
+      gravity: "face",
+      height: 500,
+      width: 500,
+      crop: "thumb",
+    }
+  );
+
+  return { url, public_id };
 };
