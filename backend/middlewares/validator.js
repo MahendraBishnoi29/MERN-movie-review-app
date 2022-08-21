@@ -98,7 +98,7 @@ exports.validateMovie = [
         if (!result.protocol.includes("http"))
           throw Error("missing http in Trailer Url");
 
-        const arr = url?.split("/");
+        const arr = url.split("/");
         const publicId = arr[arr.length - 1].split(".")[0];
 
         if (public_id !== publicId) throw Error("Trailer public id is invalid");
