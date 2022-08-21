@@ -121,4 +121,12 @@ const deleteActor = async (req, res) => {
   res.json({ message: "Actor Deleted " });
 };
 
-module.exports = { createActor, updateActor, deleteActor };
+// SEARCH ACTOR FUNCTION
+const searchActor = async (req, res) => {
+  const { query } = req;
+
+  const result = await Actor.find({ $text: { $search: `"${query.name}"` } });
+  res.json(result);
+};
+
+module.exports = { createActor, updateActor, deleteActor, searchActor };
