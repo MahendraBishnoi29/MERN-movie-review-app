@@ -1,0 +1,28 @@
+const genres = [
+  "Action",
+  "Adventure",
+  "Biography",
+  "Comedy",
+  "Crime",
+  "Documentry",
+  "Drama",
+  "Family",
+  "Fantasy",
+  "Fiction",
+  "Game Show",
+  "History",
+  "Horror",
+  "Music",
+  "Musical",
+  "Mystery",
+  "News",
+  "Reality TV",
+  "Sci-Fi",
+  "Superhero",
+  "Sport",
+  "Thriller",
+  "War",
+  "Western",
+];
+
+module.exports = genres;
