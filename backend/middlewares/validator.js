@@ -108,10 +108,10 @@ exports.validateMovie = [
         throw Error("Trailer url is invalid");
       }
     }),
-  check("poster").custom((_, { req }) => {
-    if (!req.file) throw Error("Poster File is Missing!");
-    return true;
-  }),
+  // check("poster").custom((_, { req }) => {
+  //   if (!req.file) throw Error("Poster File is Missing!");
+  //   return true;
+  // }),
 ];
 
 // For formating Error Message for all Above 🛠🛠
