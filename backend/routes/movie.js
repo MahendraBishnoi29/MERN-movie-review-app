@@ -11,7 +11,6 @@ router.post(
   IsAuth,
   isAdmin,
   uploadVideo.single("video"),
-
   uploadTrailer
 );
 
