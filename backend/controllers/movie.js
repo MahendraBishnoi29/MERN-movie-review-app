@@ -144,4 +144,97 @@ const updateMovieWithoutPoster = async (req, res) => {
   res.json({ message: "Movie is Updated", movie });
 };
 
-module.exports = { uploadTrailer, createMovie, updateMovieWithoutPoster };
+const updateMovieWithPoster = async (req, res) => {
+  const { movieId } = req.params;
+  if (!isValidObjectId(movieId)) return res.json({ error: "Invalid Movie Id" });
+
+  if (!req.file) return req.json({ error: "Movie poster is Missing" });
+
+  const movie = await Movie.findById(movieId);
+  if (!movie) return res.status(404).json({ error: "Movie Not Found" });
+
+  const {
+    title,
+    storyLine,
+    director,
+    releaseDate,
+    status,
+    type,
+    genres,
+    tags,
+    cast,
+    writers,
+    trailer,
+    language,
+  } = req.body;
+
+  movie.title = title;
+  movie.storyLine = storyLine;
+  movie.tags = tags;
+  movie.releaseDate = releaseDate;
+  movie.status = status;
+  movie.type = type;
+  movie.genres = genres;
+  movie.cast = cast;
+  movie.trailer = trailer;
+  movie.language = language;
+
+  if (director) {
+    if (!isValidObjectId(director))
+      return res.json({ error: "Invalid Director Id" });
+    movie.director = director;
+  }
+
+  if (writers) {
+    for (let w of writers) {
+      if (!isValidObjectId(w)) return res.json({ error: "Invalid Writer Id" });
+    }
+    movie.writers = writers;
+  }
+
+  //Update poster
+  const posterId = movie.poster?.public_id;
+  if (posterId) {
+    const { result } = await cloudinary.v2.uploader.destroy(posterId);
+    if (result !== "ok") {
+      res.json({ error: "Could not Update Poster" });
+    }
+  }
+
+  // uploading poster
+  const {
+    secure_url: url,
+    public_id,
+    responsive_breakpoints,
+  } = await cloudinary.v2.uploader.upload(req.file?.path, {
+    transformation: { width: 1280, height: 1280 },
+    responsive_breakpoints: {
+      create_derived: true,
+      max_width: 640,
+      max_images: 3,
+    },
+  });
+
+  const finalPoster = { url, public_id, responsive: [] };
+  const { breakpoints } = responsive_breakpoints[0];
+
+  if (breakpoints.length) {
+    for (let imgObject of breakpoints) {
+      const { secure_url: url } = imgObject;
+      finalPoster.responsive.push(url);
+    }
+  }
+
+  movie.poster = finalPoster;
+
+  await movie.save();
+
+  res.json({ message: "Movie is Updated", movie });
+};
+
+module.exports = {
+  uploadTrailer,
+  createMovie,
+  updateMovieWithoutPoster,
+  updateMovieWithPoster,
+};
