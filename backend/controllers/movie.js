@@ -92,7 +92,7 @@ const createMovie = async (req, res) => {
   res.status(201).json({ id: newMovie._id, title });
 };
 
-// UPDATE MOVIE WITHOUT POSTER
+// UPDATE MOVIE WITHOUT POSTER FUNCTION
 const updateMovieWithoutPoster = async (req, res) => {
   const { movieId } = req.params;
   if (!isValidObjectId(movieId)) return res.json({ error: "Invalid Movie Id" });
@@ -144,6 +144,7 @@ const updateMovieWithoutPoster = async (req, res) => {
   res.json({ message: "Movie is Updated", movie });
 };
 
+// UPDATE MOVIE WITH POSTER FUNCTION
 const updateMovieWithPoster = async (req, res) => {
   const { movieId } = req.params;
   if (!isValidObjectId(movieId)) return res.json({ error: "Invalid Movie Id" });
@@ -232,9 +233,45 @@ const updateMovieWithPoster = async (req, res) => {
   res.json({ message: "Movie is Updated", movie });
 };
 
+// DELETE MOVIE FUNCTION
+const deleteMovie = async (req, res) => {
+  const { movieId } = req.params;
+  if (!isValidObjectId(movieId)) return res.json({ error: "Invalid Movie Id" });
+
+  const movie = await Movie.findById(movieId);
+  if (!movie) return res.status(404).json({ error: "Movie Not Found" });
+
+  // Check if there is a poster & remove that
+  const posterId = movie.poster?.public_id;
+  console.log(posterId);
+  if (posterId) {
+    const { result } = await cloudinary.v2.uploader.destroy(posterId);
+    console.log(result);
+    if (result !== "ok") {
+      return res.json({ error: "could not remove poster from Cloudinary" });
+    }
+  }
+
+  // Removing Trailer
+  const trailerId = movie.trailer?.public_id;
+  if (!trailerId) return res.json({ error: "could not Find & Delete Trailer" });
+
+  const { result } = await cloudinary.v2.uploader.destroy(trailerId, {
+    resource_type: "video",
+  });
+
+  if (result !== "ok")
+    return res.json({ error: "could not remove Trailer from Cloudinary" });
+
+  await Movie.findByIdAndDelete(movieId);
+
+  res.json({ message: "Movie Deleted Successfully" });
+};
+
 module.exports = {
   uploadTrailer,
   createMovie,
   updateMovieWithoutPoster,
   updateMovieWithPoster,
+  deleteMovie,
 };
