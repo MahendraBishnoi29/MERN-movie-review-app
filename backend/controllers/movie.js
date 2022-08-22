@@ -93,6 +93,55 @@ const createMovie = async (req, res) => {
 };
 
 // UPDATE MOVIE WITHOUT POSTER
-const updateMovieWithoutPoster = async (req, res) => {};
+const updateMovieWithoutPoster = async (req, res) => {
+  const { movieId } = req.params;
+  if (!isValidObjectId(movieId)) return res.json({ error: "Invalid Movie Id" });
+
+  const movie = await Movie.findById(movieId);
+  if (!movie) return res.status(404).json({ error: "Movie Not Found" });
+
+  const {
+    title,
+    storyLine,
+    director,
+    releaseDate,
+    status,
+    type,
+    genres,
+    tags,
+    cast,
+    writers,
+    trailer,
+    language,
+  } = req.body;
+
+  movie.title = title;
+  movie.storyLine = storyLine;
+  movie.tags = tags;
+  movie.releaseDate = releaseDate;
+  movie.status = status;
+  movie.type = type;
+  movie.genres = genres;
+  movie.cast = cast;
+  movie.trailer = trailer;
+  movie.language = language;
+
+  if (director) {
+    if (!isValidObjectId(director))
+      return res.json({ error: "Invalid Director Id" });
+    movie.director = director;
+  }
+
+  if (writers) {
+    for (let w of writers) {
+      if (!isValidObjectId(w)) return res.json({ error: "Invalid Writer Id" });
+    }
+    movie.writers = writers;
+  }
+
+  await movie.save();
+
+  res.json({ message: "Movie is Updated", movie });
+};
 
 module.exports = { uploadTrailer, createMovie, updateMovieWithoutPoster };
