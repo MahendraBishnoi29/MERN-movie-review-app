@@ -92,4 +92,7 @@ const createMovie = async (req, res) => {
   res.status(201).json({ id: newMovie._id, title });
 };
 
-module.exports = { uploadTrailer, createMovie };
+// UPDATE MOVIE WITHOUT POSTER
+const updateMovieWithoutPoster = async (req, res) => {};
+
+module.exports = { uploadTrailer, createMovie, updateMovieWithoutPoster };
