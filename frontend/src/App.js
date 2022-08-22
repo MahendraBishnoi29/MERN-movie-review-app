@@ -34,6 +34,7 @@ function App() {
         <Route path="/reset-password" element={<ConfirmPassword />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
+
       <ToastContainer
         position="top-center"
         autoClose={3000}
