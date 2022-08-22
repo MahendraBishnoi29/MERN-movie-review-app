@@ -243,10 +243,9 @@ const deleteMovie = async (req, res) => {
 
   // Check if there is a poster & remove that
   const posterId = movie.poster?.public_id;
-  console.log(posterId);
+
   if (posterId) {
     const { result } = await cloudinary.v2.uploader.destroy(posterId);
-    console.log(result);
     if (result !== "ok") {
       return res.json({ error: "could not remove poster from Cloudinary" });
     }
