@@ -30,10 +30,10 @@ router.post(
 );
 
 router.patch(
-  "/update-movie-without-poster",
+  "/update-movie-without-poster/:movieId",
   IsAuth,
   isAdmin,
-  parseData,
+  // parseData,
   validateMovie,
   validate,
   updateMovieWithoutPoster
