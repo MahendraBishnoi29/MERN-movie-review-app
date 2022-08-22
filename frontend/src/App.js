@@ -14,10 +14,13 @@ import NotFound from "./components/Home/NotFound";
 import { Routes, Route } from "react-router-dom";
 // Hooks & Functions
 import { useAuth } from "./hooks";
+import AdminNavigator from "./utils/AdminNavigator/AdminNavigator";
 
 function App() {
   const { authInfo } = useAuth();
-  console.log(authInfo);
+  const isAdmin = authInfo.profile?.role === "admin";
+
+  if (isAdmin) return <AdminNavigator />;
 
   return (
     <>
