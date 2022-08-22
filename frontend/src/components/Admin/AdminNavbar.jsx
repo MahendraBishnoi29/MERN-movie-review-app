@@ -4,8 +4,11 @@ import { AiOutlineHome } from "react-icons/ai";
 import { BiMoviePlay } from "react-icons/bi";
 import { FaUserNinja } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
+import { useAuth } from "../../hooks";
 
 const AdminNavbar = () => {
+  const { handleLogOut } = useAuth();
+
   return (
     <nav className="w-48 min-h-screen bg-secondary border-r border-gray-300">
       <div className="flex flex-col justify-between pl-4 sticky h-screen top-0">
@@ -36,7 +39,10 @@ const AdminNavbar = () => {
 
         <div className="flex flex-col items-start p-4 mb-4">
           <span className="font-semibold text-white text-xl">Admin</span>
-          <button className="flex items-center text-dark-subtle text-sm hover:text-white transition space-x-1">
+          <button
+            onClick={handleLogOut}
+            className="flex items-center text-dark-subtle text-sm hover:text-white transition space-x-1"
+          >
             <FiLogOut />
             <span> Log Out</span>
           </button>
