@@ -7,38 +7,40 @@ import { FiLogOut } from "react-icons/fi";
 
 const AdminNavbar = () => {
   return (
-    <nav className="flex flex-col justify-between w-48 min-h-screen bg-secondary border-r border-gray-300">
-      <ul className="pl-4">
-        <li className="mb-8">
-          <Link to="/">
-            <img src="./logo2.png" alt="logo" className="h-14 p-2" />
-          </Link>
-        </li>
+    <nav className="w-48 min-h-screen bg-secondary border-r border-gray-300">
+      <div className="flex flex-col justify-between pl-4 sticky h-screen top-0">
+        <ul>
+          <li className="mb-8">
+            <Link to="/">
+              <img src="./logo2.png" alt="logo" className="h-14 p-2" />
+            </Link>
+          </li>
 
-        <li>
-          <NavItem to="/">
-            <AiOutlineHome />
-            <span>Home</span>
-          </NavItem>
-        </li>
-        <li>
-          <NavItem to="/movies">
-            <BiMoviePlay /> <span>Movies</span>
-          </NavItem>
-        </li>
-        <li>
-          <NavItem to="/actors">
-            <FaUserNinja /> <span>Actors</span>
-          </NavItem>
-        </li>
-      </ul>
+          <li>
+            <NavItem to="/">
+              <AiOutlineHome />
+              <span>Home</span>
+            </NavItem>
+          </li>
+          <li>
+            <NavItem to="/movies">
+              <BiMoviePlay /> <span>Movies</span>
+            </NavItem>
+          </li>
+          <li>
+            <NavItem to="/actors">
+              <FaUserNinja /> <span>Actors</span>
+            </NavItem>
+          </li>
+        </ul>
 
-      <div className="flex flex-col items-start p-8">
-        <span className="font-semibold text-white text-xl">Admin</span>
-        <button className="flex items-center text-dark-subtle text-sm hover:text-white transition space-x-1">
-          <FiLogOut />
-          <span> Log Out</span>
-        </button>
+        <div className="flex flex-col items-start p-4 mb-4">
+          <span className="font-semibold text-white text-xl">Admin</span>
+          <button className="flex items-center text-dark-subtle text-sm hover:text-white transition space-x-1">
+            <FiLogOut />
+            <span> Log Out</span>
+          </button>
+        </div>
       </div>
     </nav>
   );
