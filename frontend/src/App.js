@@ -12,8 +12,13 @@ import ConfirmPassword from "./components/Auth/ConfirmPassword";
 import NotFound from "./components/Home/NotFound";
 // Router
 import { Routes, Route } from "react-router-dom";
+// Hooks & Functions
+import { useAuth } from "./hooks";
 
 function App() {
+  const { authInfo } = useAuth();
+  console.log(authInfo);
+
   return (
     <>
       <Navbar />
