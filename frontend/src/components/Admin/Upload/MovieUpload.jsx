@@ -3,6 +3,7 @@ import { FileUploader } from "react-drag-drop-files";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { toast } from "react-toastify";
 import { uploadTrailer } from "../../../api/movie/movie";
+import MovieForm from "../Movie/MovieForm";
 
 const MovieUpload = () => {
   const [videoSelected, setVideoSelected] = useState(false);
@@ -42,8 +43,6 @@ const MovieUpload = () => {
     setVideoInfo({ url, public_id });
   };
 
-  console.log(videoInfo);
-
   // Handle Change
   const handleChange = (file) => {
     const formData = new FormData();
@@ -71,7 +70,7 @@ const MovieUpload = () => {
   return (
     <div className="fixed inset-0 dark:bg-white bg-primary dark:bg-opacity-50 bg-opacity-50 backdrop-blur-sm flex items-center justify-center">
       <div className="dark:bg-primary bg-white rounded w-[40rem] h-[34rem] overflow-auto p-2">
-        <UploadProgress
+        {/* <UploadProgress
           visible={!videoUploaded && videoSelected}
           message={getUploadProgress()}
           width={uploadProgress}
@@ -80,7 +79,8 @@ const MovieUpload = () => {
           visible={!videoSelected}
           onTypeError={handleTypeError}
           handleChange={handleChange}
-        />
+        /> */}
+        <MovieForm />
       </div>
     </div>
   );

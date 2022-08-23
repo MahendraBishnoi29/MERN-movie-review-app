@@ -4,7 +4,7 @@ import Actors from "../../components/Admin/Actors";
 import AdminNavbar from "../../components/Admin/AdminNavbar";
 import Dashboard from "../../components/Admin/Dashboard/Dashboard";
 import Header from "../../components/Admin/Header";
-import Movies from "../../components/Admin/Movies";
+import Movies from "../../components/Admin/Movie/Movies";
 import NotFound from "../../components/Home/NotFound";
 
 const AdminNavigator = () => {
