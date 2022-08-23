@@ -23,19 +23,7 @@ const MovieUpload = () => {
   return (
     <div className="fixed inset-0 dark:bg-white bg-primary dark:bg-opacity-50 bg-opacity-50 backdrop-blur-sm flex items-center justify-center">
       <div className="dark:bg-primary bg-white rounded w-[40rem] h-[34rem] overflow-auto">
-        <div className="p-2">
-          <div className="dark:bg-secondary bg-white draopshadow-lg rounded p-3">
-            <div className="relative h-3 dark:bg-dark-subtle bg-light-subtle overflow-hidden">
-              <div
-                style={{ width: "80%" }}
-                className="h-full w-14 absolute left-0 dark:bg-white bg-secondary"
-              />
-            </div>
-            <p className="font-semibold dark:text-dark-subtle text-light-subtle animate-pulse mt-1">
-              Upload progress 80%
-            </p>
-          </div>
-        </div>
+        <UploadProgress visible message="Upload progress 20%" width={20} />
         <TrailerSelector
           visible={!videoSelected}
           onTypeError={handleTypeError}
@@ -61,6 +49,24 @@ const TrailerSelector = ({ visible, handleChange, onTypeError }) => {
           <p className="">Drop your file here</p>
         </div>
       </FileUploader>
+    </div>
+  );
+};
+
+// UPLOAD PROGRESS
+const UploadProgress = ({ message, width, visible }) => {
+  if (!visible) return null;
+  return (
+    <div className="dark:bg-secondary bg-white draopshadow-lg rounded p-3">
+      <div className="relative h-3 dark:bg-dark-subtle bg-light-subtle overflow-hidden">
+        <div
+          style={{ width: width + "%" }}
+          className="h-full w-14 absolute left-0 dark:bg-white bg-secondary"
+        />
+      </div>
+      <p className="font-semibold dark:text-dark-subtle text-light-subtle animate-pulse mt-1">
+        {message}
+      </p>
     </div>
   );
 };
