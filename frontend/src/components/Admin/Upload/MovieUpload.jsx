@@ -8,24 +8,58 @@ const MovieUpload = () => {
   const [videoSelected, setVideoSelected] = useState(false);
   const [videoUploaded, setVideoUploaded] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [videoInfo, setVideoInfo] = useState({});
+  const [movieInfo, setMovieInfo] = useState({
+    title: "",
+    storyLine: "",
+    tags: [],
+    director: [],
+    writers: [],
+    releaseDate: "",
+    poster: null,
+    genres: [],
+    type: "",
+    language: "",
+    status: "",
+    trailer: {
+      url: "",
+      public_id: "",
+    },
+  });
 
-  const handleChange = async (file) => {
+  // Handle Upload Trailer
+  const handleUploadTrailer = async (data) => {
+    const { error, url, public_id } = await uploadTrailer(
+      data,
+      setUploadProgress
+    );
+    if (error) return toast.error(error.message);
+
+    setVideoUploaded(true);
+
+    toast.success("file uploaded successfully");
+    setMovieInfo({ ...movieInfo, trailer: { url, public_id } });
+    setVideoInfo({ url, public_id });
+  };
+
+  console.log(videoInfo);
+
+  // Handle Change
+  const handleChange = (file) => {
     const formData = new FormData();
     formData.append("video", file);
 
     setVideoSelected(true);
 
-    const res = await uploadTrailer(formData, setUploadProgress);
-    if (!res.error) {
-      setVideoUploaded(true);
-    }
-    toast.success("file uploaded successfully");
+    handleUploadTrailer(formData);
   };
 
+  // Handle Type Error
   const handleTypeError = (error) => {
     toast.error(error);
   };
 
+  // Upload Progress
   const getUploadProgress = () => {
     if (!videoUploaded && uploadProgress >= 100) {
       return "Processing...";
