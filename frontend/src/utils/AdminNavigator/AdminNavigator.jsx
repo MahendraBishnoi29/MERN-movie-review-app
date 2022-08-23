@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Actors from "../../components/Admin/Actors";
 import AdminNavbar from "../../components/Admin/AdminNavbar";
-import Dashboard from "../../components/Admin/Dashboard";
+import Dashboard from "../../components/Admin/Dashboard/Dashboard";
 import Header from "../../components/Admin/Header";
 import Movies from "../../components/Admin/Movies";
 import NotFound from "../../components/Home/NotFound";
