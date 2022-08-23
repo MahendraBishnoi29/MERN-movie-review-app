@@ -24,6 +24,21 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 }
 
+.animate-scale {
+  transform-origin: 100% 0%;
+  animation: scale 0.2s;
+}
+
+@keyframes scale {
+   0% {
+      transform: scaleY(0)
+   }
+   100%{
+    transform: scaleY(1)
+
+   }
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
