@@ -12,7 +12,7 @@ const AdminNavigator = () => {
     <div className="flex dark:bg-primary bg-white">
       <AdminNavbar />
       <div className="flex-1 p-2 max-w-screen-xl">
-        <Header />
+        <Header onAddMovie={() => console.log("Adding Movie")} />
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/movies" element={<Movies />} />
