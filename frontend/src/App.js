@@ -1,6 +1,5 @@
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
 // Components
 import Navbar from "./components/Navbar/Navbar";
 import SignIn from "./components/Auth/SignIn";
@@ -34,13 +33,6 @@ function App() {
         <Route path="/reset-password" element={<ConfirmPassword />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
-
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        newestOnTop={false}
-        closeOnClick
-      />
     </>
   );
 }
