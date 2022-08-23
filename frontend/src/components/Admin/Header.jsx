@@ -3,9 +3,14 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { BsSunFill } from "react-icons/bs";
 import { useTheme } from "../../hooks";
 
-const Header = () => {
+const Header = ({ onAddMovie, onAddActor }) => {
   const [showOptions, setShowOptions] = useState(false);
   const { toggleTheme } = useTheme();
+
+  const options = [
+    { title: "Add Movie", onClick: onAddMovie },
+    { title: "Add Actor", onClick: onAddActor },
+  ];
 
   return (
     <div className="flex items-center justify-between relative">
@@ -33,17 +38,18 @@ const Header = () => {
         </button>
       </div>
 
-      <CreateOptions visible={showOptions} />
+      <CreateOptions visible={showOptions} options={options} />
     </div>
   );
 };
 
-const CreateOptions = ({ visible }) => {
+const CreateOptions = ({ options, visible }) => {
   if (!visible) return null;
   return (
     <div className="animate-scale absolute right-0 top-12 flex flex-col space-y-3 p-5 dark:bg-secondary bg-white drop-shadow-lg rounded">
-      <Option>Add Movies</Option>
-      <Option>Add Actors</Option>
+      {options.map(({ title, onClick }) => {
+        return <Option onClick={onClick}>{title}</Option>;
+      })}
     </div>
   );
 };
