@@ -8,7 +8,7 @@ import NotFound from "../../components/Home/NotFound";
 
 const AdminNavigator = () => {
   return (
-    <div className="flex">
+    <div className="flex dark:bg-primary bg-white">
       <AdminNavbar />
       <div className="flex-1 p-2 max-w-screen-xl">
         <Routes>
