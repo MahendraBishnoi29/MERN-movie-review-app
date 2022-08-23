@@ -10,7 +10,7 @@ const AdminNavbar = () => {
   const { handleLogOut } = useAuth();
 
   return (
-    <nav className="w-48 min-h-screen bg-secondary border-r border-gray-300">
+    <nav className="w-36 min-h-screen bg-secondary border-r border-gray-300">
       <div className="flex flex-col justify-between pl-4 sticky h-screen top-0">
         <ul>
           <li className="mb-8">
