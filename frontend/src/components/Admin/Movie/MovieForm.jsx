@@ -4,6 +4,7 @@ import { commonInputClasses } from "../../../utils/theme";
 import Submit from "../../Form/Submit";
 import TagsInput from "../../Form/tagsInput/TagsInput";
 import LiveSearch from "../../LiveSearch/LiveSearch";
+import { toast } from "react-toastify";
 
 export const results = [
   {
@@ -104,6 +105,16 @@ const MovieForm = () => {
     setMovieInfo({ ...movieInfo, director: profile });
   };
 
+  const updateWriters = (profile) => {
+    const { writers } = movieInfo;
+    for (let writer of writers) {
+      if (writer.id === profile.id) {
+        return toast.warning("Profile is already selected");
+      }
+    }
+    setMovieInfo({ ...movieInfo, writers: [...writers, profile] });
+  };
+
   return (
     <form onSubmit={handleSubmit} className="flex space-x-3">
       <div className="w-[70%] h-5 space-y-5">
@@ -146,6 +157,17 @@ const MovieForm = () => {
             placeholder="Search profile"
             results={results}
             renderItem={renderItem}
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="writers">Writers</Label>
+          <LiveSearch
+            name="writers"
+            onSelect={updateWriters}
+            renderItem={renderItem}
+            placeholder="Search profile"
+            results={results}
           />
         </div>
 
