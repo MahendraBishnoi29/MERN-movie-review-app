@@ -86,6 +86,7 @@ const MovieUpload = () => {
   );
 };
 
+// TRAILER SELCET COMPONENT
 const TrailerSelector = ({ visible, handleChange, onTypeError }) => {
   if (!visible) return null;
 
@@ -94,18 +95,18 @@ const TrailerSelector = ({ visible, handleChange, onTypeError }) => {
       <FileUploader
         handleChange={handleChange}
         onTypeError={onTypeError}
-        types={["mp4", "avi", "3gp"]}
+        types={["mp4", "avi", "3gp", "mkv"]}
       >
         <div className="cursor-pointer w-48 h-48 border border-dashed dark:border-dark-subtle border-light-subtle rounded-full flex flex-col items-center justify-center text-secondary dark:text-dark-subtle">
           <AiOutlineCloudUpload size={80} />
-          <p className="">Drop your file here</p>
+          <p className="">Select or Drag & Drop your file here</p>
         </div>
       </FileUploader>
     </div>
   );
 };
 
-// UPLOAD PROGRESS
+// UPLOAD PROGRESS COMPONENT
 const UploadProgress = ({ message, width, visible }) => {
   if (!visible) return null;
   return (
