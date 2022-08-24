@@ -100,6 +100,10 @@ const MovieForm = () => {
 
   const { title, storyLine, director } = movieInfo;
 
+  const updateDirector = (profile) => {
+    setMovieInfo({ ...movieInfo, director: profile });
+  };
+
   return (
     <form onSubmit={handleSubmit} className="flex space-x-3">
       <div className="w-[70%] h-5 space-y-5">
@@ -133,12 +137,18 @@ const MovieForm = () => {
           <TagsInput onChange={updateTags} name="tags" />
         </div>
 
-        <LiveSearch
-          placeholder="Search profile"
-          results={results}
-          renderItem={renderItem}
-          onSelect={(res) => console.log(res)}
-        />
+        <div>
+          <Label htmlFor="director">Director</Label>
+          <LiveSearch
+            name="director"
+            value={director.name}
+            onSelect={updateDirector}
+            placeholder="Search profile"
+            results={results}
+            renderItem={renderItem}
+          />
+        </div>
+
         <Submit value="Upload" />
       </div>
       <div className="w-[30%] h-5 "></div>
