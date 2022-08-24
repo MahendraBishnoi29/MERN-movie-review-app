@@ -8,6 +8,7 @@ const LiveSearch = ({
   value = "",
   placeholder = "",
   results = [],
+  name,
   selectedResultStyle,
   containerStyle,
   inputStyle,
@@ -68,6 +69,8 @@ const LiveSearch = ({
         onFocus={handleOnFocus}
         onKeyDown={handleKeyDown}
         value={value}
+        id={name}
+        name={name}
         placeholder={placeholder}
         onChange={onChange}
         type="text"
