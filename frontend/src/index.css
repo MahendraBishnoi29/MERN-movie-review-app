@@ -38,6 +38,24 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 }
 
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 2px;
+  height: 2.3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #222222;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgb(224, 201, 251);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgb(143, 190, 245);
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
