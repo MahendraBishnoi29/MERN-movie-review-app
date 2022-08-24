@@ -6,6 +6,7 @@ const TagsInput = ({ name }) => {
   const [tags, setTags] = useState([]);
 
   const inputRef = useRef();
+  const tagsInput = useRef();
 
   const handleChange = ({ target }) => {
     const { value } = target;
@@ -32,6 +33,22 @@ const TagsInput = ({ name }) => {
     setTags([...newTags]);
   };
 
+  const handleOnBlur = () => {
+    tagsInput.current.classList.add(
+      "dark:border-dark-subtle",
+      "border-light-subtle"
+    );
+    tagsInput.current.classList.remove("dark:border-white", "border-primary");
+  };
+
+  const handleOnFocus = () => {
+    tagsInput.current.classList.remove(
+      "dark:border-dark-subtle",
+      "border-light-subtle"
+    );
+    tagsInput.current.classList.add("dark:border-white", "border-primary");
+  };
+
   useEffect(() => {
     inputRef.current.scrollIntoView();
   }, [tag]);
@@ -39,8 +56,9 @@ const TagsInput = ({ name }) => {
   return (
     <div>
       <div
+        ref={tagsInput}
         onKeyDown={handleKeyDown}
-        className="border-2 bg-transparent dark:border-dark-subtle border-light-subtle px-2 h-10 rounded w-full dark:text-white flex items-center space-x-2 overflow-x-auto custom-scrollbar"
+        className="border-2 bg-transparent dark:border-dark-subtle border-light-subtle px-2 h-10 rounded w-full dark:text-white flex items-center space-x-2 overflow-x-auto custom-scrollbar transition"
       >
         {tags.map((t) => (
           <Tag onClick={() => removeTag(t)} key={t}>
@@ -51,6 +69,8 @@ const TagsInput = ({ name }) => {
           ref={inputRef}
           value={tag}
           onChange={handleChange}
+          onFocus={handleOnFocus}
+          onBlur={handleOnBlur}
           type="text"
           className="h-full flex-grow bg-transparent outline-none dark:text-white"
           placeholder="tag one, tag two"
