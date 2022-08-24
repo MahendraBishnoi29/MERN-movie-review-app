@@ -18,11 +18,16 @@ const TagsInput = () => {
       setTags([...tags, tag]);
       setTag("");
     }
-
+    // Remove tags by clicking Backspace
     if (key === "Backspace" && !tag && tags.length) {
       const newTags = tags.filter((_, index) => index !== tags.length - 1);
       setTags([...newTags]);
     }
+  };
+
+  const removeTag = (tagToRemove) => {
+    const newTags = tags.filter((tag) => tag !== tagToRemove);
+    setTags([...newTags]);
   };
 
   return (
@@ -32,7 +37,9 @@ const TagsInput = () => {
         className="border-2 bg-transparent dark:border-dark-subtle border-light-subtle px-2 h-10 rounded w-full dark:text-white flex items-center space-x-2"
       >
         {tags.map((t) => (
-          <Tag key={t}> {t} </Tag>
+          <Tag onClick={() => removeTag(t)} key={t}>
+            {t}
+          </Tag>
         ))}
         <input
           value={tag}
