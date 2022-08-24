@@ -62,8 +62,19 @@ const LiveSearch = () => {
     if (results.length) setDisplaySearch(true);
   };
 
-  const handleOnBlur = () => {
+  const closeSearch = () => {
     setDisplaySearch(false);
+    setFocusedIndex(-1);
+  };
+
+  const handleOnBlur = () => {
+    setTimeout(() => {
+      closeSearch();
+    }, 100);
+  };
+
+  const handleSelection = (selectedItem) => {
+    console.log(selectedItem);
   };
 
   const handleKeyDown = ({ key }) => {
@@ -79,6 +90,8 @@ const LiveSearch = () => {
     if (key === "ArrowUp") {
       nextCount = (focusedIndex + results.length - 1) % results.length;
     }
+
+    if (key === "Enter") return handleSelection(results[focusedIndex]);
     setFocusedIndex(nextCount);
   };
 
@@ -96,13 +109,14 @@ const LiveSearch = () => {
         focusedIndex={focusedIndex}
         results={results}
         visible={displaySearch}
+        onSelect={handleSelection}
       />
     </div>
   );
 };
 
 // SEARCH RESULT COMPONENT
-const SearchResults = ({ visible, results = [], focusedIndex }) => {
+const SearchResults = ({ visible, results = [], focusedIndex, onSelect }) => {
   const resultContainer = useRef();
 
   useEffect(() => {
@@ -116,9 +130,11 @@ const SearchResults = ({ visible, results = [], focusedIndex }) => {
 
   return (
     <div className="absolute right-0 left-0 top-10 bg-white dark:bg-secondary shadow-md p-2 max-h-64 space-y-2 mt-1 overflow-auto custom-scrollbar">
-      {results.map(({ id, name, avatar }, index) => {
+      {results.map((result, index) => {
+        const { id, name, avatar } = result;
         return (
           <div
+            onClick={() => onSelect(result)}
             ref={index === focusedIndex ? resultContainer : null}
             key={id}
             className={
