@@ -1,11 +1,15 @@
 import React from "react";
+import TagsInput from "../../Form/tagsInput/TagsInput";
 
 const commonInputClasses =
   "w-full bg-transparent dark:text-white text-primary outline-none  dark:border-dark-subtle border-light-subtle dark:focus:border-white focus:border-primary transition";
 
 const MovieForm = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
   return (
-    <form className="flex space-x-3">
+    <form onSubmit={handleSubmit} className="flex space-x-3">
       <div className="w-[70%] h-5 space-y-5">
         <div>
           <Label htmlFor="title">Title</Label>
@@ -24,6 +28,8 @@ const MovieForm = () => {
             placeholder="Movie story line..."
           ></textarea>
         </div>
+
+        <TagsInput />
       </div>
       <div className="w-[30%] h-5 "></div>
     </form>
