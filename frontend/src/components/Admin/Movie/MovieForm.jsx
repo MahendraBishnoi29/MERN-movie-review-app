@@ -6,6 +6,7 @@ import TagsInput from "../../Form/tagsInput/TagsInput";
 import LiveSearch from "../../LiveSearch/LiveSearch";
 import { toast } from "react-toastify";
 import ModalContainer from "../../Modals/ModalContainer";
+import WriterModal from "../../Modals/WriterModal";
 
 export const results = [
   {
@@ -75,7 +76,7 @@ const MovieForm = () => {
   };
 
   const [movieInfo, setMovieInfo] = useState({ ...defaultMovieInfo });
-  const [showModal, setShowModal] = useState(false);
+  const [showWritersModal, setShowWritersModal] = useState(false);
 
   // Handle Submit
   const handleSubmit = (e) => {
@@ -169,7 +170,7 @@ const MovieForm = () => {
                 Writers
               </LabelWithBadge>
               <button
-                onClick={() => setShowModal(true)}
+                onClick={() => setShowWritersModal(true)}
                 className="dark:text-white text-primary hover:underline transition"
               >
                 View All
@@ -190,9 +191,11 @@ const MovieForm = () => {
         <div className="w-[30%] h-5 "></div>
       </form>
 
-      <ModalContainer visible={showModal} onClose={() => setShowModal(false)}>
-        <div className="p-20 bg-red-200"></div>
-      </ModalContainer>
+      <WriterModal
+        visible={showWritersModal}
+        onClose={() => setShowWritersModal(false)}
+        profiles={writers}
+      />
     </>
   );
 };
