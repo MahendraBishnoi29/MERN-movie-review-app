@@ -5,8 +5,8 @@ import Submit from "../../Form/Submit";
 import TagsInput from "../../Form/tagsInput/TagsInput";
 import LiveSearch from "../../LiveSearch/LiveSearch";
 import { toast } from "react-toastify";
-import ModalContainer from "../../Modals/ModalContainer";
 import WriterModal from "../../Modals/WriterModal";
+import CastFrom from "../../Form/CastFrom";
 
 export const results = [
   {
@@ -192,6 +192,8 @@ const MovieForm = () => {
               results={results}
             />
           </div>
+
+          <CastFrom />
 
           <Submit value="Upload" />
         </div>
