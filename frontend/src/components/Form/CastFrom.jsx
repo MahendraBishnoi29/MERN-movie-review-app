@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { commonInputClasses } from "../../utils/theme";
+import { renderItem, results } from "../Admin/Movie/MovieForm";
 import LiveSearch from "../LiveSearch/LiveSearch";
 
 const defaultCastInfo = {
@@ -11,7 +12,23 @@ const defaultCastInfo = {
 const CastFrom = () => {
   const [castInfo, setCastInfo] = useState({ ...defaultCastInfo });
 
-  const { leadActor } = castInfo;
+  const { leadActor, profile, roleAs } = castInfo;
+
+  const handleProfileSelect = (profile) => {
+    setCastInfo({ ...castInfo, profile });
+  };
+
+  const handleSubmit = () => {
+    console.log(castInfo);
+  };
+
+  const handleOnChange = ({ target }) => {
+    const { checked, name, value } = target;
+    if (name === "leadActor")
+      return setCastInfo({ ...castInfo, leadActor: checked });
+
+    setCastInfo({ ...castInfo, [name]: value });
+  };
 
   return (
     <div className="flex items-center space-x-2">
@@ -20,14 +37,24 @@ const CastFrom = () => {
         name="leadActor"
         className="h-4 w-4"
         checked={leadActor}
+        onChange={handleOnChange}
       />
-      <LiveSearch placeholder="Search profile" />
+      <LiveSearch
+        value={profile.name}
+        results={results}
+        onSelect={handleProfileSelect}
+        renderItem={renderItem}
+        placeholder="Search profile"
+      />
       <span className="dark:text-dark-subtle text-light-subtle font-semibold">
         as
       </span>
 
       <div className="flex-grow">
         <input
+          value={roleAs}
+          onChange={handleOnChange}
+          name="roleAs"
           type="text"
           className={commonInputClasses + " rounded p-1 text-lg border-2"}
           placeholder="role As"
@@ -35,6 +62,7 @@ const CastFrom = () => {
       </div>
 
       <button
+        onClick={handleSubmit}
         type="button"
         className="bg-secondary dark:bg-white text-white dark:text-primary px-1 rounded"
       >
