@@ -59,6 +59,15 @@ export const results = [
   },
 ];
 
+export const renderItem = (res) => {
+  return (
+    <div key={res?.id} className="flex space-x-2 rounded overflow-hidden">
+      <img src={res?.avatar} alt="" className="w-14 h-14 object-cover" />
+      <p className="dark:text-white font-semibold">{res?.name}</p>
+    </div>
+  );
+};
+
 const MovieForm = () => {
   const defaultMovieInfo = {
     title: "",
@@ -82,15 +91,6 @@ const MovieForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(movieInfo);
-  };
-
-  const renderItem = (res) => {
-    return (
-      <div key={res.id} className="flex space-x-2 rounded overflow-hidden">
-        <img src={res.avatar} alt="" className="w-14 h-14 object-cover" />
-        <p className="dark:text-white font-semibold">{res.name}</p>
-      </div>
-    );
   };
 
   const handleChange = ({ target }) => {
