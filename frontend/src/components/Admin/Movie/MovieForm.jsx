@@ -89,6 +89,8 @@ const MovieForm = () => {
   const [showWritersModal, setShowWritersModal] = useState(false);
   const [showCastModal, setShowCastModal] = useState(false);
 
+  const { title, storyLine, director, writers, cast } = movieInfo;
+
   // Handle Submit
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -100,16 +102,23 @@ const MovieForm = () => {
     setMovieInfo({ ...movieInfo, [name]: value });
   };
 
+  // Update Tags
   const updateTags = (tags) => {
     setMovieInfo({ ...movieInfo, tags });
   };
 
-  const { title, storyLine, director, writers, cast } = movieInfo;
-
+  // Update Directors
   const updateDirector = (profile) => {
     setMovieInfo({ ...movieInfo, director: profile });
   };
 
+  // Update Cast
+  const updateCast = (castInfo) => {
+    const { cast } = movieInfo;
+    setMovieInfo({ ...movieInfo, cast: [...cast, castInfo] });
+  };
+
+  // Update Writers
   const updateWriters = (profile) => {
     const { writers } = movieInfo;
     for (let writer of writers) {
@@ -120,6 +129,7 @@ const MovieForm = () => {
     setMovieInfo({ ...movieInfo, writers: [...writers, profile] });
   };
 
+  // Remove Writers
   const handleWriterRemove = (profileId) => {
     const { writers } = movieInfo;
     const newWriters = writers.filter(({ id }) => id !== profileId);
@@ -127,9 +137,12 @@ const MovieForm = () => {
     setMovieInfo({ ...movieInfo, writers: [...newWriters] });
   };
 
-  const updateCast = (castInfo) => {
+  // Remove Cast
+  const handleCastRemove = (profileId) => {
     const { cast } = movieInfo;
-    setMovieInfo({ ...movieInfo, cast: [...cast, castInfo] });
+    const newCast = cast.filter(({ profile }) => profile.id !== profileId);
+    if (!newCast.length) setShowCastModal(false);
+    setMovieInfo({ ...movieInfo, cast: [...newCast] });
   };
 
   return (
@@ -232,7 +245,7 @@ const MovieForm = () => {
         visible={showCastModal}
         onClose={() => setShowCastModal(false)}
         casts={cast}
-        // onRemoveProfile={handleWriterRemove}
+        onRemoveProfile={handleCastRemove}
       />
     </>
   );
