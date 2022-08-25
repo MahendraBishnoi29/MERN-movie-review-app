@@ -7,6 +7,7 @@ import LiveSearch from "../../LiveSearch/LiveSearch";
 import { toast } from "react-toastify";
 import WriterModal from "../../Modals/WriterModal";
 import CastFrom from "../../Form/CastFrom";
+import CastModal from "../../Modals/CastModal";
 
 export const results = [
   {
@@ -86,6 +87,7 @@ const MovieForm = () => {
 
   const [movieInfo, setMovieInfo] = useState({ ...defaultMovieInfo });
   const [showWritersModal, setShowWritersModal] = useState(false);
+  const [showCastModal, setShowCastModal] = useState(false);
 
   // Handle Submit
   const handleSubmit = (e) => {
@@ -203,7 +205,12 @@ const MovieForm = () => {
               <LabelWithBadge badge={cast.length}>
                 Add Cast & Crew
               </LabelWithBadge>
-              <ViewAllBtn visible={cast.length}>View All</ViewAllBtn>
+              <ViewAllBtn
+                onClick={() => setShowCastModal(true)}
+                visible={cast.length}
+              >
+                View All
+              </ViewAllBtn>
             </div>
 
             <CastFrom onSubmit={updateCast} />
@@ -219,6 +226,13 @@ const MovieForm = () => {
         onClose={() => setShowWritersModal(false)}
         profiles={writers}
         onRemoveProfile={handleWriterRemove}
+      />
+
+      <CastModal
+        visible={showCastModal}
+        onClose={() => setShowCastModal(false)}
+        casts={cast}
+        // onRemoveProfile={handleWriterRemove}
       />
     </>
   );
