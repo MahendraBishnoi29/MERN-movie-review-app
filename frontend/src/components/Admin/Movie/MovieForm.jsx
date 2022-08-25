@@ -125,6 +125,11 @@ const MovieForm = () => {
     setMovieInfo({ ...movieInfo, writers: [...newWriters] });
   };
 
+  const updateCast = (castInfo) => {
+    const { cast } = movieInfo;
+    setMovieInfo({ ...movieInfo, cast: [...cast, castInfo] });
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit} className="flex space-x-3">
@@ -193,7 +198,10 @@ const MovieForm = () => {
             />
           </div>
 
-          <CastFrom />
+          <div>
+            <LabelWithBadge>Add Cast & Crew</LabelWithBadge>
+            <CastFrom onSubmit={updateCast} />
+          </div>
 
           <Submit value="Upload" />
         </div>
@@ -221,7 +229,7 @@ const Label = ({ children, htmlFor }) => {
   );
 };
 
-const LabelWithBadge = ({ children, htmlFor, badge }) => {
+const LabelWithBadge = ({ children, htmlFor, badge = 0 }) => {
   const renderBadge = () => {
     return (
       <span className="dark:bg-dark-subtle bg-light-subtle text-white absolute top-0 right-0 w-5 h-5 rounded-full flex justify-center items-center translate-x-2 -translate-y-1 text-sm">
