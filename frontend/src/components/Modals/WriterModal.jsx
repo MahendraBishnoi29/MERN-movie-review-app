@@ -8,7 +8,10 @@ const WriterModal = ({ profiles = [], visible, onClose, onRemoveProfile }) => {
       <div className="space-y-2 dark:bg-primary bg-white rounded max-w-[40rem] max-h-[34rem] overflow-auto p-2 custom-scrollbar">
         {profiles.map(({ id, name, avatar }) => {
           return (
-            <div key={id} className="flex space-x-3">
+            <div
+              key={id}
+              className="flex space-x-3 dark:bg-secondary bg-white drop-shadow-md rounded"
+            >
               <img
                 src={avatar}
                 alt={name}
