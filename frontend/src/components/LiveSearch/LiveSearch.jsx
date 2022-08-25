@@ -111,18 +111,18 @@ const SearchResults = ({
   if (!visible) return null;
 
   return (
-    <div className="absolute right-0 left-0 top-10 bg-white dark:bg-secondary shadow-md p-2 max-h-64 space-y-2 mt-1 overflow-auto custom-scrollbar">
+    <div className="absolute z-50 right-0 left-0 top-10 bg-white dark:bg-secondary shadow-md p-2 max-h-64 space-y-2 mt-1 overflow-auto custom-scrollbar">
       {results.map((result, index) => {
         const getSelectedClass = () => {
           return selectedResultStyle
             ? selectedResultStyle
-            : "dark:bg-dark-subtle bg-light-subtle";
+            : " dark:bg-dark-subtle bg-light-subtle";
         };
 
         return (
           <ActorResults
             ref={index === focusedIndex ? resultContainer : null}
-            key={result.id}
+            key={index.toString()}
             item={result}
             renderItem={renderItem}
             containerStyle={containerStyle}
@@ -147,7 +147,7 @@ const ActorResults = forwardRef((props, ref) => {
 
     return (
       selectedResultStyle +
-      "dark:bg-dark-subtle bg-light-subtle cursor-pointer rounded overflow-hidden dark:hover:bg-dark-subtle hover:bg-light-subtle transition"
+      " dark:bg-dark-subtle bg-light-subtle cursor-pointer rounded overflow-hidden dark:hover:bg-dark-subtle hover:bg-light-subtle transition"
     );
   };
 
