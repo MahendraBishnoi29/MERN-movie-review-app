@@ -44,6 +44,7 @@ const CastFrom = ({ onSubmit }) => {
         className="h-4 w-4"
         checked={leadActor}
         onChange={handleOnChange}
+        title="Choose As Lead Actor"
       />
       <LiveSearch
         value={profile.name}
