@@ -102,7 +102,7 @@ const MovieForm = () => {
     setMovieInfo({ ...movieInfo, tags });
   };
 
-  const { title, storyLine, director, writers } = movieInfo;
+  const { title, storyLine, director, writers, cast } = movieInfo;
 
   const updateDirector = (profile) => {
     setMovieInfo({ ...movieInfo, director: profile });
@@ -181,12 +181,12 @@ const MovieForm = () => {
               <LabelWithBadge badge={writers.length} htmlFor="writers">
                 Writers
               </LabelWithBadge>
-              <button
+              <ViewAllBtn
+                visible={writers.length}
                 onClick={() => setShowWritersModal(true)}
-                className="dark:text-white text-primary hover:underline transition"
               >
                 View All
-              </button>
+              </ViewAllBtn>
             </div>
 
             <LiveSearch
@@ -199,7 +199,13 @@ const MovieForm = () => {
           </div>
 
           <div>
-            <LabelWithBadge>Add Cast & Crew</LabelWithBadge>
+            <div className="flex justify-between">
+              <LabelWithBadge badge={cast.length}>
+                Add Cast & Crew
+              </LabelWithBadge>
+              <ViewAllBtn visible={cast.length}>View All</ViewAllBtn>
+            </div>
+
             <CastFrom onSubmit={updateCast} />
           </div>
 
@@ -231,6 +237,7 @@ const Label = ({ children, htmlFor }) => {
 
 const LabelWithBadge = ({ children, htmlFor, badge = 0 }) => {
   const renderBadge = () => {
+    if (!badge) return null;
     return (
       <span className="dark:bg-dark-subtle bg-light-subtle text-white absolute top-0 right-0 w-5 h-5 rounded-full flex justify-center items-center translate-x-2 -translate-y-1 text-sm">
         {badge <= 9 ? badge : "9+"}
@@ -243,6 +250,19 @@ const LabelWithBadge = ({ children, htmlFor, badge = 0 }) => {
       <Label htmlFor={htmlFor}> {children} </Label>
       {renderBadge()}
     </div>
+  );
+};
+
+const ViewAllBtn = ({ visible, children, onClick }) => {
+  if (!visible) return null;
+
+  return (
+    <button
+      onClick={onClick}
+      className="dark:text-white text-primary hover:underline transition"
+    >
+      {children}
+    </button>
   );
 };
 
