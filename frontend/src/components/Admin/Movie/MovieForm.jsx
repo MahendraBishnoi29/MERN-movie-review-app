@@ -89,7 +89,7 @@ const MovieForm = () => {
   const [showWritersModal, setShowWritersModal] = useState(false);
   const [showCastModal, setShowCastModal] = useState(false);
 
-  const { title, storyLine, director, writers, cast } = movieInfo;
+  const { title, storyLine, director, writers, cast, tags } = movieInfo;
 
   // Handle Submit
   const handleSubmit = (e) => {
@@ -147,7 +147,7 @@ const MovieForm = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="flex space-x-3">
+      <div className="flex space-x-3">
         <div className="w-[70%] h-5 space-y-5">
           <div>
             <Label htmlFor="title">Title</Label>
@@ -176,7 +176,7 @@ const MovieForm = () => {
 
           <div>
             <Label htmlFor="tags">Tags</Label>
-            <TagsInput onChange={updateTags} name="tags" />
+            <TagsInput value={tags} onChange={updateTags} name="tags" />
           </div>
 
           <div>
@@ -229,10 +229,10 @@ const MovieForm = () => {
             <CastFrom onSubmit={updateCast} />
           </div>
 
-          <Submit value="Upload" />
+          <Submit onClick={handleSubmit} type="button" value="Upload" />
         </div>
         <div className="w-[30%] h-5 "></div>
-      </form>
+      </div>
 
       <WriterModal
         visible={showWritersModal}
@@ -285,6 +285,7 @@ const ViewAllBtn = ({ visible, children, onClick }) => {
 
   return (
     <button
+      type="button"
       onClick={onClick}
       className="dark:text-white text-primary hover:underline transition"
     >
