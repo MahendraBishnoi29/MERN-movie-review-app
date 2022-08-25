@@ -118,6 +118,13 @@ const MovieForm = () => {
     setMovieInfo({ ...movieInfo, writers: [...writers, profile] });
   };
 
+  const handleWriterRemove = (profileId) => {
+    const { writers } = movieInfo;
+    const newWriters = writers.filter(({ id }) => id !== profileId);
+    if (!newWriters.length) setShowWritersModal(false);
+    setMovieInfo({ ...movieInfo, writers: [...newWriters] });
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit} className="flex space-x-3">
@@ -195,6 +202,7 @@ const MovieForm = () => {
         visible={showWritersModal}
         onClose={() => setShowWritersModal(false)}
         profiles={writers}
+        onRemoveProfile={handleWriterRemove}
       />
     </>
   );
