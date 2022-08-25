@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import { commonInputClasses } from "../../utils/theme";
 import { renderItem, results } from "../Admin/Movie/MovieForm";
 import LiveSearch from "../LiveSearch/LiveSearch";
@@ -9,7 +10,7 @@ const defaultCastInfo = {
   leadActor: false,
 };
 
-const CastFrom = () => {
+const CastFrom = ({ onSubmit }) => {
   const [castInfo, setCastInfo] = useState({ ...defaultCastInfo });
 
   const { leadActor, profile, roleAs } = castInfo;
@@ -19,7 +20,12 @@ const CastFrom = () => {
   };
 
   const handleSubmit = () => {
-    console.log(castInfo);
+    const { profile, roleAs } = castInfo;
+    if (!profile.name) return toast.error("Cast Profile is missing!");
+    if (!roleAs.trim()) return toast.error("Cast Role is missing!");
+    onSubmit(castInfo);
+    toast.success("Cast Added Successfully");
+    setCastInfo({ ...defaultCastInfo });
   };
 
   const handleOnChange = ({ target }) => {
