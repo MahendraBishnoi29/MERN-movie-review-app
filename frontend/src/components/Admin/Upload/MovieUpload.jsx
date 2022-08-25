@@ -69,7 +69,7 @@ const MovieUpload = () => {
 
   return (
     <div className="fixed inset-0 dark:bg-white bg-primary dark:bg-opacity-50 bg-opacity-50 backdrop-blur-sm flex items-center justify-center">
-      <div className="dark:bg-primary bg-white rounded w-[40rem] h-[34rem] overflow-auto p-2">
+      <div className="dark:bg-primary bg-white rounded w-[40rem] h-[34rem] overflow-auto p-2 custom-scrollbar">
         {/* <UploadProgress
           visible={!videoUploaded && videoSelected}
           message={getUploadProgress()}
