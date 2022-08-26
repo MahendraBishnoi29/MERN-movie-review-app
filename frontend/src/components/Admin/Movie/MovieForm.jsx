@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import WriterModal from "../../Modals/WriterModal";
 import CastFrom from "../../Form/CastFrom";
 import CastModal from "../../Modals/CastModal";
-import PosterSelector from "../../PosterSelceter/PosterSelector";
+import PosterSelector from "../../PosterSelector/PosterSelector";
 import GenresSelector from "../../Form/genreSelector/GenresSelector";
 import GenreModal from "../../Modals/GenreModal";
 
