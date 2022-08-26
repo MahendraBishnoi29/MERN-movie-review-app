@@ -100,7 +100,18 @@ const MovieForm = () => {
   const [showGenreModal, setShowGenreModal] = useState(false);
   const [selectedPoster, setSelectedPoster] = useState("");
 
-  const { title, storyLine, director, writers, cast, tags, genres } = movieInfo;
+  const {
+    title,
+    storyLine,
+    director,
+    writers,
+    cast,
+    tags,
+    genres,
+    type,
+    status,
+    language,
+  } = movieInfo;
 
   // Handle Submit
   const handleSubmit = (e) => {
@@ -170,7 +181,7 @@ const MovieForm = () => {
   return (
     <>
       <div className="flex space-x-3">
-        <div className="w-[70%] h-5 space-y-5">
+        <div className="w-[70%] space-y-5">
           <div>
             <Label htmlFor="title">Title</Label>
             <input
@@ -270,9 +281,27 @@ const MovieForm = () => {
             onClick={() => setShowGenreModal(true)}
           />
 
-          <Selector options={typeOptions} label="Type" />
-          <Selector options={languageOptions} label="Language" />
-          <Selector options={statusOptions} label="Status" />
+          <Selector
+            name="type"
+            value={type}
+            onChange={handleChange}
+            options={typeOptions}
+            label="Type"
+          />
+          <Selector
+            name="language"
+            value={language}
+            onChange={handleChange}
+            options={languageOptions}
+            label="Language"
+          />
+          <Selector
+            name="status"
+            value={status}
+            onChange={handleChange}
+            options={statusOptions}
+            label="Status"
+          />
         </div>
       </div>
 
