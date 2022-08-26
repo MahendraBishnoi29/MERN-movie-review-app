@@ -2,8 +2,9 @@ import React from "react";
 import ModalContainer from "./ModalContainer";
 import genres from "../../utils/genres";
 import { useState } from "react";
+import Submit from "../Form/Submit";
 
-const GenreModal = ({ visible, onClose }) => {
+const GenreModal = ({ visible, onClose, onSubmit }) => {
   const [selectedGenre, setSelectedGenre] = useState([]);
 
   const handleGenreSelector = (gen) => {
@@ -16,24 +17,41 @@ const GenreModal = ({ visible, onClose }) => {
     setSelectedGenre([...newGenre]);
   };
 
-  return (
-    <ModalContainer visible={visible} onClose={onClose}>
-      <h1 className="dark:text-white text-primary text-2xl font-semibold text-center">
-        Select Genres
-      </h1>
+  const handleSubmit = () => {
+    onSubmit(selectedGenre);
+    onClose();
+  };
 
-      <div className="space-y-3">
-        {genres.map((gen) => {
-          return (
-            <Genre
-              onClick={() => handleGenreSelector(gen)}
-              selected={selectedGenre.includes(gen)}
-              key={gen}
-            >
-              {gen}
-            </Genre>
-          );
-        })}
+  const handleClose = () => {
+    setSelectedGenre([]);
+    onClose();
+  };
+
+  return (
+    <ModalContainer onClose={handleClose} visible={visible}>
+      <div className="flex flex-col justify-between h-full">
+        <div>
+          <h1 className="dark:text-white text-primary text-2xl font-semibold text-center">
+            Select Genres
+          </h1>
+          <div className="space-y-3">
+            {genres.map((gen) => {
+              return (
+                <Genre
+                  onClick={() => handleGenreSelector(gen)}
+                  selected={selectedGenre.includes(gen)}
+                  key={gen}
+                >
+                  {gen}
+                </Genre>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="w-56 self-end">
+          <Submit value="select" type="button" onClick={handleSubmit} />
+        </div>
       </div>
     </ModalContainer>
   );
