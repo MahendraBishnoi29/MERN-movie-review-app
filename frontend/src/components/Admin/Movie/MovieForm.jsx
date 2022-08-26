@@ -12,6 +12,11 @@ import PosterSelector from "../../PosterSelector/PosterSelector";
 import GenresSelector from "../../Form/genreSelector/GenresSelector";
 import GenreModal from "../../Modals/GenreModal";
 import Selector from "../../PosterSelector/Selector";
+import {
+  languageOptions,
+  statusOptions,
+  typeOptions,
+} from "../../../utils/options";
 
 export const results = [
   {
@@ -265,9 +270,9 @@ const MovieForm = () => {
             onClick={() => setShowGenreModal(true)}
           />
 
-          <Selector label="Type" />
-          <Selector label="Language" />
-          <Selector label="Status" />
+          <Selector options={typeOptions} label="Type" />
+          <Selector options={languageOptions} label="Language" />
+          <Selector options={statusOptions} label="Status" />
         </div>
       </div>
 
