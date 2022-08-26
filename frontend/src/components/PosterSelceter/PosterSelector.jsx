@@ -3,14 +3,21 @@ import React from "react";
 const commonPosterClasses =
   "flex justify-center items-center border border-dashed rounded aspect-video dark:border-dark-subtle border-light-subtle cursor-pointer";
 
-const PosterSelector = ({ name, selectedPoster }) => {
+const PosterSelector = ({ accept, name, selectedPoster, onChange }) => {
   return (
     <div>
-      <input id={name} type="file" hidden />
+      <input
+        accept={accept}
+        name={name}
+        onChange={onChange}
+        id={name}
+        type="file"
+        hidden
+      />
       <label htmlFor={name}>
         {selectedPoster ? (
           <img
-            src=""
+            src={selectedPoster}
             className={commonPosterClasses + " object-cover"}
             alt=""
           />
