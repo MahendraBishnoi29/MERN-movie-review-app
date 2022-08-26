@@ -10,6 +10,7 @@ import CastFrom from "../../Form/CastFrom";
 import CastModal from "../../Modals/CastModal";
 import PosterSelector from "../../PosterSelceter/PosterSelector";
 import GenresSelector from "../../Form/genreSelector/GenresSelector";
+import GenreModal from "../../Modals/GenreModal";
 
 export const results = [
   {
@@ -90,6 +91,7 @@ const MovieForm = () => {
   const [movieInfo, setMovieInfo] = useState({ ...defaultMovieInfo });
   const [showWritersModal, setShowWritersModal] = useState(false);
   const [showCastModal, setShowCastModal] = useState(false);
+  const [showGenreModal, setShowGenreModal] = useState(false);
   const [selectedPoster, setSelectedPoster] = useState("");
 
   const { title, storyLine, director, writers, cast, tags } = movieInfo;
@@ -251,7 +253,7 @@ const MovieForm = () => {
             onChange={handleChange}
             accept="image/jpg, image/jpeg, image/png"
           />
-          <GenresSelector />
+          <GenresSelector onClick={() => setShowGenreModal(true)} />
         </div>
       </div>
 
@@ -267,6 +269,11 @@ const MovieForm = () => {
         onClose={() => setShowCastModal(false)}
         casts={cast}
         onRemoveProfile={handleCastRemove}
+      />
+
+      <GenreModal
+        visible={showGenreModal}
+        onClose={() => setShowGenreModal(false)}
       />
     </>
   );
