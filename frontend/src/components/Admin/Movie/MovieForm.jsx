@@ -281,6 +281,7 @@ const MovieForm = () => {
       />
 
       <GenreModal
+        previousGenre={genres}
         onSubmit={updateGenre}
         visible={showGenreModal}
         onClose={() => setShowGenreModal(false)}
