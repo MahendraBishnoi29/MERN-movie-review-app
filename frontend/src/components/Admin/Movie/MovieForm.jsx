@@ -9,6 +9,7 @@ import WriterModal from "../../Modals/WriterModal";
 import CastFrom from "../../Form/CastFrom";
 import CastModal from "../../Modals/CastModal";
 import PosterSelector from "../../PosterSelceter/PosterSelector";
+import GenresSelector from "../../Form/genreSelector/GenresSelector";
 
 export const results = [
   {
@@ -243,13 +244,14 @@ const MovieForm = () => {
 
           <Submit onClick={handleSubmit} type="button" value="Upload" />
         </div>
-        <div className="w-[30%]">
+        <div className="w-[30%] space-y-5">
           <PosterSelector
             selectedPoster={selectedPoster}
             name="poster"
             onChange={handleChange}
             accept="image/jpg, image/jpeg, image/png"
           />
+          <GenresSelector />
         </div>
       </div>
 
