@@ -7,10 +7,13 @@ import Header from "../../components/Admin/Header";
 import Movies from "../../components/Admin/Movie/Movies";
 import MovieUpload from "../../components/Admin/Upload/MovieUpload";
 import NotFound from "../../components/Home/NotFound";
+import ActorUpload from "../../components/Modals/ActorUpload";
 
 const AdminNavigator = () => {
   const [showMovieUploadModal, setShowMovieUploadModal] = useState(false);
+  const [showActorUploadModal, setShowActorUploadModal] = useState(false);
 
+  // Movie Modal Upload State
   const hideMovieUploadModal = () => {
     setShowMovieUploadModal(false);
   };
@@ -19,12 +22,24 @@ const AdminNavigator = () => {
     setShowMovieUploadModal(true);
   };
 
+  // Actor Modal Upload State
+  const hideActorUploadModal = () => {
+    setShowActorUploadModal(false);
+  };
+
+  const displayActorUploadModal = () => {
+    setShowActorUploadModal(true);
+  };
+
   return (
     <>
       <div className="flex dark:bg-primary bg-white">
         <AdminNavbar />
         <div className="flex-1 p-2 max-w-screen-xl">
-          <Header onAddMovie={displayMovieUploadModal} />
+          <Header
+            onAddMovie={displayMovieUploadModal}
+            onAddActor={displayActorUploadModal}
+          />
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/movies" element={<Movies />} />
@@ -37,6 +52,10 @@ const AdminNavigator = () => {
       <MovieUpload
         visible={showMovieUploadModal}
         onClose={hideMovieUploadModal}
+      />
+      <ActorUpload
+        visible={showActorUploadModal}
+        onClose={hideActorUploadModal}
       />
     </>
   );
