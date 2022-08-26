@@ -94,7 +94,7 @@ const MovieForm = () => {
   const [showGenreModal, setShowGenreModal] = useState(false);
   const [selectedPoster, setSelectedPoster] = useState("");
 
-  const { title, storyLine, director, writers, cast, tags } = movieInfo;
+  const { title, storyLine, director, writers, cast, tags, genres } = movieInfo;
 
   // Handle Submit
   const handleSubmit = (e) => {
@@ -259,7 +259,10 @@ const MovieForm = () => {
             onChange={handleChange}
             accept="image/jpg, image/jpeg, image/png"
           />
-          <GenresSelector onClick={() => setShowGenreModal(true)} />
+          <GenresSelector
+            badge={genres.length}
+            onClick={() => setShowGenreModal(true)}
+          />
         </div>
       </div>
 
