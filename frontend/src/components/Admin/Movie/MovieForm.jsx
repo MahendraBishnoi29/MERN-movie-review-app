@@ -139,6 +139,12 @@ const MovieForm = () => {
     setMovieInfo({ ...movieInfo, writers: [...writers, profile] });
   };
 
+  // Update Genres
+  const updateGenre = (genres) => {
+    setMovieInfo({ ...movieInfo, genres });
+    toast.success("Genres Selected");
+  };
+
   // Remove Writers
   const handleWriterRemove = (profileId) => {
     const { writers } = movieInfo;
@@ -272,6 +278,7 @@ const MovieForm = () => {
       />
 
       <GenreModal
+        onSubmit={updateGenre}
         visible={showGenreModal}
         onClose={() => setShowGenreModal(false)}
       />
