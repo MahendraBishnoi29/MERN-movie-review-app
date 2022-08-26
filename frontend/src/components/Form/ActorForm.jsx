@@ -18,11 +18,6 @@ const ActorForm = ({ title, btnTitle }) => {
       </div>
 
       <form className="flex space-x-2">
-        {/* <img
-          src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80"
-          alt="img"
-          className="rounded w-36 h-36 aspect-square object-cover"
-        /> */}
         <PosterSelector className="rounded w-36 h-36 aspect-square object-cover" />
 
         <div className="flex-grow flex flex-col space-y-2">
