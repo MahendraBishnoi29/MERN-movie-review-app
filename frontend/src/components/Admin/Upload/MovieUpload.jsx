@@ -3,9 +3,10 @@ import { FileUploader } from "react-drag-drop-files";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { toast } from "react-toastify";
 import { uploadTrailer } from "../../../api/movie/movie";
+import ModalContainer from "../../Modals/ModalContainer";
 import MovieForm from "../Movie/MovieForm";
 
-const MovieUpload = () => {
+const MovieUpload = ({ visible, onClose }) => {
   const [videoSelected, setVideoSelected] = useState(false);
   const [videoUploaded, setVideoUploaded] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -68,9 +69,8 @@ const MovieUpload = () => {
   };
 
   return (
-    <div className="fixed inset-0 dark:bg-white bg-primary dark:bg-opacity-50 bg-opacity-50 backdrop-blur-sm flex items-center justify-center">
-      <div className="dark:bg-primary bg-white rounded w-[40rem] h-[38rem] overflow-auto p-2 custom-scrollbar">
-        {/* <UploadProgress
+    <ModalContainer visible={visible} onClose={onClose}>
+      {/* <UploadProgress
           visible={!videoUploaded && videoSelected}
           message={getUploadProgress()}
           width={uploadProgress}
@@ -80,9 +80,8 @@ const MovieUpload = () => {
           onTypeError={handleTypeError}
           handleChange={handleChange}
         /> */}
-        <MovieForm />
-      </div>
-    </div>
+      <MovieForm />
+    </ModalContainer>
   );
 };
 
