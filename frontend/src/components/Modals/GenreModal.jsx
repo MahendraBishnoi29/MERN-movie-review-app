@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ModalContainer from "./ModalContainer";
 import genres from "../../utils/genres";
 import { useState } from "react";
 import Submit from "../Form/Submit";
 
-const GenreModal = ({ visible, onClose, onSubmit }) => {
+const GenreModal = ({ visible, onClose, onSubmit, previousGenre }) => {
   const [selectedGenre, setSelectedGenre] = useState([]);
 
   const handleGenreSelector = (gen) => {
@@ -23,9 +23,13 @@ const GenreModal = ({ visible, onClose, onSubmit }) => {
   };
 
   const handleClose = () => {
-    setSelectedGenre([]);
+    setSelectedGenre(previousGenre);
     onClose();
   };
+
+  useEffect(() => {
+    setSelectedGenre(previousGenre);
+  }, [previousGenre]);
 
   return (
     <ModalContainer onClose={handleClose} visible={visible}>
