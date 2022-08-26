@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import WriterModal from "../../Modals/WriterModal";
 import CastFrom from "../../Form/CastFrom";
 import CastModal from "../../Modals/CastModal";
+import PosterSelector from "../../PosterSelceter/PosterSelector";
 
 export const results = [
   {
@@ -225,13 +226,20 @@ const MovieForm = () => {
                 View All
               </ViewAllBtn>
             </div>
-
-            <CastFrom onSubmit={updateCast} />
+            <CastFrom onSubmit={updateCast} />-
           </div>
+          <input
+            onChange={handleChange}
+            name="releaseDate"
+            type="date"
+            className={commonInputClasses + " border-2 rounded p-1 w-auto"}
+          />
 
           <Submit onClick={handleSubmit} type="button" value="Upload" />
         </div>
-        <div className="w-[30%] h-5 "></div>
+        <div className="w-[30%]">
+          <PosterSelector />
+        </div>
       </div>
 
       <WriterModal
