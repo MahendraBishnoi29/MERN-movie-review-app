@@ -89,6 +89,7 @@ const MovieForm = () => {
   const [movieInfo, setMovieInfo] = useState({ ...defaultMovieInfo });
   const [showWritersModal, setShowWritersModal] = useState(false);
   const [showCastModal, setShowCastModal] = useState(false);
+  const [selectedPoster, setSelectedPoster] = useState("");
 
   const { title, storyLine, director, writers, cast, tags } = movieInfo;
 
@@ -99,7 +100,12 @@ const MovieForm = () => {
   };
 
   const handleChange = ({ target }) => {
-    const { value, name } = target;
+    const { value, name, files } = target;
+    if (name === "poster") {
+      const poster = files[0];
+      setSelectedPoster(URL.createObjectURL(poster));
+      return setMovieInfo({ ...movieInfo, poster });
+    }
     setMovieInfo({ ...movieInfo, [name]: value });
   };
 
@@ -238,7 +244,12 @@ const MovieForm = () => {
           <Submit onClick={handleSubmit} type="button" value="Upload" />
         </div>
         <div className="w-[30%]">
-          <PosterSelector />
+          <PosterSelector
+            selectedPoster={selectedPoster}
+            name="poster"
+            onChange={handleChange}
+            accept="image/jpg, image/jpeg, image/png"
+          />
         </div>
       </div>
 
