@@ -6,13 +6,12 @@ import ModalContainer from "./ModalContainer";
 
 const ActorUpload = ({ visible, onClose }) => {
   const handleSubmit = async (data) => {
-    const res = await toast.promise(createActor(data), {
+    const { error, actor } = await toast.promise(createActor(data), {
       pending: "Creating Actor...",
       success: "Actor Created Successfully 🎉",
-      error: "error creating Actor!",
     });
-
-    console.log(res);
+    if (error) return toast.error(error);
+    onClose();
   };
 
   return (
