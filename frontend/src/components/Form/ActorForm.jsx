@@ -29,10 +29,18 @@ const ActorForm = ({ title, btnTitle }) => {
     setActorInfo({ ...actorInfo, [name]: value });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(actorInfo);
+  };
+
   const { name, about } = actorInfo;
 
   return (
-    <div className="dark:bg-primary bg-white p-3 w-[35rem] rounded">
+    <form
+      onSubmit={handleSubmit}
+      className="dark:bg-primary bg-white p-3 w-[35rem] rounded"
+    >
       <div className="flex justify-between items-center mb-3">
         <h1 className="font-semibold text-xl dark:text-white text-primary">
           {title}
@@ -45,14 +53,15 @@ const ActorForm = ({ title, btnTitle }) => {
         </button>
       </div>
 
-      <form className="flex space-x-2">
+      <div className="flex space-x-2">
         <PosterSelector
           name="avatar"
           onChange={handleChange}
           selectedPoster={selectedAvatar}
+          label="Select Avatar"
+          accept="image/jpg, image/jpeg, image/png"
           className="rounded w-36 h-36 aspect-square object-cover"
         />
-
         <div className="flex-grow flex flex-col space-y-2">
           <input
             name="name"
@@ -70,8 +79,8 @@ const ActorForm = ({ title, btnTitle }) => {
             className={commonInputClasses + " border-b-2 resize-none h-full"}
           ></textarea>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 };
 
