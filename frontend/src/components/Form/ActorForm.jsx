@@ -2,12 +2,19 @@ import React from "react";
 import { useState } from "react";
 import { commonInputClasses } from "../../utils/theme";
 import PosterSelector from "../PosterSelector/PosterSelector";
+import Selector from "../PosterSelector/Selector";
 
 const defaultActorInfo = {
   name: "",
   about: "",
   avatar: null,
+  gender: "",
 };
+
+const genderOptions = [
+  { title: "Male", value: "male" },
+  { title: "Female", value: "female" },
+];
 
 const ActorForm = ({ title, btnTitle }) => {
   const [actorInfo, setActorInfo] = useState({ ...defaultActorInfo });
@@ -34,7 +41,7 @@ const ActorForm = ({ title, btnTitle }) => {
     console.log(actorInfo);
   };
 
-  const { name, about } = actorInfo;
+  const { name, about, gender } = actorInfo;
 
   return (
     <form
@@ -79,6 +86,16 @@ const ActorForm = ({ title, btnTitle }) => {
             className={commonInputClasses + " border-b-2 resize-none h-full"}
           ></textarea>
         </div>
+      </div>
+
+      <div className="mt-3">
+        <Selector
+          options={genderOptions}
+          label="Gender"
+          value={gender}
+          onChange={handleChange}
+          name="gender"
+        />
       </div>
     </form>
   );
