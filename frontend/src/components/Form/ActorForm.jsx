@@ -18,9 +18,10 @@ const genderOptions = [
 ];
 
 // Validate Actor
-const validateActor = ({ avatar, name, about }) => {
+const validateActor = ({ avatar, name, about, gender }) => {
   if (!name.trim()) return { error: "Please enter Actor Name!" };
   if (!about.trim()) return { error: "About section should not be empty!" };
+  if (!gender) return { error: "Please Select a Gender" };
   if (avatar && !avatar.type?.startsWith("image"))
     return { error: "Invalid Image/Avatar File!" };
 
@@ -58,7 +59,6 @@ const ActorForm = ({ title, btnTitle, onSubmit }) => {
     }
 
     onSubmit(formData);
-    toast.success("Actor Created Successfully");
   };
 
   const { name, about, gender } = actorInfo;
