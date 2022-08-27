@@ -18,7 +18,7 @@ const createActor = async (req, res) => {
 
     await newActor.save();
 
-    res.status(201).json(formatActor(newActor));
+    res.status(201).json({ actor: formatActor(newActor) });
   } catch (error) {
     console.log(error.message);
     res.json({ error: "Failed to create Actor" });
