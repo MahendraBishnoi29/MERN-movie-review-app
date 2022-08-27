@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { commonInputClasses } from "../../utils/theme";
 import PosterSelector from "../PosterSelector/PosterSelector";
 import Selector from "../PosterSelector/Selector";
+import { ImSpinner3 } from "react-icons/im";
 
 const defaultActorInfo = {
   name: "",
@@ -28,7 +29,7 @@ const validateActor = ({ avatar, name, about, gender }) => {
   return { error: null };
 };
 
-const ActorForm = ({ title, btnTitle, onSubmit }) => {
+const ActorForm = ({ title, btnTitle, busy, onSubmit }) => {
   const [actorInfo, setActorInfo] = useState({ ...defaultActorInfo });
   const [selectedAvatar, setSelectedAvatar] = useState("");
 
@@ -73,10 +74,10 @@ const ActorForm = ({ title, btnTitle, onSubmit }) => {
           {title}
         </h1>
         <button
-          className="rounded px-3 py-1 bg-primary text-white dark:bg-white dark:text-primary hover:opacity-80 transition"
+          className="rounded h-8 w-24 bg-primary text-white dark:bg-white dark:text-primary hover:opacity-80 transition flex items-center justify-center"
           type="submit"
         >
-          {btnTitle}
+          {busy ? <ImSpinner3 className="animate-spin" /> : btnTitle}
         </button>
       </div>
 
