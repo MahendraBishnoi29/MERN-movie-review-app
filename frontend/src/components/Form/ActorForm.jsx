@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { commonInputClasses } from "../../utils/theme";
 import PosterSelector from "../PosterSelector/PosterSelector";
 import Selector from "../PosterSelector/Selector";
@@ -16,7 +17,17 @@ const genderOptions = [
   { title: "Female", value: "female" },
 ];
 
-const ActorForm = ({ title, btnTitle }) => {
+// Validate Actor
+const validateActor = ({ avatar, name, about }) => {
+  if (!name.trim()) return { error: "Please enter Actor Name!" };
+  if (!about.trim()) return { error: "About section should not be empty!" };
+  if (avatar && !avatar.type?.startsWith("image"))
+    return { error: "Invalid Image/Avatar File!" };
+
+  return { error: null };
+};
+
+const ActorForm = ({ title, btnTitle, onSubmit }) => {
   const [actorInfo, setActorInfo] = useState({ ...defaultActorInfo });
   const [selectedAvatar, setSelectedAvatar] = useState("");
 
@@ -38,7 +49,9 @@ const ActorForm = ({ title, btnTitle }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(actorInfo);
+    const { error } = validateActor(actorInfo);
+    if (error) return toast.error(error);
+    onSubmit(actorInfo);
   };
 
   const { name, about, gender } = actorInfo;
