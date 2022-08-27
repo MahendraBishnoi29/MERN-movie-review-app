@@ -9,6 +9,7 @@ const PosterSelector = ({
   selectedPoster,
   onChange,
   className,
+  label,
 }) => {
   return (
     <div>
@@ -28,7 +29,7 @@ const PosterSelector = ({
             alt=""
           />
         ) : (
-          <PosterUI className={className} />
+          <PosterUI label={label} className={className} />
         )}
       </label>
     </div>
@@ -36,12 +37,10 @@ const PosterSelector = ({
 };
 
 //POSTER UI
-const PosterUI = ({ className }) => {
+const PosterUI = ({ label, className }) => {
   return (
     <div className={commonPosterClasses + " " + className}>
-      <span className="dark:text-dark-subtle text-light-subtle">
-        Select Poster
-      </span>
+      <span className="dark:text-dark-subtle text-light-subtle">{label}</span>
     </div>
   );
 };
