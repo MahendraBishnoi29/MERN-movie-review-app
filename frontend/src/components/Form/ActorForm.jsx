@@ -38,7 +38,7 @@ const ActorForm = ({ title, btnTitle, onSubmit }) => {
 
   const handleChange = ({ target }) => {
     const { value, files, name } = target;
-    if (name === "avatar") {
+    if (name === "avatar" && files.value !== 0) {
       const file = files[0];
       updatePoster(file);
       return setActorInfo({ ...actorInfo, avatar: file });
@@ -51,7 +51,14 @@ const ActorForm = ({ title, btnTitle, onSubmit }) => {
     e.preventDefault();
     const { error } = validateActor(actorInfo);
     if (error) return toast.error(error);
-    onSubmit(actorInfo);
+
+    const formData = new FormData();
+    for (let key in actorInfo) {
+      if (key) formData.append(key, actorInfo[key]);
+    }
+
+    onSubmit(formData);
+    toast.success("Actor Created Successfully");
   };
 
   const { name, about, gender } = actorInfo;
