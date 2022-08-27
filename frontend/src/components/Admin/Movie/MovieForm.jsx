@@ -275,6 +275,7 @@ const MovieForm = () => {
             name="poster"
             onChange={handleChange}
             accept="image/jpg, image/jpeg, image/png"
+            label="Select Avatar"
           />
           <GenresSelector
             badge={genres.length}
