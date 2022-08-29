@@ -22,7 +22,7 @@ const SearchProvider = ({ children }) => {
   const search = async (method, query) => {
     const { error, result } = await method(query);
     if (error) return toast.error(error);
-    if (!result.length) return setResultNotFound(true);
+    if (!result?.length) return setResultNotFound(true);
 
     setResults(results);
   };
