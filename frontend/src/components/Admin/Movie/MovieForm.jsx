@@ -17,6 +17,8 @@ import {
   statusOptions,
   typeOptions,
 } from "../../../utils/options";
+import { useSearch } from "../../../hooks";
+import { searchActor } from "../../../api/actor";
 
 export const results = [
   {
@@ -69,6 +71,7 @@ export const results = [
   },
 ];
 
+// RENDER ACTOR PROFILE
 export const renderItem = (res) => {
   return (
     <div key={res?.id} className="flex space-x-2 rounded overflow-hidden">
@@ -100,18 +103,7 @@ const MovieForm = () => {
   const [showGenreModal, setShowGenreModal] = useState(false);
   const [selectedPoster, setSelectedPoster] = useState("");
 
-  const {
-    title,
-    storyLine,
-    director,
-    writers,
-    cast,
-    tags,
-    genres,
-    type,
-    status,
-    language,
-  } = movieInfo;
+  const { handleSearch, searching, results } = useSearch();
 
   // Handle Submit
   const handleSubmit = (e) => {
@@ -178,6 +170,24 @@ const MovieForm = () => {
     setMovieInfo({ ...movieInfo, cast: [...newCast] });
   };
 
+  const handleProfileChange = ({ target }) => {
+    setMovieInfo({ ...movieInfo, director: { name: target.value } });
+    handleSearch(searchActor, target.value);
+  };
+
+  const {
+    title,
+    storyLine,
+    director,
+    writers,
+    cast,
+    tags,
+    genres,
+    type,
+    status,
+    language,
+  } = movieInfo;
+
   return (
     <>
       <div className="flex space-x-3">
@@ -220,6 +230,7 @@ const MovieForm = () => {
               onSelect={updateDirector}
               placeholder="Search profile"
               results={results}
+              onChange={handleProfileChange}
               renderItem={renderItem}
             />
           </div>
