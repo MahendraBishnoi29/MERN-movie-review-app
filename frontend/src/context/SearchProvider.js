@@ -2,7 +2,7 @@ import React, { createContext } from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-const SearchContext = createContext();
+export const SearchContext = createContext();
 
 let timeoutId;
 const debounce = (func, delay) => {
