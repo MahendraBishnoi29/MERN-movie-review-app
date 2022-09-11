@@ -15,6 +15,7 @@ const LiveSearch = ({
   renderItem = null,
   onChange = null,
   onSelect = null,
+  visible,
 }) => {
   const [displaySearch, setDisplaySearch] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
@@ -67,6 +68,11 @@ const LiveSearch = ({
       : commonInputClasses + " rounded border-2 p-1 text-lg";
   };
 
+  useEffect(() => {
+    if (visible) return setDisplaySearch(visible);
+    setDisplaySearch(false);
+  }, [visible]);
+
   return (
     <div className="relative">
       <input
@@ -83,8 +89,8 @@ const LiveSearch = ({
       />
       <SearchResults
         focusedIndex={focusedIndex}
-        results={results}
         visible={displaySearch}
+        results={results}
         onSelect={handleSelection}
         renderItem={renderItem}
         containerStyle={containerStyle}
@@ -121,7 +127,7 @@ const SearchResults = ({
         const getSelectedClass = () => {
           return selectedResultStyle
             ? selectedResultStyle
-            : " dark:bg-dark-subtle bg-light-subtle";
+            : "dark:bg-dark-subtle bg-light-subtle";
         };
 
         return (
@@ -152,7 +158,7 @@ const ActorResults = forwardRef((props, ref) => {
 
     return (
       selectedResultStyle +
-      " dark:bg-dark-subtle bg-light-subtle cursor-pointer rounded overflow-hidden dark:hover:bg-dark-subtle hover:bg-light-subtle transition"
+      " cursor-pointer rounded overflow-hidden dark:hover:bg-dark-subtle hover:bg-light-subtle transition"
     );
   };
 
