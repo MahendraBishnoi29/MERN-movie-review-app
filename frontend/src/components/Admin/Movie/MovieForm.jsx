@@ -72,11 +72,11 @@ export const results = [
 ];
 
 // RENDER ACTOR PROFILE
-export const renderItem = (res) => {
+export const renderItem = (result) => {
   return (
-    <div key={res?.id} className="flex space-x-2 rounded overflow-hidden">
-      <img src={res?.avatar} alt="" className="w-14 h-14 object-cover" />
-      <p className="dark:text-white font-semibold">{res?.name}</p>
+    <div key={result?.id} className="flex space-x-2 rounded overflow-hidden">
+      <img src={result?.avatar} alt="" className="w-14 h-14 object-cover" />
+      <p className="dark:text-white font-semibold">{result?.name}</p>
     </div>
   );
 };
@@ -226,12 +226,13 @@ const MovieForm = () => {
             <Label htmlFor="director">Director</Label>
             <LiveSearch
               name="director"
+              onChange={handleProfileChange}
               value={director.name}
               onSelect={updateDirector}
-              placeholder="Search profile"
               results={results}
-              onChange={handleProfileChange}
               renderItem={renderItem}
+              placeholder="Search profile"
+              visible={results.length}
             />
           </div>
 
