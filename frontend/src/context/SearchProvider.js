@@ -20,9 +20,9 @@ const SearchProvider = ({ children }) => {
   const [resultNotFound, setResultNotFound] = useState(false);
 
   const search = async (method, query) => {
-    const { error, result } = await method(query);
+    const { error, results } = await method(query);
     if (error) return toast.error(error);
-    if (!result?.length) return setResultNotFound(true);
+    if (!results?.length) return setResultNotFound(true);
 
     setResults(results);
   };
