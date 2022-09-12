@@ -19,6 +19,9 @@ import {
 } from "../../../utils/options";
 import { useSearch } from "../../../hooks";
 import { searchActor } from "../../../api/actor";
+import { renderItem } from "../../../utils/helper";
+import Label from "../../Label/Label";
+import DirectorSelector from "../../Selectors/DirectorSelector";
 
 export const results = [
   {
@@ -70,16 +73,6 @@ export const results = [
     name: "Edward Howell",
   },
 ];
-
-// RENDER ACTOR PROFILE
-export const renderItem = (result) => {
-  return (
-    <div key={result?.id} className="flex space-x-2 rounded overflow-hidden">
-      <img src={result?.avatar} alt="" className="w-14 h-14 object-cover" />
-      <p className="dark:text-white font-semibold">{result?.name}</p>
-    </div>
-  );
-};
 
 const MovieForm = () => {
   const defaultMovieInfo = {
@@ -133,7 +126,6 @@ const MovieForm = () => {
   // Update Directors
   const updateDirector = (profile) => {
     setMovieInfo({ ...movieInfo, director: profile });
-    resetSearch();
   };
 
   // Update Cast
@@ -237,19 +229,8 @@ const MovieForm = () => {
             <TagsInput value={tags} onChange={updateTags} name="tags" />
           </div>
 
-          <div>
-            <Label htmlFor="director">Director</Label>
-            <LiveSearch
-              name="director"
-              onChange={handleProfileChange}
-              value={director.name}
-              onSelect={updateDirector}
-              results={directorsProfile}
-              renderItem={renderItem}
-              placeholder="Search profile"
-              visible={directorsProfile.length}
-            />
-          </div>
+          {/* Director Selector Component */}
+          <DirectorSelector onSelect={updateDirector} />
 
           <div>
             <div className="flex justify-between">
@@ -357,17 +338,6 @@ const MovieForm = () => {
         onClose={() => setShowGenreModal(false)}
       />
     </>
-  );
-};
-
-const Label = ({ children, htmlFor }) => {
-  return (
-    <label
-      htmlFor={htmlFor}
-      className="dark:text-dark-subtle text-light-subtle font-semibold"
-    >
-      {children}
-    </label>
   );
 };
 
