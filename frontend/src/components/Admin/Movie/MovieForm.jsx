@@ -151,6 +151,7 @@ const MovieForm = () => {
       }
     }
     setMovieInfo({ ...movieInfo, writers: [...writers, profile] });
+    setWriterName("");
   };
 
   // Update Genres
