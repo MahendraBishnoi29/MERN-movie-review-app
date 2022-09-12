@@ -103,7 +103,7 @@ const MovieForm = () => {
   const [showGenreModal, setShowGenreModal] = useState(false);
   const [selectedPoster, setSelectedPoster] = useState("");
 
-  const { handleSearch, searching, results } = useSearch();
+  const { handleSearch, searching, resetSearch, results } = useSearch();
 
   // Handle Submit
   const handleSubmit = (e) => {
@@ -129,6 +129,7 @@ const MovieForm = () => {
   // Update Directors
   const updateDirector = (profile) => {
     setMovieInfo({ ...movieInfo, director: profile });
+    resetSearch();
   };
 
   // Update Cast
