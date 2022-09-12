@@ -103,6 +103,8 @@ const MovieForm = () => {
   const [showGenreModal, setShowGenreModal] = useState(false);
   const [selectedPoster, setSelectedPoster] = useState("");
   const [writerName, setWriterName] = useState("");
+  const [writersProfile, setWritersProfile] = useState([]);
+  const [directorsProfile, setDirectorsProfile] = useState([]);
 
   const { handleSearch, searching, resetSearch, results } = useSearch();
 
@@ -173,14 +175,18 @@ const MovieForm = () => {
     setMovieInfo({ ...movieInfo, cast: [...newCast] });
   };
 
+  // Handle Profile Change
   const handleProfileChange = ({ target }) => {
     const { name, value } = target;
     if (name === "director") {
       setMovieInfo({ ...movieInfo, director: { name: value } });
+      handleSearch(searchActor, value, setDirectorsProfile);
     }
 
-    if (name === "writers") setWriterName(value);
-    handleSearch(searchActor, value);
+    if (name === "writers") {
+      setWriterName(value);
+      handleSearch(searchActor, value, setWritersProfile);
+    }
   };
 
   const {
@@ -237,10 +243,10 @@ const MovieForm = () => {
               onChange={handleProfileChange}
               value={director.name}
               onSelect={updateDirector}
-              results={results}
+              results={directorsProfile}
               renderItem={renderItem}
               placeholder="Search profile"
-              visible={results.length}
+              visible={directorsProfile.length}
             />
           </div>
 
@@ -262,10 +268,10 @@ const MovieForm = () => {
               placeholder="Search profile"
               onSelect={updateWriters}
               renderItem={renderItem}
-              results={results}
+              results={writersProfile}
               onChange={handleProfileChange}
               value={writerName}
-              visible={results.length}
+              visible={writersProfile.length}
             />
           </div>
 
