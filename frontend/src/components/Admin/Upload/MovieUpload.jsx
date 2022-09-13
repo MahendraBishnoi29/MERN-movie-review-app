@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { toast } from "react-toastify";
-import { uploadTrailer } from "../../../api/movie/movie";
+import { uploadMovie, uploadTrailer } from "../../../api/movie/movie";
 import ModalContainer from "../../Modals/ModalContainer";
 import MovieForm from "../Movie/MovieForm";
 
@@ -11,23 +11,7 @@ const MovieUpload = ({ visible, onClose }) => {
   const [videoUploaded, setVideoUploaded] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [videoInfo, setVideoInfo] = useState({});
-  const [movieInfo, setMovieInfo] = useState({
-    title: "",
-    storyLine: "",
-    tags: [],
-    director: [],
-    writers: [],
-    releaseDate: "",
-    poster: null,
-    genres: [],
-    type: "",
-    language: "",
-    status: "",
-    trailer: {
-      url: "",
-      public_id: "",
-    },
-  });
+  const [busy, setBusy] = useState(false);
 
   // Handle Upload Trailer
   const handleUploadTrailer = async (data) => {
@@ -35,12 +19,11 @@ const MovieUpload = ({ visible, onClose }) => {
       data,
       setUploadProgress
     );
-    if (error) return toast.error(error.message);
+    if (error) return toast.error(error);
 
     setVideoUploaded(true);
 
     toast.success("file uploaded successfully");
-    setMovieInfo({ ...movieInfo, trailer: { url, public_id } });
     setVideoInfo({ url, public_id });
   };
 
@@ -69,23 +52,37 @@ const MovieUpload = ({ visible, onClose }) => {
   };
 
   // Handle Submit
-  const handleSubmit = (data) => {
-    console.log(data);
+  const handleSubmit = async (data) => {
+    if (!videoInfo.url || !videoInfo.public_id)
+      return toast.error("Trailer is Missing!");
+
+    setBusy(true);
+    data.append("trailer", JSON.stringify(videoInfo));
+    const res = uploadMovie(data);
+    setBusy(false);
+    onClose();
+    toast.success("Movie Uploaded Successfully 🎉");
   };
 
   return (
     <ModalContainer visible={visible}>
-      {/* <UploadProgress
+      <div className="mb-5">
+        <UploadProgress
           visible={!videoUploaded && videoSelected}
           message={getUploadProgress()}
           width={uploadProgress}
         />
+      </div>
+
+      {!videoSelected ? (
         <TrailerSelector
           visible={!videoSelected}
           onTypeError={handleTypeError}
           handleChange={handleChange}
-        /> */}
-      <MovieForm onSubmit={handleSubmit} />
+        />
+      ) : (
+        <MovieForm busy={busy} onSubmit={!busy ? handleSubmit : null} />
+      )}
     </ModalContainer>
   );
 };
@@ -101,9 +98,9 @@ const TrailerSelector = ({ visible, handleChange, onTypeError }) => {
         onTypeError={onTypeError}
         types={["mp4", "avi", "3gp", "mkv"]}
       >
-        <div className="cursor-pointer w-48 h-48 border border-dashed dark:border-dark-subtle border-light-subtle rounded-full flex flex-col items-center justify-center text-secondary dark:text-dark-subtle">
+        <div className="text-center cursor-pointer w-48 h-48 border border-dashed dark:border-dark-subtle border-light-subtle rounded-full flex flex-col items-center justify-center text-secondary dark:text-dark-subtle">
           <AiOutlineCloudUpload size={80} />
-          <p className="">Select or Drag & Drop your file here</p>
+          <p>Select or Drag & Drop your file here</p>
         </div>
       </FileUploader>
     </div>
