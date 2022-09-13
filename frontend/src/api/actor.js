@@ -42,3 +42,27 @@ export const searchActor = async (query) => {
     return error.message || error;
   }
 };
+
+// GET ACTORS FOR PAGINATION
+export const getActors = async (pageNo, limit) => {
+  const token = getToken();
+
+  try {
+    const { data } = await client.get(
+      `/actor/actors?pageNo=${pageNo}&limit=${limit}`,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+          "content-type": "multipart/form-data",
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.log(error.message);
+    const { res } = error;
+    if (res?.data) return res.data;
+
+    return error.message || error;
+  }
+};
