@@ -21,7 +21,7 @@ router.post(
 );
 
 router.post(
-  "/create",
+  "/upload",
   IsAuth,
   isAdmin,
   uploadImage.single("poster"),
