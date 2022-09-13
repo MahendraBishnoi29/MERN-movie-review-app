@@ -26,7 +26,7 @@ import DirectorSelector from "../../Selectors/DirectorSelector";
 import { validateMovie } from "../../../utils/validator";
 
 // COMPONENT
-const MovieForm = ({ onSubmit }) => {
+const MovieForm = ({ onSubmit, busy }) => {
   const defaultMovieInfo = {
     title: "",
     storyLine: "",
@@ -60,24 +60,38 @@ const MovieForm = ({ onSubmit }) => {
     if (error) return toast.error(error);
 
     // Cast, tag, genres, writers
-    const { tags, genres, cast, writers, director } = movieInfo;
-    const formData = new FormData();
-    formData.append("tags", JSON.stringify(tags));
-    formData.append("genres", JSON.stringify(genres));
+    const { tags, genres, cast, writers, director, poster } = movieInfo;
 
-    const finalCast = cast.map((c) => c.id);
-    formData.append("cast", JSON.stringify(finalCast));
+    const formData = new FormData();
+
+    const finalMovieInfo = {
+      ...movieInfo,
+    };
+
+    finalMovieInfo.tags = JSON.stringify(tags);
+    finalMovieInfo.genres = JSON.stringify(genres);
+
+    const finalCast = cast.map((c) => ({
+      actor: c.profile.id,
+      roleAs: c.roleAs,
+      leadActor: c.leadActor,
+    }));
+
+    finalMovieInfo.cast = JSON.stringify(finalCast);
 
     if (writers.length) {
       const finalWriters = writers.map((w) => w.id);
-      formData.append("writers", JSON.stringify(finalWriters));
+      finalMovieInfo.writers = JSON.stringify(finalWriters);
     }
 
-    if (director.id) {
-      formData.append("director", director.id);
+    if (director.id) finalMovieInfo.director = director.id;
+    if (poster) finalMovieInfo.poster = poster;
+
+    for (let key in finalMovieInfo) {
+      formData.append(key, finalMovieInfo[key]);
     }
 
-    onSubmit(movieInfo);
+    onSubmit(formData);
   };
 
   // Handle Change
@@ -252,7 +266,12 @@ const MovieForm = ({ onSubmit }) => {
             className={commonInputClasses + " border-2 rounded p-1 w-auto"}
           />
 
-          <Submit onClick={handleSubmit} type="button" value="Upload" />
+          <Submit
+            busy={busy}
+            onClick={handleSubmit}
+            type="button"
+            value="Upload"
+          />
         </div>
         <div className="w-[30%] space-y-5">
           <PosterSelector
