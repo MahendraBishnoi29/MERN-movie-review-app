@@ -70,7 +70,7 @@ const createMovie = async (req, res) => {
       secure_url: url,
       responsive_breakpoints,
     } = await cloudinary.v2.uploader.upload(file?.path, {
-      transformation: { width: 1280, height: 1280 },
+      transformation: { width: 1280, height: 720 },
       responsive_breakpoints: {
         create_derived: true,
         max_width: 640,
@@ -210,7 +210,7 @@ const updateMovieWithPoster = async (req, res) => {
     public_id,
     responsive_breakpoints,
   } = await cloudinary.v2.uploader.upload(req.file?.path, {
-    transformation: { width: 1280, height: 1280 },
+    transformation: { width: 1280, height: 720 },
     responsive_breakpoints: {
       create_derived: true,
       max_width: 640,
