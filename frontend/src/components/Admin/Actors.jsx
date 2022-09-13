@@ -37,11 +37,17 @@ const Actors = () => {
           </div>
 
           {showOptions ? (
-            <div className="absolute inset-0 bg-primary bg-opacity-25 backdrop-blur-sm">
-              <button className="" type="button">
+            <div className="absolute inset-0 bg-primary bg-opacity-25 backdrop-blur-sm space-x-2">
+              <button
+                className="p-2 rounded-full bg-white text-primary hover:opacity-80 m-2"
+                type="button"
+              >
                 <BsTrash />
               </button>
-              <button className="" type="button">
+              <button
+                className="p-2 rounded-full bg-white text-primary hover:opacity-80"
+                type="button"
+              >
                 <BsPencilSquare />
               </button>
             </div>
