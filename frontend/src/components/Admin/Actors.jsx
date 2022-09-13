@@ -5,22 +5,35 @@ import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import { getActors } from "../../api/actor";
 import { toast } from "react-toastify";
 
-let pageNo = 0;
-const limit = 20;
+let currentPageNo = 0;
+const limit = 2;
 
 const Actors = () => {
   const [actors, setActors] = useState([]);
+  const [reachedToEnd, setReachedToEnd] = useState(false);
 
-  const fetchActors = async () => {
+  const fetchActors = async (pageNo) => {
     const { profiles, error } = await getActors(pageNo, limit);
     if (error)
       return toast.error("Something Went Wrong While Fetching Actors...");
 
+    if (!profiles.length) {
+      toast.error("No More Actors!");
+      return setReachedToEnd(true);
+    }
+
     setActors([...profiles]);
   };
 
+  // Next Page
+  const onNext = () => {
+    if (reachedToEnd) return;
+    currentPageNo += 1;
+    fetchActors(currentPageNo);
+  };
+
   useEffect(() => {
-    fetchActors();
+    fetchActors(currentPageNo);
   }, []);
 
   return (
@@ -41,6 +54,7 @@ const Actors = () => {
         <button
           className="text-primary dark:text-white hover:underline"
           type="button"
+          onClick={onNext}
         >
           Next
         </button>
