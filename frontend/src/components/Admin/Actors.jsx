@@ -3,18 +3,33 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import { getActors } from "../../api/actor";
+import { toast } from "react-toastify";
+
+let pageNo = 0;
+const limit = 20;
 
 const Actors = () => {
+  const [actors, setActors] = useState([]);
+
   const fetchActors = async () => {
-    const res = await getActors(0, 5);
-    console.log(res);
+    const { profiles, error } = await getActors(pageNo, limit);
+    if (error)
+      return toast.error("Something Went Wrong While Fetching Actors...");
+
+    setActors([...profiles]);
   };
 
   useEffect(() => {
     fetchActors();
   }, []);
 
-  return <div className="grid grid-cols-4 gap-3 my-5"></div>;
+  return (
+    <div className="grid grid-cols-4 gap-5 p-5">
+      {actors.map((actor) => (
+        <ActorProfile key={actor.id} profile={actor} />
+      ))}
+    </div>
+  );
 };
 
 const ActorProfile = ({ profile }) => {
@@ -33,7 +48,7 @@ const ActorProfile = ({ profile }) => {
   const { name, avatar, about = "" } = profile;
 
   return (
-    <div className="bg-white shadow-lg dark:shadow-lg dark:bg-secondary h-20 rounded overflow-hidden">
+    <div className="bg-white shadow-2xl dark:shadow-2xl dark:bg-secondary h-20 rounded overflow-hidden">
       <div
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
