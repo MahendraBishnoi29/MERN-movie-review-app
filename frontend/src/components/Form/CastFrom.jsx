@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import { searchActor } from "../../api/actor";
+import { useSearch } from "../../hooks";
 import { renderItem } from "../../utils/helper";
 import { commonInputClasses } from "../../utils/theme";
-import { results } from "../Admin/Movie/MovieForm";
 import LiveSearch from "../LiveSearch/LiveSearch";
 
 const defaultCastInfo = {
@@ -13,8 +14,10 @@ const defaultCastInfo = {
 
 const CastFrom = ({ onSubmit }) => {
   const [castInfo, setCastInfo] = useState({ ...defaultCastInfo });
+  const [profiles, setProfiles] = useState([]);
 
   const { leadActor, profile, roleAs } = castInfo;
+  const { handleSearch, resetSearch } = useSearch();
 
   const handleProfileSelect = (profile) => {
     setCastInfo({ ...castInfo, profile });
@@ -26,7 +29,9 @@ const CastFrom = ({ onSubmit }) => {
     if (!roleAs.trim()) return toast.error("Cast Role is missing!");
     onSubmit(castInfo);
     toast.success("Cast Added Successfully");
-    setCastInfo({ ...defaultCastInfo });
+    setCastInfo({ ...defaultCastInfo, profile: { name: "" } });
+    resetSearch();
+    setProfiles([]);
   };
 
   const handleOnChange = ({ target }) => {
@@ -35,6 +40,14 @@ const CastFrom = ({ onSubmit }) => {
       return setCastInfo({ ...castInfo, leadActor: checked });
 
     setCastInfo({ ...castInfo, [name]: value });
+  };
+
+  const handleProfileChange = ({ target }) => {
+    const { value } = target;
+    const { profile } = castInfo;
+    profile.name = value;
+    setCastInfo({ ...castInfo, ...profile });
+    handleSearch(searchActor, value, setProfiles);
   };
 
   return (
@@ -49,10 +62,11 @@ const CastFrom = ({ onSubmit }) => {
       />
       <LiveSearch
         value={profile.name}
-        results={results}
+        results={profiles}
         onSelect={handleProfileSelect}
         renderItem={renderItem}
         placeholder="Search profile"
+        onChange={handleProfileChange}
       />
       <span className="dark:text-dark-subtle text-light-subtle font-semibold">
         as
