@@ -24,10 +24,27 @@ const Actors = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-4 gap-5 p-5">
-      {actors.map((actor) => (
-        <ActorProfile key={actor.id} profile={actor} />
-      ))}
+    <div className="p-5">
+      <div className="grid grid-cols-4 gap-5 p-5">
+        {actors.map((actor) => (
+          <ActorProfile key={actor.id} profile={actor} />
+        ))}
+      </div>
+
+      <div className="flex justify-end items-center space-x-3 mt-5 pr-7">
+        <button
+          className="text-primary dark:text-white hover:underline"
+          type="button"
+        >
+          Prev
+        </button>
+        <button
+          className="text-primary dark:text-white hover:underline"
+          type="button"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
