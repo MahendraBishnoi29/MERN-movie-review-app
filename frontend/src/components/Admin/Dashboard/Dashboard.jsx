@@ -1,4 +1,5 @@
 import AppInfoBox from "../../Shared/AppInfoBox";
+import LatestUpload from "../../Shared/LatestUpload";
 
 const Dashboard = () => {
   return (
@@ -6,6 +7,8 @@ const Dashboard = () => {
       <AppInfoBox title="Total Uploads" subtitle="100" />
       <AppInfoBox title="Total Reviews" subtitle="100" />
       <AppInfoBox title="Total Users" subtitle="50" />
+
+      <LatestUpload />
     </div>
   );
 };
