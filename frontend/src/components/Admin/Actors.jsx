@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
-import { getActors } from "../../../../backend/controllers/actor";
+import { getActors } from "../../api/actor";
 
 const Actors = () => {
   const fetchActors = async () => {
