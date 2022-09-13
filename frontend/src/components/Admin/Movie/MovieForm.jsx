@@ -44,24 +44,25 @@ const validateMovie = (movieInfo) => {
   if (!releaseDate.trim()) return { error: "releaseDate is missing!" };
   if (!type.trim()) return { error: "type is missing!" };
   if (!status.trim()) return { error: "status is missing!" };
-  if (!Array.isArray(genres)) return { error: "genres is missing!" };
+  if (!genres.length) return { error: "genres is missing!" };
   // Genres
   for (let gen of genres) {
     if (!gen.trim()) return { error: "Invalid Genres!" };
   }
   // Tags
-  if (!Array.isArray(tags)) return { error: "tags is missing!" };
+  if (!tags.length) return { error: "tags are missing!" };
   for (let tag of tags) {
     if (!tag.trim()) return { error: "Invalid Tags!" };
   }
   // Cast
-  if (!Array.isArray(cast)) return { error: "cast is missing!" };
+  if (!cast.length) return { error: "cast is missing!" };
   for (let c of cast) {
     if (typeof c !== "object") return { error: "Invalid cast!" };
   }
   return { error: null };
 };
 
+// COMPONENT
 const MovieForm = () => {
   const defaultMovieInfo = {
     title: "",
