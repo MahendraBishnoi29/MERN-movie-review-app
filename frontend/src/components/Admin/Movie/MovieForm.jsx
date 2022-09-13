@@ -19,7 +19,7 @@ import {
 } from "../../../utils/options";
 import { useSearch } from "../../../hooks";
 import { searchActor } from "../../../api/actor";
-import { renderItem } from "../../../utils/helper";
+import { LabelWithBadge, renderItem, ViewAllBtn } from "../../../utils/helper";
 import Label from "../../Label/Label";
 import DirectorSelector from "../../Selectors/DirectorSelector";
 
@@ -287,38 +287,6 @@ const MovieForm = () => {
         onClose={() => setShowGenreModal(false)}
       />
     </>
-  );
-};
-
-const LabelWithBadge = ({ children, htmlFor, badge = 0 }) => {
-  const renderBadge = () => {
-    if (!badge) return null;
-    return (
-      <span className="dark:bg-dark-subtle bg-light-subtle text-white absolute top-0 right-0 w-5 h-5 rounded-full flex justify-center items-center translate-x-2 -translate-y-1 text-sm">
-        {badge <= 9 ? badge : "9+"}
-      </span>
-    );
-  };
-
-  return (
-    <div className="relative">
-      <Label htmlFor={htmlFor}> {children} </Label>
-      {renderBadge()}
-    </div>
-  );
-};
-
-const ViewAllBtn = ({ visible, children, onClick }) => {
-  if (!visible) return null;
-
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="dark:text-white text-primary hover:underline transition"
-    >
-      {children}
-    </button>
   );
 };
 
