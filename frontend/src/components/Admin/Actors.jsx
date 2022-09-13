@@ -1,21 +1,20 @@
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
+import { getActors } from "../../../../backend/controllers/actor";
 
 const Actors = () => {
-  return (
-    <div className="grid grid-cols-4 gap-3 my-5">
-      <ActorProfile
-        profile={{
-          name: "John",
-          avatar:
-            "https://www.economist.com/img/b/1190/670/90/sites/default/files/images/2015/09/blogs/economist-explains/code2.png",
-          about:
-            "fjkdsjf sdlkjsdljflf dfjdkslkmnewufjv jmaheda bishoiisaful  lstackdevelo perueoeifoi fuoief o jkvuoevuoi  vue oiuem oiimvj ofelkfl",
-        }}
-      />
-    </div>
-  );
+  const fetchActors = async () => {
+    const res = await getActors(0, 5);
+    console.log(res);
+  };
+
+  useEffect(() => {
+    fetchActors();
+  }, []);
+
+  return <div className="grid grid-cols-4 gap-3 my-5"></div>;
 };
 
 const ActorProfile = ({ profile }) => {
