@@ -7,53 +7,63 @@ const LatestUpload = () => {
       <h1 className="font-semibold text-2xl mb-2 text-primary dark:text-white">
         Recent Uploads
       </h1>
-      <MovieListItem />
+
+      <MovieListItem
+        movie={{
+          poster:
+            "https://www.economist.com/img/b/1190/670/90/sites/default/files/images/2015/09/blogs/economist-explains/code2.png",
+          title: "lorem ipsum dolor sit amet.",
+          status: "public",
+          genres: ["Action", "Sci-Fi"],
+        }}
+      />
     </div>
   );
 };
 
-const MovieListItem = () => {
+const MovieListItem = ({ movie, onDelete, onEdit, onOpen }) => {
+  const { poster, title, genres = [], status } = movie;
   return (
     <table className="w-full border-b">
       <tbody>
         <tr>
           <td>
             <div className="w-24">
-              <img
-                src="https://www.economist.com/img/b/1190/670/90/sites/default/files/images/2015/09/blogs/economist-explains/code2.png"
-                alt=""
-                className="w-ful aspect-video"
-              />
+              <img src={poster} alt={title} className="w-ful aspect-video" />
             </div>
           </td>
           <td className="w-full pl-5">
             <div className="">
               <h1 className="font-semibold text-primary dark:text-white">
-                Lorem ipsum dolor sit amet.
+                {title}
               </h1>
 
               <div className="space-x-1">
-                <span className="text-xs text-primary dark:text-white">
-                  Action
-                </span>
-                <span className="text-xs text-primary dark:text-white">
-                  Drama
-                </span>
+                {genres.map((g, i) => {
+                  return (
+                    <span
+                      key={g + i}
+                      className="text-xs text-primary dark:text-white"
+                    >
+                      {g}
+                    </span>
+                  );
+                })}
               </div>
             </div>
           </td>
           <td className="px-5">
-            <p className="text-primary dark:text-white">Public</p>
+            <p className="text-primary dark:text-white"> {status} </p>
           </td>
           <td>
             <div className="flex items-center space-x-3 text-primary dark:text-white">
-              <button type="button" className="">
+              <button onClick={() => onDelete()} type="button" className="">
                 <BsTrash />
               </button>
-              <button type="button" className="">
+              <button onClick={() => onEdit()} type="button" className="">
                 <BsPencilSquare />
               </button>
-              <button type="button" className="">
+              <button onClick={() => onOpen()} type="button" className="">
                 <BsBoxArrowUpRight />
               </button>
             </div>
