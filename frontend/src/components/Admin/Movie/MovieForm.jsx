@@ -58,6 +58,25 @@ const MovieForm = ({ onSubmit }) => {
     e.preventDefault();
     const { error } = validateMovie(movieInfo);
     if (error) return toast.error(error);
+
+    // Cast, tag, genres, writers
+    const { tags, genres, cast, writers, director } = movieInfo;
+    const formData = new FormData();
+    formData.append("tags", JSON.stringify(tags));
+    formData.append("genres", JSON.stringify(genres));
+
+    const finalCast = cast.map((c) => c.id);
+    formData.append("cast", JSON.stringify(finalCast));
+
+    if (writers.length) {
+      const finalWriters = writers.map((w) => w.id);
+      formData.append("writers", JSON.stringify(finalWriters));
+    }
+
+    if (director.id) {
+      formData.append("director", director.id);
+    }
+
     onSubmit(movieInfo);
   };
 
