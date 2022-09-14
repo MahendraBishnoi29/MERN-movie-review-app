@@ -74,6 +74,13 @@ const Actors = () => {
 
 const ActorProfile = ({ profile }) => {
   const [showOptions, setShowOptions] = useState(false);
+  const acceptedNameLength = 15;
+
+  // Get Name
+  const getName = () => {
+    if (name.length <= acceptedNameLength) return name;
+    return name.substring(0, acceptedNameLength) + "..";
+  };
 
   const onMouseEnter = () => {
     setShowOptions(true);
@@ -101,7 +108,7 @@ const ActorProfile = ({ profile }) => {
         />
         <div className="px-2">
           <h1 className="text-xl text-primary dark:text-white font-semibold">
-            {name}
+            {getName(name)}
           </h1>
           <p className="text-primart dark:text-white">
             {about.substring(0, 50)}
