@@ -2,8 +2,9 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
-import { getActors } from "../../api/actor";
+import { getActors } from "../../../api/actor";
 import { toast } from "react-toastify";
+import NextPrevBtn from "./NextPrevBtn";
 
 let currentPageNo = 0;
 const limit = 3;
@@ -52,22 +53,7 @@ const Actors = () => {
         ))}
       </div>
 
-      <div className="flex justify-end items-center space-x-3 mt-5 pr-7">
-        <button
-          className="text-primary dark:text-white hover:underline"
-          type="button"
-          onClick={onPrev}
-        >
-          Prev
-        </button>
-        <button
-          className="text-primary dark:text-white hover:underline"
-          type="button"
-          onClick={onNext}
-        >
-          Next
-        </button>
-      </div>
+      <NextPrevBtn onNext={onNext} onPrev={onPrev} />
     </div>
   );
 };
