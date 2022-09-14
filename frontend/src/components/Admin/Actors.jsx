@@ -6,7 +6,7 @@ import { getActors } from "../../api/actor";
 import { toast } from "react-toastify";
 
 let currentPageNo = 0;
-const limit = 2;
+const limit = 3;
 
 const Actors = () => {
   const [actors, setActors] = useState([]);
@@ -18,6 +18,7 @@ const Actors = () => {
       return toast.error("Something Went Wrong While Fetching Actors...");
 
     if (!profiles.length) {
+      currentPageNo = pageNo - 1;
       toast.error("No More Actors!");
       return setReachedToEnd(true);
     }
@@ -29,6 +30,13 @@ const Actors = () => {
   const onNext = () => {
     if (reachedToEnd) return;
     currentPageNo += 1;
+    fetchActors(currentPageNo);
+  };
+
+  // Previous Page
+  const onPrev = () => {
+    if (currentPageNo <= 0) return;
+    currentPageNo -= 1;
     fetchActors(currentPageNo);
   };
 
@@ -48,6 +56,7 @@ const Actors = () => {
         <button
           className="text-primary dark:text-white hover:underline"
           type="button"
+          onClick={onPrev}
         >
           Prev
         </button>
