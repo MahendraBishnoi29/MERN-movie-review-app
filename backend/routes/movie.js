@@ -5,6 +5,7 @@ const {
   updateMovieWithoutPoster,
   updateMovieWithPoster,
   deleteMovie,
+  getMovies,
 } = require("../controllers/movie");
 const router = express.Router();
 const { IsAuth, isAdmin } = require("../middlewares/authMiddlware");
@@ -53,5 +54,6 @@ router.patch(
 );
 
 router.delete("/delete-movie/:movieId", IsAuth, isAdmin, deleteMovie);
+router.get("/movies", IsAuth, isAdmin, getMovies);
 
 module.exports = router;
