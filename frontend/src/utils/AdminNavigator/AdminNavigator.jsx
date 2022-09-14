@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import Actors from "../../components/Admin/Actors";
+import Actors from "../../components/Admin/Actors/Actors";
 import AdminNavbar from "../../components/Admin/AdminNavbar";
 import Dashboard from "../../components/Admin/Dashboard/Dashboard";
 import Header from "../../components/Admin/Header";
