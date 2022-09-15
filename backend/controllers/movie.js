@@ -270,7 +270,7 @@ const deleteMovie = async (req, res) => {
 };
 
 // GET MOVIES
-const getMovies = async () => {
+const getMovies = async (req, res) => {
   const { pageNo = 0, limit = 10 } = req.query;
 
   const movies = await Movie.find({})
