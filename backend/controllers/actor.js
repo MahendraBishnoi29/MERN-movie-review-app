@@ -119,7 +119,7 @@ const getSingleActor = async (req, res) => {
 
 // Get Actors
 const getActors = async (req, res) => {
-  const { pageNo, limit } = req.query;
+  const { pageNo = 0, limit = 10 } = req.query;
 
   const actors = await Actor.find({})
     .sort({ createdAt: -1 })
