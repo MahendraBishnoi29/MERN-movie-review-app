@@ -18,7 +18,7 @@ const Actors = () => {
     if (error)
       return toast.error("Something Went Wrong While Fetching Actors...");
 
-    if (!profiles.length) {
+    if (!profiles?.length) {
       currentPageNo = pageNo - 1;
       toast.error("No More Actors!");
       return setReachedToEnd(true);
