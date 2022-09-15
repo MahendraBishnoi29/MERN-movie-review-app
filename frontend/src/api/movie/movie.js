@@ -46,3 +46,27 @@ export const uploadMovie = async (formData) => {
     return error.message || error;
   }
 };
+
+// GET MOVIE
+export const getMovies = async (pageNo, limit) => {
+  const token = getToken();
+
+  try {
+    const { data } = await client.get(
+      `/movie/movies?pageNo=${pageNo}&limit=${limit}`,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+          "content-type": "multipart/form-data",
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.log(error.message);
+    const { res } = error;
+    if (res?.data) return res.data;
+
+    return error.message || error;
+  }
+};
