@@ -14,6 +14,7 @@ const Actors = () => {
   const [actors, setActors] = useState([]);
   const [reachedToEnd, setReachedToEnd] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [selectedProfile, setSelectedProfile] = useState(null);
 
   const fetchActors = async (pageNo) => {
     const { profiles, error } = await getActors(pageNo, limit);
@@ -47,6 +48,7 @@ const Actors = () => {
   // Edit Actor
   const handleEdit = (profile) => {
     setShowUpdateModal(true);
+    setSelectedProfile(profile);
   };
 
   // Edit Actor
@@ -73,7 +75,11 @@ const Actors = () => {
 
         <NextPrevBtn onNext={onNext} onPrev={onPrev} />
       </div>
-      <UpdateActorModal visible={showUpdateModal} onClose={hideUpdateModal} />
+      <UpdateActorModal
+        initialState={selectedProfile}
+        visible={showUpdateModal}
+        onClose={hideUpdateModal}
+      />
     </>
   );
 };
