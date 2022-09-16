@@ -97,7 +97,7 @@ const ActorProfile = ({ profile }) => {
           <h1 className="text-xl text-primary dark:text-white font-semibold">
             {getName(name)}
           </h1>
-          <p className="text-primart dark:text-white">
+          <p className="text-primary dark:text-white opacity-70">
             {about.substring(0, 50)}
           </p>
         </div>
