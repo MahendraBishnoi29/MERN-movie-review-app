@@ -66,3 +66,24 @@ export const getActors = async (pageNo, limit) => {
     return error.message || error;
   }
 };
+
+// CREATE ACTOR
+export const updateActor = async (id, formData) => {
+  const token = getToken();
+
+  try {
+    const { data } = await client.post("/actor/update/" + id, formData, {
+      headers: {
+        Authorization: "Bearer " + token,
+        "content-type": "multipart/form-data",
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error.message);
+    const { res } = error;
+    if (res?.data) return res.data;
+
+    return error.message || error;
+  }
+};
