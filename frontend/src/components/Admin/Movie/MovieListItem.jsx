@@ -12,7 +12,7 @@ const MovieListItem = ({ movie, onDelete, onEdit, onOpen }) => {
               <img src={poster} alt={title} className="w-ful aspect-video" />
             </div>
           </td>
-          <td className="w-full pl-5">
+          <td className="w-full pl-2.5">
             <div className="">
               <h1 className="font-semibold text-primary dark:text-white">
                 {title}
@@ -32,7 +32,7 @@ const MovieListItem = ({ movie, onDelete, onEdit, onOpen }) => {
               </div>
             </div>
           </td>
-          <td className="px-5">
+          <td className="px-3">
             <p className="text-primary dark:text-white"> {status} </p>
           </td>
           <td>
