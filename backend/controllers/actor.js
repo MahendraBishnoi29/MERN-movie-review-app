@@ -59,7 +59,7 @@ const updateActor = async (req, res) => {
 
   await actor.save();
 
-  res.status(201).json(formatActor(actor));
+  res.status(201).json({ actor: formatActor(actor) });
 };
 
 // DELETE ACTOR
