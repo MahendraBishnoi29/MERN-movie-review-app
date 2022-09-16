@@ -5,6 +5,7 @@ import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import { getActors } from "../../../api/actor";
 import { toast } from "react-toastify";
 import NextPrevBtn from "./NextPrevBtn";
+import UpdateActorModal from "../../Modals/UpdateActorModal";
 
 let currentPageNo = 0;
 const limit = 12;
@@ -12,6 +13,7 @@ const limit = 12;
 const Actors = () => {
   const [actors, setActors] = useState([]);
   const [reachedToEnd, setReachedToEnd] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
 
   const fetchActors = async (pageNo) => {
     const { profiles, error } = await getActors(pageNo, limit);
@@ -42,24 +44,41 @@ const Actors = () => {
     fetchActors(currentPageNo);
   };
 
+  // Edit Actor
+  const handleEdit = (profile) => {
+    setShowUpdateModal(true);
+  };
+
+  // Edit Actor
+  const hideUpdateModal = () => {
+    setShowUpdateModal(false);
+  };
+
   useEffect(() => {
     fetchActors(currentPageNo);
   }, []);
 
   return (
-    <div className="p-5">
-      <div className="grid grid-cols-4 gap-5 p-5">
-        {actors.map((actor) => (
-          <ActorProfile key={actor.id} profile={actor} />
-        ))}
-      </div>
+    <>
+      <div className="p-5">
+        <div className="grid grid-cols-4 gap-5 p-5">
+          {actors.map((actor) => (
+            <ActorProfile
+              key={actor.id}
+              profile={actor}
+              onEdit={() => handleEdit(actor)}
+            />
+          ))}
+        </div>
 
-      <NextPrevBtn onNext={onNext} onPrev={onPrev} />
-    </div>
+        <NextPrevBtn onNext={onNext} onPrev={onPrev} />
+      </div>
+      <UpdateActorModal visible={showUpdateModal} onClose={hideUpdateModal} />
+    </>
   );
 };
 
-const ActorProfile = ({ profile }) => {
+const ActorProfile = ({ profile, onEdit }) => {
   const [showOptions, setShowOptions] = useState(false);
   const acceptedNameLength = 15;
 
@@ -102,7 +121,7 @@ const ActorProfile = ({ profile }) => {
           </p>
         </div>
 
-        <Options visible={showOptions} />
+        <Options onEdit={onEdit} visible={showOptions} />
       </div>
     </div>
   );
