@@ -46,7 +46,7 @@ const Header = ({ onAddMovie, onAddActor }) => {
 const CreateOptions = ({ options, visible }) => {
   if (!visible) return null;
   return (
-    <div className="animate-scale absolute right-0 top-12 flex flex-col space-y-3 p-5 dark:bg-secondary bg-white drop-shadow-lg rounded">
+    <div className="animate-scale z-50 absolute right-0 top-12 flex flex-col space-y-3 p-5 dark:bg-secondary bg-white drop-shadow-lg rounded">
       {options.map(({ title, onClick }) => {
         return (
           <Option key={title} onClick={onClick}>
