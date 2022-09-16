@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import NextPrevBtn from "./NextPrevBtn";
 
 let currentPageNo = 0;
-const limit = 3;
+const limit = 4;
 
 const Actors = () => {
   const [actors, setActors] = useState([]);
