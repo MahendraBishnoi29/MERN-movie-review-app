@@ -34,7 +34,10 @@ const Movies = () => {
 
   // Prev Page
   const onPrev = () => {
-    if (reachedToEnd) return;
+    if (currentPageNo <= 0) return;
+    if (reachedToEnd) setReachedToEnd(false);
+    currentPageNo -= 1;
+    fetchMovies(currentPageNo);
   };
 
   useEffect(() => {
