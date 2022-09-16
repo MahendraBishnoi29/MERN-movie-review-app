@@ -45,7 +45,7 @@ const Movies = () => {
   }, []);
 
   return (
-    <div className="space-y-3 p-5 md:pr-72 sm:pr-10">
+    <div className="space-y-3 p-5 md:pr-72 sm:pr-8">
       {movies.map((movie) => (
         <MovieListItem key={movie.id} movie={movie} />
       ))}
