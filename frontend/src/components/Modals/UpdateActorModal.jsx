@@ -1,21 +1,24 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { createActor } from "../../api/actor";
+import { createActor, updateActor } from "../../api/actor";
 import ActorForm from "../Form/ActorForm";
 import ModalContainer from "./ModalContainer";
 
-const UpdateActorModal = ({ visible, onClose }) => {
+const UpdateActorModal = ({ visible, onClose, initialState }) => {
   const [busy, setBusy] = useState(false);
 
   const handleSubmit = async (data) => {
-    // setBusy(true);
-    // const { error, actor } = await toast.promise(createActor(data), {
-    //   pending: "Creating Actor...",
-    //   success: "Actor Created Successfully 🎉",
-    // });
-    // setBusy(false);
-    // if (error) return toast.error(error);
-    // onClose();
+    setBusy(true);
+    const { error, actor } = await toast.promise(
+      updateActor(initialState.id, data),
+      {
+        pending: "Updating Actor...",
+        success: "Actor Updated Successfully 🎉",
+      }
+    );
+    setBusy(false);
+    if (error) return toast.error(error);
+    onClose();
   };
 
   return (
@@ -25,6 +28,7 @@ const UpdateActorModal = ({ visible, onClose }) => {
         title="Update Actor"
         btnTitle="Update"
         busy={busy}
+        initialState={initialState}
       />
     </ModalContainer>
   );
