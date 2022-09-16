@@ -56,6 +56,17 @@ const Actors = () => {
     setShowUpdateModal(false);
   };
 
+  // Intantly Render Updated Actor On UI
+  const handleOnUpdatedActor = (profile) => {
+    const updatedActors = actors.map((actor) => {
+      if (profile.id === actor.id) {
+        return profile;
+      }
+      return actor;
+    });
+    setActors([...updatedActors]);
+  };
+
   useEffect(() => {
     fetchActors(currentPageNo);
   }, []);
@@ -76,6 +87,7 @@ const Actors = () => {
         <NextPrevBtn onNext={onNext} onPrev={onPrev} />
       </div>
       <UpdateActorModal
+        OnUpdatedActor={handleOnUpdatedActor}
         initialState={selectedProfile}
         visible={showUpdateModal}
         onClose={hideUpdateModal}
