@@ -19,7 +19,7 @@ const Actors = () => {
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [results, setResults] = useState([]);
 
-  const { handleSearch, resetSearch } = useSearch();
+  const { handleSearch, resetSearch, resultNotFound } = useSearch();
 
   const fetchActors = async (pageNo) => {
     const { profiles, error } = await getActors(pageNo, limit);
@@ -98,23 +98,30 @@ const Actors = () => {
             placeholder="Search Actors..."
           />
         </div>
-        <div className="grid grid-cols-4 gap-5 p-5">
-          {results?.length
-            ? results.map((actor) => (
-                <ActorProfile
-                  key={actor.id}
-                  profile={actor}
-                  onEdit={() => handleEdit(actor)}
-                />
-              ))
-            : actors.map((actor) => (
-                <ActorProfile
-                  key={actor.id}
-                  profile={actor}
-                  onEdit={() => handleEdit(actor)}
-                />
-              ))}
-        </div>
+
+        {resultNotFound ? (
+          <h1 className="font-semibold text-3xl text-secondary dark:text-white text-center py-5 opacity-40 animate-pulse">
+            Record Not Found! 🤔
+          </h1>
+        ) : (
+          <div className="grid grid-cols-4 gap-5 p-5">
+            {results?.length
+              ? results.map((actor) => (
+                  <ActorProfile
+                    key={actor.id}
+                    profile={actor}
+                    onEdit={() => handleEdit(actor)}
+                  />
+                ))
+              : actors.map((actor) => (
+                  <ActorProfile
+                    key={actor.id}
+                    profile={actor}
+                    onEdit={() => handleEdit(actor)}
+                  />
+                ))}
+          </div>
+        )}
 
         {!results.length ? (
           <NextPrevBtn onNext={onNext} onPrev={onPrev} />
