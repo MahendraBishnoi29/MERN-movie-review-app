@@ -6,6 +6,7 @@ import { getActors } from "../../../api/actor";
 import { toast } from "react-toastify";
 import NextPrevBtn from "./NextPrevBtn";
 import UpdateActorModal from "../../Modals/UpdateActorModal";
+import SearchInputForm from "../../Shared/SearchInputForm";
 
 let currentPageNo = 0;
 const limit = 12;
@@ -74,6 +75,9 @@ const Actors = () => {
   return (
     <>
       <div className="p-5">
+        <div className="flex justify-end">
+          <SearchInputForm placeholder="Search Actors..." />
+        </div>
         <div className="grid grid-cols-4 gap-5 p-5">
           {actors.map((actor) => (
             <ActorProfile
