@@ -19,7 +19,7 @@ const Actors = () => {
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [results, setResults] = useState([]);
 
-  const { handleSearch } = useSearch();
+  const { handleSearch, resetSearch } = useSearch();
 
   const fetchActors = async (pageNo) => {
     const { profiles, error } = await getActors(pageNo, limit);
@@ -77,6 +77,12 @@ const Actors = () => {
     handleSearch(searchActor, value, setResults);
   };
 
+  // Reset Serach Results Page
+  const handleSearchReset = () => {
+    resetSearch();
+    setResults([]);
+  };
+
   useEffect(() => {
     fetchActors(currentPageNo);
   }, []);
@@ -87,6 +93,7 @@ const Actors = () => {
         <div className="flex justify-end">
           <SearchInputForm
             showResetIcon={results.length}
+            onReset={handleSearchReset}
             onSubmit={handleSubmit}
             placeholder="Search Actors..."
           />
