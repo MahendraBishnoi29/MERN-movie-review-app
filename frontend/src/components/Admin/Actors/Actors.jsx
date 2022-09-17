@@ -86,6 +86,7 @@ const Actors = () => {
       <div className="p-5">
         <div className="flex justify-end">
           <SearchInputForm
+            showResetIcon={results.length}
             onSubmit={handleSubmit}
             placeholder="Search Actors..."
           />
