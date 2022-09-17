@@ -68,6 +68,11 @@ const Actors = () => {
     setActors([...updatedActors]);
   };
 
+  // Search Actor
+  const handleSubmit = (value) => {
+    console.log(value);
+  };
+
   useEffect(() => {
     fetchActors(currentPageNo);
   }, []);
@@ -76,7 +81,10 @@ const Actors = () => {
     <>
       <div className="p-5">
         <div className="flex justify-end">
-          <SearchInputForm placeholder="Search Actors..." />
+          <SearchInputForm
+            onSubmit={handleSubmit}
+            placeholder="Search Actors..."
+          />
         </div>
         <div className="grid grid-cols-4 gap-5 p-5">
           {actors.map((actor) => (
