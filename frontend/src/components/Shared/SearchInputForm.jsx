@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
-const SearchInputForm = ({ placeholder, showResetIcon, onSubmit }) => {
+const SearchInputForm = ({ placeholder, showResetIcon, onSubmit, onReset }) => {
   const [value, setValue] = useState("");
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
     onSubmit(value);
+  };
+
+  const resetSearchInput = () => {
+    setValue("");
+    onReset();
   };
 
   return (
@@ -21,6 +26,7 @@ const SearchInputForm = ({ placeholder, showResetIcon, onSubmit }) => {
       />
       {showResetIcon ? (
         <button
+          onClick={resetSearchInput}
           className="absolute top-1/2 -translate-y-1/2 right-2 text-secondary dark:text-white"
           type="button"
         >
