@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BsSunFill } from "react-icons/bs";
 import { useTheme } from "../../hooks";
+import SearchInputForm from "../Shared/SearchInputForm";
 
 const Header = ({ onAddMovie, onAddActor }) => {
   const [showOptions, setShowOptions] = useState(false);
@@ -14,12 +15,7 @@ const Header = ({ onAddMovie, onAddActor }) => {
 
   return (
     <div className="flex items-center justify-between relative">
-      <input
-        type="text"
-        placeholder="search movies"
-        className="border-2 transition bg-transparent rounded text-lg p-1 outline-none dark:border-dark-subtle border-light-subtle dark:focus:border-white 
-        dark:text-white focus:border-primary"
-      />
+      <SearchInputForm placeholder="Search Movies..." />
 
       <div className="flex items-center space-x-3">
         <button
