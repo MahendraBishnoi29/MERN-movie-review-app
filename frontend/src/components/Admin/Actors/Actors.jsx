@@ -8,6 +8,7 @@ import NextPrevBtn from "./NextPrevBtn";
 import UpdateActorModal from "../../Modals/UpdateActorModal";
 import SearchInputForm from "../../Shared/SearchInputForm";
 import { useSearch } from "../../../hooks";
+import NotFoundText from "../../Shared/NotFoundText";
 
 let currentPageNo = 0;
 const limit = 12;
@@ -92,38 +93,34 @@ const Actors = () => {
       <div className="p-5">
         <div className="flex justify-end">
           <SearchInputForm
-            showResetIcon={results.length}
+            showResetIcon={results.length || resultNotFound}
             onReset={handleSearchReset}
             onSubmit={handleSubmit}
             placeholder="Search Actors..."
           />
         </div>
 
-        {resultNotFound ? (
-          <h1 className="font-semibold text-3xl text-secondary dark:text-white text-center py-5 opacity-40 animate-pulse">
-            Record Not Found! 🤔
-          </h1>
-        ) : (
-          <div className="grid grid-cols-4 gap-5 p-5">
-            {results?.length
-              ? results.map((actor) => (
-                  <ActorProfile
-                    key={actor.id}
-                    profile={actor}
-                    onEdit={() => handleEdit(actor)}
-                  />
-                ))
-              : actors.map((actor) => (
-                  <ActorProfile
-                    key={actor.id}
-                    profile={actor}
-                    onEdit={() => handleEdit(actor)}
-                  />
-                ))}
-          </div>
-        )}
+        <NotFoundText text="Record Not Found! 🤔" visible={resultNotFound} />
 
-        {!results.length ? (
+        <div className="grid grid-cols-4 gap-5 p-5">
+          {results?.length || resultNotFound
+            ? results.map((actor) => (
+                <ActorProfile
+                  key={actor.id}
+                  profile={actor}
+                  onEdit={() => handleEdit(actor)}
+                />
+              ))
+            : actors.map((actor) => (
+                <ActorProfile
+                  key={actor.id}
+                  profile={actor}
+                  onEdit={() => handleEdit(actor)}
+                />
+              ))}
+        </div>
+
+        {!results.length && !resultNotFound ? (
           <NextPrevBtn onNext={onNext} onPrev={onPrev} />
         ) : null}
       </div>
