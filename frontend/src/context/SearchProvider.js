@@ -22,8 +22,14 @@ const SearchProvider = ({ children }) => {
   const search = async (method, query, updaterFunc) => {
     const { error, results } = await method(query);
     if (error) return toast.error(error);
-    if (!results?.length) return setResultNotFound(true);
 
+    if (!results?.length) {
+      setResults([]);
+      updaterFunc && updaterFunc([]);
+      return setResultNotFound(true);
+    }
+
+    setResultNotFound(false);
     setResults(results);
     updaterFunc && updaterFunc([...results]);
   };
