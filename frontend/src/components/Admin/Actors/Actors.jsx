@@ -2,11 +2,12 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
-import { getActors } from "../../../api/actor";
+import { getActors, searchActor } from "../../../api/actor";
 import { toast } from "react-toastify";
 import NextPrevBtn from "./NextPrevBtn";
 import UpdateActorModal from "../../Modals/UpdateActorModal";
 import SearchInputForm from "../../Shared/SearchInputForm";
+import { useSearch } from "../../../hooks";
 
 let currentPageNo = 0;
 const limit = 12;
@@ -16,6 +17,9 @@ const Actors = () => {
   const [reachedToEnd, setReachedToEnd] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState(null);
+  const [results, setResults] = useState([]);
+
+  const { handleSearch } = useSearch();
 
   const fetchActors = async (pageNo) => {
     const { profiles, error } = await getActors(pageNo, limit);
@@ -70,7 +74,7 @@ const Actors = () => {
 
   // Search Actor
   const handleSubmit = (value) => {
-    console.log(value);
+    handleSearch(searchActor, value, setResults);
   };
 
   useEffect(() => {
@@ -87,16 +91,26 @@ const Actors = () => {
           />
         </div>
         <div className="grid grid-cols-4 gap-5 p-5">
-          {actors.map((actor) => (
-            <ActorProfile
-              key={actor.id}
-              profile={actor}
-              onEdit={() => handleEdit(actor)}
-            />
-          ))}
+          {results?.length
+            ? results.map((actor) => (
+                <ActorProfile
+                  key={actor.id}
+                  profile={actor}
+                  onEdit={() => handleEdit(actor)}
+                />
+              ))
+            : actors.map((actor) => (
+                <ActorProfile
+                  key={actor.id}
+                  profile={actor}
+                  onEdit={() => handleEdit(actor)}
+                />
+              ))}
         </div>
 
-        <NextPrevBtn onNext={onNext} onPrev={onPrev} />
+        {!results.length ? (
+          <NextPrevBtn onNext={onNext} onPrev={onPrev} />
+        ) : null}
       </div>
       <UpdateActorModal
         OnUpdatedActor={handleOnUpdatedActor}
