@@ -1,7 +1,7 @@
 const cloudinary = require("../utils/cloud");
 const Movie = require("../models/movie");
 const { isValidObjectId } = require("mongoose");
-const movie = require("../models/movie");
+const { formatActor } = require("../utils/helper");
 
 // UPLOAD TRAILER FUNCTION
 const uploadTrailer = async (req, res) => {
@@ -300,7 +300,28 @@ const getMovieForUpdate = async (req, res) => {
     "director writers cast.actor"
   );
 
-  res.json({ movie });
+  res.json({
+    movie: {
+      id: movie._id,
+      title: movie.title,
+      storyLine: movie.storyLine,
+      poster: movie.poster?.url,
+      releaseDate: movie.releaseDate,
+      status: movie.status,
+      type: movie.type,
+      language: movie.language,
+      genres: movie.genres,
+      tags: movie.tags,
+      director: formatActor(movie.director),
+      writers: movie.writers.map((w) => formatActor(w)),
+      cast: movie.cast.map((c) => ({
+        id: c.id,
+        profile: formatActor(c.actor),
+        roleAs: c.roleAs,
+        leadActor: c.leadActor,
+      })),
+    },
+  });
 };
 
 module.exports = {
