@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { getMovies } from "../../../api/movie/movie";
+import { getMovieForUpdate, getMovies } from "../../../api/movie/movie";
 import { toast } from "react-toastify";
 import MovieListItem from "./MovieListItem";
 import { useEffect } from "react";
@@ -14,6 +14,7 @@ const Movies = () => {
   const [movies, setMovies] = useState([]);
   const [reachedToEnd, setReachedToEnd] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [selectedMovie, setSelectedMovie] = useState(false);
 
   const fetchMovies = async (pageNo) => {
     const { movies, error } = await getMovies(pageNo, limit);
@@ -43,7 +44,10 @@ const Movies = () => {
   };
 
   // Edit Movie
-  const handleOnEdit = (movie) => {
+  const handleOnEdit = async ({ id }) => {
+    const { movie, error } = await getMovieForUpdate(id);
+    if (error) return toast.error(error);
+    setSelectedMovie(movie);
     setShowUpdateModal(true);
   };
 
@@ -63,7 +67,11 @@ const Movies = () => {
         ))}
         <NextPrevBtn onNext={onNext} onPrev={onPrev} />
       </div>
-      <UpdateMovieModal visible={showUpdateModal} />
+      {/* Update Movie Modal */}
+      <UpdateMovieModal
+        initialState={selectedMovie}
+        visible={showUpdateModal}
+      />
     </>
   );
 };
