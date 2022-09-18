@@ -26,7 +26,7 @@ import DirectorSelector from "../../Selectors/DirectorSelector";
 import { validateMovie } from "../../../utils/validator";
 
 // COMPONENT
-const MovieForm = ({ onSubmit, busy, initialState }) => {
+const MovieForm = ({ btnTitle, onSubmit, busy, initialState }) => {
   const defaultMovieInfo = {
     title: "",
     storyLine: "",
@@ -283,7 +283,7 @@ const MovieForm = ({ onSubmit, busy, initialState }) => {
             busy={busy}
             onClick={handleSubmit}
             type="button"
-            value="Upload"
+            value={btnTitle}
           />
         </div>
         <div className="w-[30%] space-y-5">
