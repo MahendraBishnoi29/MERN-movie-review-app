@@ -1,6 +1,7 @@
 const cloudinary = require("../utils/cloud");
 const Movie = require("../models/movie");
 const { isValidObjectId } = require("mongoose");
+const movie = require("../models/movie");
 
 // UPLOAD TRAILER FUNCTION
 const uploadTrailer = async (req, res) => {
@@ -289,6 +290,19 @@ const getMovies = async (req, res) => {
   res.json({ movies: results });
 };
 
+// Update Movie
+const getMovieForUpdate = async (req, res) => {
+  const { movieId } = req.params;
+  if (!isValidObjectId(movieId))
+    return res.json({ error: "Movie Id is Invalid!" });
+
+  const movie = await Movie.findById(movieId).populate(
+    "director writers cast.actor"
+  );
+
+  res.json({ movie });
+};
+
 module.exports = {
   uploadTrailer,
   createMovie,
@@ -296,4 +310,5 @@ module.exports = {
   updateMovieWithPoster,
   deleteMovie,
   getMovies,
+  getMovieForUpdate,
 };
