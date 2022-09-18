@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import MovieListItem from "./MovieListItem";
 import { useEffect } from "react";
 import NextPrevBtn from "../Actors/NextPrevBtn";
+import UpdateMovieModal from "../../Modals/UpdateMovieModal";
 
 const limit = 10;
 let currentPageNo = 0;
@@ -12,6 +13,7 @@ let currentPageNo = 0;
 const Movies = () => {
   const [movies, setMovies] = useState([]);
   const [reachedToEnd, setReachedToEnd] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
 
   const fetchMovies = async (pageNo) => {
     const { movies, error } = await getMovies(pageNo, limit);
@@ -40,17 +42,29 @@ const Movies = () => {
     fetchMovies(currentPageNo);
   };
 
+  // Edit Movie
+  const handleOnEdit = (movie) => {
+    setShowUpdateModal(true);
+  };
+
   useEffect(() => {
     fetchMovies(currentPageNo);
   }, []);
 
   return (
-    <div className="space-y-3 p-5 md:pr-72 sm:pr-8">
-      {movies.map((movie) => (
-        <MovieListItem key={movie.id} movie={movie} />
-      ))}
-      <NextPrevBtn onNext={onNext} onPrev={onPrev} />
-    </div>
+    <>
+      <div className="space-y-3 p-5 md:pr-72 sm:pr-8">
+        {movies.map((movie) => (
+          <MovieListItem
+            onEdit={() => handleOnEdit(movie)}
+            key={movie.id}
+            movie={movie}
+          />
+        ))}
+        <NextPrevBtn onNext={onNext} onPrev={onPrev} />
+      </div>
+      <UpdateMovieModal visible={showUpdateModal} />
+    </>
   );
 };
 
