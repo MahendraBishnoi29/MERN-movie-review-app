@@ -278,7 +278,7 @@ const deleteMovie = async (req, res) => {
 
   await Movie.findByIdAndDelete(movieId);
 
-  res.json({ message: "Movie Deleted Successfully" });
+  res.json({ message: "Movie Deleted Successfully 🎉" });
 };
 
 // GET MOVIES
