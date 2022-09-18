@@ -111,3 +111,22 @@ export const updateMovie = async (id, formData) => {
     return error.message || error;
   }
 };
+
+export const deleteMovie = async (id) => {
+  const token = getToken();
+
+  try {
+    const { data } = await client.delete(`/movie/delete-movie/${id}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error.message);
+    const { res } = error;
+    if (res?.data) return res.data;
+
+    return error.message || error;
+  }
+};
