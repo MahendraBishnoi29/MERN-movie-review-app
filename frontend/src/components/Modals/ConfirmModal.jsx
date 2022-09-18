@@ -12,6 +12,10 @@ const ConfirmModal = ({
   onClose,
 }) => {
   const commonClasses = "px-3 py-1 text-white rounded";
+  const hideModal = () => {
+    onCancel();
+  };
+
   return (
     <ModalContainer visible={visible} onClose={onClose} ignoreContainer>
       <div className="dark:bg-primary bg-white rounded p-4">
@@ -31,7 +35,11 @@ const ConfirmModal = ({
               <button className={commonClasses + " bg-red-400"} type="button">
                 Confirm
               </button>
-              <button className={commonClasses + " bg-blue-400"} type="button">
+              <button
+                onClick={onCancel}
+                className={commonClasses + " bg-blue-400"}
+                type="button"
+              >
                 Cancel
               </button>
             </>
