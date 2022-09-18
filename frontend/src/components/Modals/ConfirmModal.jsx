@@ -2,19 +2,8 @@ import React from "react";
 import { ImSpinner } from "react-icons/im";
 import ModalContainer from "./ModalContainer";
 
-const ConfirmModal = ({
-  subtitle,
-  onConfirm,
-  onCancel,
-  title,
-  visible,
-  busy,
-  onClose,
-}) => {
+const ConfirmModal = ({ onConfirm, onCancel, visible, busy, onClose }) => {
   const commonClasses = "px-3 py-1 text-white rounded";
-  const hideModal = () => {
-    onCancel();
-  };
 
   return (
     <ModalContainer visible={visible} onClose={onClose} ignoreContainer>
@@ -26,13 +15,17 @@ const ConfirmModal = ({
 
         <div className="flex items-center space-x-3 mt-3">
           {busy ? (
-            <p className="flex items-center space-x-2">
+            <p className="flex items-center space-x-2 text-primary dark:text-white">
               <ImSpinner className="animate-spin" />
               <span className="">Please Wait...</span>
             </p>
           ) : (
             <>
-              <button className={commonClasses + " bg-red-400"} type="button">
+              <button
+                onClick={onConfirm}
+                className={commonClasses + " bg-red-400"}
+                type="button"
+              >
                 Confirm
               </button>
               <button
