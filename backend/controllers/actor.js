@@ -89,11 +89,13 @@ const deleteActor = async (req, res) => {
 
 // SEARCH ACTORS FUNCTION
 const searchActor = async (req, res) => {
-  const { query } = req;
+  const { name } = req.query;
 
   // const result = await Actor.find({ $text: { $search: `"${query.name}"` } });
+  if (!name.trim()) return res.json({ error: "Plase Enter a Valid Keyword!" });
+
   const result = await Actor.find({
-    name: { $regex: query.name, $options: "i" },
+    name: { $regex: name, $options: "i" },
   });
   const actors = result.map((actor) => formatActor(actor));
   res.json({ results: actors });
