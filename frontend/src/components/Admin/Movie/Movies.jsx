@@ -1,20 +1,27 @@
 import React from "react";
 import { useState } from "react";
-import { getMovieForUpdate, getMovies } from "../../../api/movie/movie";
+import {
+  deleteMovie,
+  getMovieForUpdate,
+  getMovies,
+} from "../../../api/movie/movie";
 import { toast } from "react-toastify";
 import MovieListItem from "./MovieListItem";
 import { useEffect } from "react";
 import NextPrevBtn from "../Actors/NextPrevBtn";
 import UpdateMovieModal from "../../Modals/UpdateMovieModal";
+import ConfirmModal from "../../Modals/ConfirmModal";
 
 const limit = 10;
 let currentPageNo = 0;
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
+  const [busy, setBusy] = useState(false);
   const [reachedToEnd, setReachedToEnd] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const fetchMovies = async (pageNo) => {
     const { movies, error } = await getMovies(pageNo, limit);
@@ -60,8 +67,27 @@ const Movies = () => {
     setMovies([...updateMovies]);
   };
 
+  // Delete Movie
+  const handleOnDelete = (movie) => {
+    setSelectedMovie(movie);
+    setShowConfirmModal(true);
+  };
+
+  // Delete Movie
+  const handleDeleteMovie = async () => {
+    setBusy(true);
+    const { error, message } = await deleteMovie(selectedMovie.id);
+    setBusy(false);
+    if (error) return toast.error(error);
+    toast.success(message);
+
+    hideConfirmModal();
+    fetchMovies(currentPageNo);
+  };
+
   // Close Modal
   const hideUpdateModal = () => setShowUpdateModal(false);
+  const hideConfirmModal = () => setShowConfirmModal(false);
 
   useEffect(() => {
     fetchMovies(currentPageNo);
@@ -72,6 +98,7 @@ const Movies = () => {
       <div className="space-y-3 p-5 md:pr-72 sm:pr-8">
         {movies.map((movie) => (
           <MovieListItem
+            onDelete={() => handleOnDelete(movie)}
             onEdit={() => handleOnEdit(movie)}
             key={movie.id}
             movie={movie}
@@ -79,6 +106,14 @@ const Movies = () => {
         ))}
         <NextPrevBtn onNext={onNext} onPrev={onPrev} />
       </div>
+
+      <ConfirmModal
+        visible={showConfirmModal}
+        onCancel={hideConfirmModal}
+        onConfirm={handleDeleteMovie}
+        busy={busy}
+      />
+
       {/* Update Movie Modal */}
       <UpdateMovieModal
         initialState={selectedMovie}
