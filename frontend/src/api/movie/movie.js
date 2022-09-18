@@ -70,3 +70,23 @@ export const getMovies = async (pageNo, limit) => {
     return error.message || error;
   }
 };
+
+// UPDATE TRAILER
+export const getMovieForUpdate = async (id) => {
+  const token = getToken();
+
+  try {
+    const { data } = await client("/movie/update/" + id, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error.message);
+    const { res } = error;
+    if (res?.data) return res.data;
+
+    return error.message || error;
+  }
+};
