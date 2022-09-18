@@ -90,3 +90,24 @@ export const getMovieForUpdate = async (id) => {
     return error.message || error;
   }
 };
+
+// UPDATE MOVIE
+export const updateMovie = async (id, formData) => {
+  const token = getToken();
+
+  try {
+    const { data } = await client.patch("/movie/update-movie/" + id, formData, {
+      headers: {
+        Authorization: "Bearer " + token,
+        "content-type": "multipart/form-data",
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error.message);
+    const { res } = error;
+    if (res?.data) return res.data;
+
+    return error.message || error;
+  }
+};
