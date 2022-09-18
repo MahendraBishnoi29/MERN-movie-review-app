@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { commonInputClasses } from "../../../utils/theme";
 import Submit from "../../Form/Submit";
@@ -26,7 +26,7 @@ import DirectorSelector from "../../Selectors/DirectorSelector";
 import { validateMovie } from "../../../utils/validator";
 
 // COMPONENT
-const MovieForm = ({ onSubmit, busy }) => {
+const MovieForm = ({ onSubmit, busy, initialState }) => {
   const defaultMovieInfo = {
     title: "",
     storyLine: "",
@@ -170,6 +170,13 @@ const MovieForm = ({ onSubmit, busy }) => {
     }
   };
 
+  useEffect(() => {
+    if (initialState) {
+      setMovieInfo({ ...initialState, poster: null });
+      setSelectedPoster(initialState.poster);
+    }
+  }, [initialState]);
+
   const {
     title,
     storyLine,
@@ -180,6 +187,7 @@ const MovieForm = ({ onSubmit, busy }) => {
     genres,
     type,
     status,
+    releaseDate,
     language,
   } = movieInfo;
 
@@ -260,6 +268,7 @@ const MovieForm = ({ onSubmit, busy }) => {
             <CastFrom onSubmit={updateCast} />-
           </div>
           <input
+            value={releaseDate}
             onChange={handleChange}
             name="releaseDate"
             type="date"
