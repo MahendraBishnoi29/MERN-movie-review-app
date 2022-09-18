@@ -170,9 +170,14 @@ const MovieForm = ({ onSubmit, busy, initialState }) => {
     }
   };
 
+  // Fetch Currently Updating Movie's State
   useEffect(() => {
     if (initialState) {
-      setMovieInfo({ ...initialState, poster: null });
+      setMovieInfo({
+        ...initialState,
+        releaseDate: initialState.releaseDate.split("T")[0],
+        poster: null,
+      });
       setSelectedPoster(initialState.poster);
     }
   }, [initialState]);
