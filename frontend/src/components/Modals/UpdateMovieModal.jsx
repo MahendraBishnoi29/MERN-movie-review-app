@@ -5,7 +5,7 @@ import ModalContainer from "./ModalContainer";
 const UpdateMovieModal = ({ visible, initialState }) => {
   return (
     <ModalContainer visible={visible}>
-      <MovieForm initialState={initialState} />
+      <MovieForm btnTitle="Update" initialState={initialState} />
     </ModalContainer>
   );
 };
