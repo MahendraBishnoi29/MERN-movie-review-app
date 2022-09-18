@@ -185,7 +185,6 @@ const MovieForm = ({ onSubmit, busy, initialState }) => {
   const {
     title,
     storyLine,
-    // director,
     writers,
     cast,
     tags,
