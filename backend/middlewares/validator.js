@@ -90,24 +90,7 @@ exports.validateMovie = [
         return true;
       }
     }),
-  check("trailer")
-    .isObject()
-    .withMessage("Trailer must be anb object with url and public_id")
-    .custom(({ url, public_id }) => {
-      try {
-        const result = new URL(url);
-        if (!result.protocol.includes("http"))
-          throw Error("missing http in Trailer Url");
 
-        const arr = url.split("/");
-        const publicId = arr[arr.length - 1].split(".")[0];
-
-        if (public_id !== publicId) throw Error("Trailer public id is invalid");
-        return true;
-      } catch (error) {
-        throw Error("Trailer url is invalid");
-      }
-    }),
   // check("poster").custom((_, { req }) => {
   //   if (!req.file) throw Error("Poster File is Missing!");
   //   return true;
@@ -122,3 +105,23 @@ exports.validate = (req, res, next) => {
   }
   next();
 };
+
+// Validate Trailer
+exports.validateTrailer = check("trailer")
+  .isObject()
+  .withMessage("Trailer must be anb object with url and public_id")
+  .custom(({ url, public_id }) => {
+    try {
+      const result = new URL(url);
+      if (!result.protocol.includes("http"))
+        throw Error("missing http in Trailer Url");
+
+      const arr = url.split("/");
+      const publicId = arr[arr.length - 1].split(".")[0];
+
+      if (public_id !== publicId) throw Error("Trailer public id is invalid");
+      return true;
+    } catch (error) {
+      throw Error("Trailer url is invalid");
+    }
+  });
