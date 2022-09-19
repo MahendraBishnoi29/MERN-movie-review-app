@@ -2,9 +2,14 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { deleteMovie, getMovies } from "../../api/movie/movie";
+import {
+  deleteMovie,
+  getMovieForUpdate,
+  getMovies,
+} from "../../api/movie/movie";
 import MovieListItem from "../Admin/Movie/MovieListItem";
 import ConfirmModal from "../Modals/ConfirmModal";
+import UpdateMovieModal from "../Modals/UpdateMovieModal";
 
 const pageNo = 0;
 const limit = 5;
@@ -12,6 +17,7 @@ const limit = 5;
 const LatestUpload = () => {
   const [movies, setMovies] = useState([]);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [busy, setBusy] = useState(false);
 
@@ -21,12 +27,12 @@ const LatestUpload = () => {
     setMovies([...movies]);
   };
 
-  // Delete Movie
   const handleDelete = (movie) => {
     setSelectedMovie(movie);
     setShowConfirmModal(true);
   };
 
+  // Delete Movie
   const handleDeleteConfirm = async () => {
     setBusy(true);
     const { error, message } = await deleteMovie(selectedMovie.id);
@@ -38,8 +44,25 @@ const LatestUpload = () => {
     toast.success(message);
   };
 
-  const closeConfirmModal = () => {
-    setShowConfirmModal(false);
+  const closeConfirmModal = () => setShowConfirmModal(false);
+  const closeUpdateModal = () => setShowUpdateModal(false);
+
+  // Edit Movie
+  const handleEdit = async ({ id }) => {
+    const { error, movie } = await getMovieForUpdate(id);
+    setShowUpdateModal(true);
+    if (error) return toast.error(error);
+
+    setSelectedMovie(movie);
+  };
+
+  const handleUpdate = (movie) => {
+    const updatedMovies = movies.map((m) => {
+      if (m.id === movie.id) return movie;
+      return m;
+    });
+
+    setMovies([...updatedMovies]);
   };
 
   useEffect(() => {
@@ -60,6 +83,7 @@ const LatestUpload = () => {
                 key={movie.id}
                 movie={movie}
                 onDelete={() => handleDelete(movie)}
+                onEdit={() => handleEdit(movie)}
               />
             );
           })}
@@ -70,6 +94,13 @@ const LatestUpload = () => {
         onConfirm={handleDeleteConfirm}
         visible={showConfirmModal}
         onCancel={closeConfirmModal}
+      />
+
+      <UpdateMovieModal
+        initialState={selectedMovie}
+        onClose={closeUpdateModal}
+        onSuccess={handleUpdate}
+        visible={showUpdateModal}
       />
     </>
   );
