@@ -5,6 +5,7 @@ import AdminNavbar from "../../components/Admin/AdminNavbar";
 import Dashboard from "../../components/Admin/Dashboard/Dashboard";
 import Header from "../../components/Admin/Header";
 import Movies from "../../components/Admin/Movie/Movies";
+import SearchMovies from "../../components/Admin/Movie/SearchMovies";
 import MovieUpload from "../../components/Admin/Upload/MovieUpload";
 import NotFound from "../../components/Home/NotFound";
 import ActorUpload from "../../components/Modals/ActorUpload";
@@ -44,6 +45,7 @@ const AdminNavigator = () => {
             <Route path="/" element={<Dashboard />} />
             <Route path="/movies" element={<Movies />} />
             <Route path="/actors" element={<Actors />} />
+            <Route path="/search" element={<SearchMovies />} />
             <Route path="/*" element={<NotFound />} />
           </Routes>
         </div>
