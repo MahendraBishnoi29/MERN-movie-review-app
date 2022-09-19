@@ -112,11 +112,32 @@ export const updateMovie = async (id, formData) => {
   }
 };
 
+// DELETE MOVIE
 export const deleteMovie = async (id) => {
   const token = getToken();
 
   try {
     const { data } = await client.delete(`/movie/delete-movie/${id}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error.message);
+    const { res } = error;
+    if (res?.data) return res.data;
+
+    return error.message || error;
+  }
+};
+
+// SEARCH MOVIE
+export const searchMovieForAdmin = async (title) => {
+  const token = getToken();
+
+  try {
+    const { data } = await client(`/movie/search?title=${title}`, {
       headers: {
         Authorization: "Bearer " + token,
       },
