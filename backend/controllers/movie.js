@@ -335,6 +335,23 @@ const getMovieForUpdate = async (req, res) => {
   });
 };
 
+// SEARCH MOVIE
+const searchMovie = async (req, res) => {
+  const { title } = req.query;
+  const movies = Movie.find({ title: { $regex: title, $options: "i" } });
+  res.json({
+    results: movies.map((m) => {
+      return {
+        id: m._id,
+        title: m.title,
+        poster: m.poster?.url,
+        genres: m.genres,
+        status: m.status,
+      };
+    }),
+  });
+};
+
 module.exports = {
   uploadTrailer,
   createMovie,
@@ -342,5 +359,6 @@ module.exports = {
   updateMovie,
   deleteMovie,
   getMovies,
+  searchMovie,
   getMovieForUpdate,
 };
