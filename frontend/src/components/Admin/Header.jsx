@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BsSunFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../hooks";
 import SearchInputForm from "../Shared/SearchInputForm";
 
@@ -8,14 +9,22 @@ const Header = ({ onAddMovie, onAddActor }) => {
   const [showOptions, setShowOptions] = useState(false);
   const { toggleTheme } = useTheme();
 
+  const navigate = useNavigate();
+
   const options = [
     { title: "Add Movie", onClick: onAddMovie },
     { title: "Add Actor", onClick: onAddActor },
   ];
 
+  const handleSearch = (query) => {
+    if (!query) return;
+
+    navigate(`/search?title=${query}`);
+  };
+
   return (
     <div className="flex items-center justify-between relative">
-      <SearchInputForm placeholder="Search Movies..." />
+      <SearchInputForm onSubmit={handleSearch} placeholder="Search Movies..." />
 
       <div className="flex items-center space-x-3">
         <button
