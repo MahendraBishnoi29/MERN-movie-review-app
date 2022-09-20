@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { getMovies } from "../../api/movie/movie";
 
 export const MovieContext = createContext();
-const limit = 10;
+const limit = 5;
 let currentPageNo = 0;
 
 const MoviesProvider = ({ children }) => {
@@ -13,7 +13,7 @@ const MoviesProvider = ({ children }) => {
   const [reachedToEnd, setReachedToEnd] = useState(false);
 
   // FETCH MOVIES
-  const fetchMovies = async (pageNo) => {
+  const fetchMovies = async (pageNo = currentPageNo) => {
     const { movies, error } = await getMovies(pageNo, limit);
     if (error) return toast.error(error.message);
 
