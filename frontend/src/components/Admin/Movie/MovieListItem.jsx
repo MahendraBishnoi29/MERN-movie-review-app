@@ -1,7 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import { BsBoxArrowUpRight, BsPencilSquare, BsTrash } from "react-icons/bs";
+import { toast } from "react-toastify";
+import { deleteMovie } from "../../../api/movie/movie";
+import ConfirmModal from "../../Modals/ConfirmModal";
 
-const MovieListItem = ({ movie, onDelete, onEdit, onOpen }) => {
+const MovieListItem = ({ movie, afterDelete }) => {
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [busy, setBusy] = useState(false);
+
+  // Delete Movie
+  const handleDeleteMovie = async () => {
+    setBusy(true);
+    const { error, message } = await deleteMovie(movie.id);
+    setBusy(false);
+    if (error) return toast.error(error);
+    toast.success(message);
+    afterDelete(movie);
+    closeConfirmModal();
+  };
+
+  const displayConfirmModal = () => setShowConfirmModal(true);
+  const closeConfirmModal = () => setShowConfirmModal(false);
+
+  return (
+    <>
+      <MovieCard movie={movie} onDelete={displayConfirmModal} />
+      <div className="p-0">
+        <ConfirmModal
+          busy={busy}
+          onConfirm={handleDeleteMovie}
+          visible={showConfirmModal}
+          onCancel={closeConfirmModal}
+        />
+      </div>
+    </>
+  );
+};
+
+const MovieCard = ({ movie, onDelete, onEdit, onOpen }) => {
   const { poster, title, genres = [], status } = movie;
   return (
     <table className="w-full border-b">
