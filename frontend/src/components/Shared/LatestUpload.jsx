@@ -1,59 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { useEffect } from "react";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import { deleteMovie, getMovieForUpdate } from "../../api/movie/movie";
 import { useMovies } from "../../hooks";
 import MovieListItem from "../Admin/Movie/MovieListItem";
-import ConfirmModal from "../Modals/ConfirmModal";
-import UpdateMovieModal from "../Modals/UpdateMovieModal";
 
 const LatestUpload = () => {
-  const [movies, setMovies] = useState([]);
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const [busy, setBusy] = useState(false);
-
   const { fetchLatestUploads, latestUploads } = useMovies();
 
-  const handleDelete = (movie) => {
-    setSelectedMovie(movie);
-    setShowConfirmModal(true);
-  };
-
-  // Delete Movie
-  const handleDeleteConfirm = async () => {
-    setBusy(true);
-    const { error, message } = await deleteMovie(selectedMovie.id);
-    if (error) return toast.error(error);
-
-    setBusy(false);
-    fetchLatestUploads();
-    closeConfirmModal();
-    toast.success(message);
-  };
-
-  const closeConfirmModal = () => setShowConfirmModal(false);
-  const closeUpdateModal = () => setShowUpdateModal(false);
-
-  // Edit Movie
-  const handleEdit = async ({ id }) => {
-    const { error, movie } = await getMovieForUpdate(id);
-    setShowUpdateModal(true);
-    if (error) return toast.error(error);
-
-    setSelectedMovie(movie);
-  };
-
-  const handleUpdate = (movie) => {
-    const updatedMovies = movies.map((m) => {
-      if (m.id === movie.id) return movie;
-      return m;
-    });
-
-    setMovies([...updatedMovies]);
-  };
+  const handleAfterDelete = () => fetchLatestUploads();
 
   useEffect(() => {
     fetchLatestUploads();
@@ -72,26 +26,12 @@ const LatestUpload = () => {
               <MovieListItem
                 key={movie.id}
                 movie={movie}
-                onDelete={() => handleDelete(movie)}
-                onEdit={() => handleEdit(movie)}
+                afterDelete={handleAfterDelete}
               />
             );
           })}
         </div>
       </div>
-      <ConfirmModal
-        busy={busy}
-        onConfirm={handleDeleteConfirm}
-        visible={showConfirmModal}
-        onCancel={closeConfirmModal}
-      />
-
-      <UpdateMovieModal
-        initialState={selectedMovie}
-        onClose={closeUpdateModal}
-        onSuccess={handleUpdate}
-        visible={showUpdateModal}
-      />
     </>
   );
 };
