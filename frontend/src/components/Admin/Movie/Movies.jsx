@@ -15,7 +15,8 @@ const Movies = () => {
     fetchPrevPage,
   } = useMovies();
 
-  const handleAfterDelete = () => fetchMovies();
+  //  const handleAfterDelete = () => fetchMovies();
+  const handleUpdateUI = () => fetchMovies();
 
   useEffect(() => {
     fetchMovies(currentPageNo);
@@ -26,7 +27,8 @@ const Movies = () => {
       <div className="space-y-3 p-5 md:pr-72 sm:pr-8">
         {newMovies.map((movie) => (
           <MovieListItem
-            afterDelete={handleAfterDelete}
+            afterDelete={handleUpdateUI}
+            afterUpdate={handleUpdateUI}
             key={movie.id}
             movie={movie}
           />
