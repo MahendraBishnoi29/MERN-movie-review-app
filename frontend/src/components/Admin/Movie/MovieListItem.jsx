@@ -17,9 +17,9 @@ const MovieListItem = ({ movie, afterDelete, afterUpdate }) => {
     const { error, message } = await deleteMovie(movie.id);
     setBusy(false);
     if (error) return toast.error(error);
+    closeConfirmModal();
     toast.success(message);
     afterDelete(movie);
-    closeConfirmModal();
   };
 
   const displayConfirmModal = () => setShowConfirmModal(true);
