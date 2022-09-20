@@ -9,6 +9,7 @@ let currentPageNo = 0;
 
 const MoviesProvider = ({ children }) => {
   const [movies, setMovies] = useState([]);
+  const [latestUploads, setLatestUploads] = useState([]);
   const [reachedToEnd, setReachedToEnd] = useState(false);
 
   // FETCH MOVIES
@@ -21,6 +22,13 @@ const MoviesProvider = ({ children }) => {
       return setReachedToEnd(true);
     }
     setMovies([...movies]);
+  };
+
+  // FETCH LATEST UPLOADS
+  const fetchLatestUploads = async (qty = 5) => {
+    const { error, movies } = await getMovies(0, qty);
+    if (error) return toast.error(error);
+    setLatestUploads([...movies]);
   };
 
   // Next Page
@@ -40,7 +48,14 @@ const MoviesProvider = ({ children }) => {
 
   return (
     <MovieContext.Provider
-      value={{ movies, fetchMovies, fetchNextPage, fetchPrevPage }}
+      value={{
+        movies,
+        latestUploads,
+        fetchLatestUploads,
+        fetchMovies,
+        fetchNextPage,
+        fetchPrevPage,
+      }}
     >
       {children}
     </MovieContext.Provider>
