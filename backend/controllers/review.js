@@ -55,4 +55,25 @@ const updateReview = async (req, res) => {
   res.json({ message: "Review Updated 👍🏻" });
 };
 
-module.exports = { addReview, updateReview };
+// REMOVE REVIEW
+const removeReview = async (req, res) => {
+  const { reviewId } = req.params;
+
+  const userId = req.user._id;
+
+  if (!isValidObjectId(reviewId))
+    return res.json({ error: "Invalid Review Id!" });
+
+  const review = await Review.findOne({ owner: userId, _id: reviewId });
+  if (!review) return res.json({ error: "Review Not Found!" });
+
+  const movie = await Movie.findById(review.parentMovie).select("reviews");
+  movie.reviews = movie.reviews.filter((rId) => rId.toString() !== reviewId);
+
+  await Review.findByIdAndDelete(reviewId);
+
+  await movie.save();
+  res.json({ message: "Review Removed Successfully 👍🏻" });
+};
+
+module.exports = { addReview, updateReview, removeReview };
