@@ -1,54 +1,59 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { useState } from "react";
-import {
-  deleteMovie,
-  getMovieForUpdate,
-  getMovies,
-} from "../../../api/movie/movie";
+import { deleteMovie, getMovieForUpdate } from "../../../api/movie/movie";
 import { toast } from "react-toastify";
 import MovieListItem from "./MovieListItem";
 import { useEffect } from "react";
 import NextPrevBtn from "../Actors/NextPrevBtn";
 import UpdateMovieModal from "../../Modals/UpdateMovieModal";
 import ConfirmModal from "../../Modals/ConfirmModal";
+import { useMovies } from "../../../hooks";
 
-const limit = 10;
 let currentPageNo = 0;
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
   const [busy, setBusy] = useState(false);
-  const [reachedToEnd, setReachedToEnd] = useState(false);
+
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
-  const fetchMovies = async (pageNo) => {
-    const { movies, error } = await getMovies(pageNo, limit);
-    if (error) return toast.error(error.message);
+  // const fetchMovies = async (pageNo) => {
+  //   const { movies, error } = await getMovies(pageNo, limit);
+  //   if (error) return toast.error(error.message);
 
-    if (!movies?.length) {
-      currentPageNo = pageNo - 1;
-      return setReachedToEnd(true);
-    }
+  //   if (!movies?.length) {
+  //     currentPageNo = pageNo - 1;
+  //     return setReachedToEnd(true);
+  //   }
 
-    setMovies([...movies]);
-  };
+  //   setMovies([...movies]);
+  // };
 
   // Next Page
-  const onNext = () => {
-    if (reachedToEnd) return;
-    currentPageNo += 1;
-    fetchMovies(currentPageNo);
-  };
 
-  // Prev Page
-  const onPrev = () => {
-    if (currentPageNo <= 0) return;
-    if (reachedToEnd) setReachedToEnd(false);
-    currentPageNo -= 1;
-    fetchMovies(currentPageNo);
-  };
+  const {
+    fetchMovies,
+    movies: newMovies,
+    fetchNextPage,
+    fetchPrevPage,
+  } = useMovies();
+
+  // const onNext = () => {
+  //   if (reachedToEnd) return;
+  //   currentPageNo += 1;
+  //   fetchMovies(currentPageNo);
+  // };
+
+  // // Prev Page
+  // const onPrev = () => {
+  //   if (currentPageNo <= 0) return;
+  //   if (reachedToEnd) setReachedToEnd(false);
+  //   currentPageNo -= 1;
+  //   fetchMovies(currentPageNo);
+  // };
 
   // Edit Movie
   const handleOnEdit = async ({ id }) => {
@@ -96,7 +101,7 @@ const Movies = () => {
   return (
     <>
       <div className="space-y-3 p-5 md:pr-72 sm:pr-8">
-        {movies.map((movie) => (
+        {newMovies.map((movie) => (
           <MovieListItem
             onDelete={() => handleOnDelete(movie)}
             onEdit={() => handleOnEdit(movie)}
@@ -104,7 +109,7 @@ const Movies = () => {
             movie={movie}
           />
         ))}
-        <NextPrevBtn onNext={onNext} onPrev={onPrev} />
+        <NextPrevBtn onNext={fetchNextPage} onPrev={fetchPrevPage} />
       </div>
 
       <ConfirmModal
