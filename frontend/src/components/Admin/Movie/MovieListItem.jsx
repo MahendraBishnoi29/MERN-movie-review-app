@@ -3,10 +3,13 @@ import { BsBoxArrowUpRight, BsPencilSquare, BsTrash } from "react-icons/bs";
 import { toast } from "react-toastify";
 import { deleteMovie } from "../../../api/movie/movie";
 import ConfirmModal from "../../Modals/ConfirmModal";
+import UpdateMovieModal from "../../Modals/UpdateMovieModal";
 
-const MovieListItem = ({ movie, afterDelete }) => {
+const MovieListItem = ({ movie, afterDelete, afterUpdate }) => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [selectedMovieId, setSelectedMovieId] = useState(null);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
 
   // Delete Movie
   const handleDeleteMovie = async () => {
@@ -22,15 +25,35 @@ const MovieListItem = ({ movie, afterDelete }) => {
   const displayConfirmModal = () => setShowConfirmModal(true);
   const closeConfirmModal = () => setShowConfirmModal(false);
 
+  const handleOnEdit = () => {
+    setShowUpdateModal(true);
+    setSelectedMovieId(movie.id);
+  };
+
+  const handleOnUpdate = (movie) => {
+    afterUpdate(movie);
+    setShowUpdateModal(false);
+    setSelectedMovieId(null);
+  };
+
   return (
     <>
-      <MovieCard movie={movie} onDelete={displayConfirmModal} />
+      <MovieCard
+        movie={movie}
+        onDelete={displayConfirmModal}
+        onEdit={handleOnEdit}
+      />
       <div className="p-0">
         <ConfirmModal
           busy={busy}
           onConfirm={handleDeleteMovie}
           visible={showConfirmModal}
           onCancel={closeConfirmModal}
+        />
+        <UpdateMovieModal
+          movieId={selectedMovieId}
+          visible={showUpdateModal}
+          onSuccess={handleOnUpdate}
         />
       </div>
     </>
