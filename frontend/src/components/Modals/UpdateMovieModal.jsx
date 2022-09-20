@@ -5,7 +5,7 @@ import { getMovieForUpdate, updateMovie } from "../../api/movie/movie";
 import MovieForm from "../Admin/Movie/MovieForm";
 import ModalContainer from "./ModalContainer";
 
-const UpdateMovieModal = ({ visible, onClose, onSuccess, movieId }) => {
+const UpdateMovieModal = ({ visible, onSuccess, movieId }) => {
   const [busy, setBusy] = useState(false);
   const [ready, setReady] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -17,7 +17,6 @@ const UpdateMovieModal = ({ visible, onClose, onSuccess, movieId }) => {
     if (error) return toast.error(error);
     toast.success(message);
     onSuccess(movie);
-    onClose();
   };
 
   // Edit Movie
