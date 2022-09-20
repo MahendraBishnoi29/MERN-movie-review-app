@@ -2,17 +2,11 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import {
-  deleteMovie,
-  getMovieForUpdate,
-  getMovies,
-} from "../../api/movie/movie";
+import { deleteMovie, getMovieForUpdate } from "../../api/movie/movie";
+import { useMovies } from "../../hooks";
 import MovieListItem from "../Admin/Movie/MovieListItem";
 import ConfirmModal from "../Modals/ConfirmModal";
 import UpdateMovieModal from "../Modals/UpdateMovieModal";
-
-const pageNo = 0;
-const limit = 5;
 
 const LatestUpload = () => {
   const [movies, setMovies] = useState([]);
@@ -21,11 +15,7 @@ const LatestUpload = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [busy, setBusy] = useState(false);
 
-  const fetchLatestUploads = async () => {
-    const { error, movies } = await getMovies(pageNo, limit);
-    if (error) return toast.error(error);
-    setMovies([...movies]);
-  };
+  const { fetchLatestUploads, latestUploads } = useMovies();
 
   const handleDelete = (movie) => {
     setSelectedMovie(movie);
@@ -77,7 +67,7 @@ const LatestUpload = () => {
         </h1>
 
         <div className="space-y-3">
-          {movies.map((movie) => {
+          {latestUploads.map((movie) => {
             return (
               <MovieListItem
                 key={movie.id}
