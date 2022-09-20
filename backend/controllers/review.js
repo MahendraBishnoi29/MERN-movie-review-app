@@ -18,7 +18,7 @@ const addReview = async (req, res) => {
     parentMovie: movie._id,
   });
   if (isAlreadyReviewed)
-    res.json({ error: "You Have Already Reviewed This Movie!" });
+    return res.json({ error: "You Have Already Reviewed This Movie!" });
 
   // Create Review
   const newReview = new Review({
