@@ -7,7 +7,7 @@ import MovieListItem from "../Admin/Movie/MovieListItem";
 const LatestUpload = () => {
   const { fetchLatestUploads, latestUploads } = useMovies();
 
-  const handleAfterDelete = () => fetchLatestUploads();
+  const handleUpdateUI = () => fetchLatestUploads();
 
   useEffect(() => {
     fetchLatestUploads();
@@ -26,7 +26,8 @@ const LatestUpload = () => {
               <MovieListItem
                 key={movie.id}
                 movie={movie}
-                afterDelete={handleAfterDelete}
+                afterDelete={handleUpdateUI}
+                afterUpdate={handleUpdateUI}
               />
             );
           })}
