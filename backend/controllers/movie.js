@@ -355,6 +355,66 @@ const searchMovie = async (req, res) => {
   });
 };
 
+// GET SINGLE MOVIE
+const getSingleMovie = async (req, res) => {
+  const { movieId } = req.params;
+
+  if (!isValidObjectId(movieId)) return res.json({ error: "Invalid MovieId!" });
+
+  const movie = await Movie.findById(movieId).populate(
+    "director writers cast.actor"
+  );
+
+  const {
+    _id: id,
+    title,
+    storyLine,
+    cast,
+    writers,
+    director,
+    releaseDate,
+    genres,
+    tags,
+    language,
+    poster,
+    trailer,
+    type,
+  } = movie;
+
+  res.json({
+    movie: {
+      id,
+      title,
+      storyLine,
+      releaseDate,
+      genres,
+      tags,
+      language,
+      poster: poster?.url,
+      trailer: trailer?.url,
+      type,
+      cast: cast.map((c) => ({
+        id: c._id,
+        profile: {
+          id: c.actor._id,
+          name: c.actor.name,
+          avatar: c.actor?.avatar?.url,
+        },
+        leadActor: c.leadActor,
+        roleAs: c.roleAs,
+      })),
+      writers: writers.map((w) => ({
+        id: w._id,
+        name: w.name,
+      })),
+      director: {
+        id: director._id,
+        name: director.name,
+      },
+    },
+  });
+};
+
 module.exports = {
   uploadTrailer,
   createMovie,
@@ -364,4 +424,5 @@ module.exports = {
   getMovies,
   searchMovie,
   getMovieForUpdate,
+  getSingleMovie,
 };
