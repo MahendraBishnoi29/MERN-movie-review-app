@@ -1,4 +1,5 @@
 const { isValidObjectId } = require("mongoose");
+const { populate } = require("../models/movie");
 const Movie = require("../models/movie");
 const Review = require("../models/review");
 
@@ -76,4 +77,21 @@ const removeReview = async (req, res) => {
   res.json({ message: "Review Removed Successfully 👍🏻" });
 };
 
-module.exports = { addReview, updateReview, removeReview };
+// GET REVIEWS BY MOVIE
+const getReviewByMovie = async (req, res) => {
+  const { movieId } = req.params;
+
+  if (!isValidObjectId(movieId))
+    return res.json({ error: "Invalid Movie Id!" });
+
+  const movie = await Movie.findById(movieId)
+    .populate({
+      path: "reviews",
+      populate: { path: "owner", select: "name" },
+    })
+    .select("reviews");
+
+  res.json(movie.reviews);
+};
+
+module.exports = { addReview, updateReview, removeReview, getReviewByMovie };
