@@ -6,6 +6,7 @@ const {
   formatActor,
   averageRatingPipeline,
   relatedMovieAggregation,
+  getAverageRatings,
 } = require("../utils/helper");
 
 // UPLOAD TRAILER FUNCTION
@@ -370,16 +371,18 @@ const getSingleMovie = async (req, res) => {
     "director writers cast.actor"
   );
 
-  const [aggregatedRes] = await Review.aggregate(
-    averageRatingPipeline(movie._id)
-  );
-  const reviews = {};
+  // const [aggregatedRes] = await Review.aggregate(
+  //   averageRatingPipeline(movie._id)
+  // );
+  // const reviews = {};
 
-  if (aggregatedRes) {
-    const { ratingAvg, reviewCount } = aggregatedRes;
-    reviews.ratingAvg = parseFloat(ratingAvg).toFixed(1);
-    reviews.reviewsCount = reviewCount;
-  }
+  // if (aggregatedRes) {
+  //   const { ratingAvg, reviewCount } = aggregatedRes;
+  //   reviews.ratingAvg = parseFloat(ratingAvg).toFixed(1);
+  //   reviews.reviewsCount = reviewCount;
+  // }
+
+  const reviews = await getAverageRatings(movie._id);
 
   const {
     _id: id,
@@ -465,7 +468,18 @@ const getRelatedMovies = async (req, res) => {
     relatedMovieAggregation(movie.tags, movie._id)
   );
 
-  res.json({ movies });
+  const relatedMovies = movies.map(async (m) => {
+    const reviews = await getAverageRatings(m._id);
+
+    return {
+      id: m._id,
+      title: m.title,
+      poster: m.poster,
+      reviews: { ...reviews },
+    };
+  });
+
+  res.json({ relatedMovies });
 };
 
 module.exports = {
