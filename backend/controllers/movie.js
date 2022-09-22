@@ -428,6 +428,30 @@ const getSingleMovie = async (req, res) => {
   });
 };
 
+// GET LATEST UPLOADS
+const getLatestUploads = async (req, res) => {
+  const { limit = 5 } = req.query;
+
+  const results = await Movie.find({ status: "public" })
+    .sort("-createdAt")
+    .limit(parseInt(limit));
+
+  const movies = results.map((m) => {
+    return {
+      id: m._id,
+      title: m.title,
+      poster: m.poster?.url,
+      trailer: m.trailer?.url,
+      storyLine: m.storyLine,
+    };
+  });
+
+  res.json({ movies });
+};
+
+// GET RELATED MOVIES
+const getRelatedMovies = async (req, res) => {};
+
 module.exports = {
   uploadTrailer,
   createMovie,
@@ -438,4 +462,6 @@ module.exports = {
   searchMovie,
   getMovieForUpdate,
   getSingleMovie,
+  getLatestUploads,
+  getRelatedMovies,
 };
