@@ -10,6 +10,7 @@ const {
   getSingleMovie,
   getLatestUploads,
   getRelatedMovies,
+  getTopRatedMovies,
 } = require("../controllers/movie");
 const router = express.Router();
 const { IsAuth, isAdmin } = require("../middlewares/authMiddlware");
@@ -71,5 +72,6 @@ router.get("/search", IsAuth, isAdmin, searchMovie);
 router.get("/latest-uploads", getLatestUploads);
 router.get("/single/:movieId", getSingleMovie);
 router.get("/related/:movieId", getRelatedMovies);
+router.get("/top-rated", getTopRatedMovies);
 
 module.exports = router;
