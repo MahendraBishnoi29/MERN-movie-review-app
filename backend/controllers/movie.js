@@ -2,7 +2,11 @@ const cloudinary = require("../utils/cloud");
 const Movie = require("../models/movie");
 const Review = require("../models/review");
 const { isValidObjectId } = require("mongoose");
-const { formatActor, averageRatingPipeline } = require("../utils/helper");
+const {
+  formatActor,
+  averageRatingPipeline,
+  relatedMovieAggregation,
+} = require("../utils/helper");
 
 // UPLOAD TRAILER FUNCTION
 const uploadTrailer = async (req, res) => {
@@ -450,7 +454,42 @@ const getLatestUploads = async (req, res) => {
 };
 
 // GET RELATED MOVIES
-const getRelatedMovies = async (req, res) => {};
+const getRelatedMovies = async (req, res) => {
+  const { movieId } = req.params;
+  if (!isValidObjectId(movieId))
+    return res.json({ error: "Invalid Movies ID" });
+
+  const movie = await Movie.findById(movieId);
+
+  const movies = await Movie.aggregate([
+    {
+      $lookup: {
+        from: "Movie",
+        localField: "tags",
+        foreignField: "_id",
+        as: "relatedMovie",
+      },
+    },
+    {
+      $match: {
+        tags: { $in: [...movie.tags] },
+        id: { $ne: movie._id },
+      },
+    },
+    {
+      $project: {
+        title: 1,
+        poster: "$poster.url",
+      },
+    },
+    {
+      $limit: 5,
+    },
+  ]);
+  console.log(movies);
+
+  res.json({ movies });
+};
 
 module.exports = {
   uploadTrailer,
