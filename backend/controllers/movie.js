@@ -4,9 +4,9 @@ const Review = require("../models/review");
 const { isValidObjectId } = require("mongoose");
 const {
   formatActor,
-  averageRatingPipeline,
   relatedMovieAggregation,
   getAverageRatings,
+  topRatedMoviesPipeline,
 } = require("../utils/helper");
 
 // UPLOAD TRAILER FUNCTION
@@ -488,40 +488,21 @@ const getRelatedMovies = async (req, res) => {
 const getTopRatedMovies = async (req, res) => {
   const { type = "Film" } = req.query;
 
-  const movies = await Movie.aggregate([
-    {
-      $lookup: {
-        from: "Movie",
-        localField: "reviews",
-        foreignField: "_id",
-        as: "topRated",
-      },
-    },
-    {
-      $match: {
-        reviews: { $exists: true },
-        status: { $eq: "public" },
-        type: { $eq: type },
-      },
-    },
-    {
-      $project: {
-        title: 1,
-        poster: "$poster.url",
-        reviewsCount: { $size: "$reviews" },
-      },
-    },
-    {
-      $sort: {
-        reviewsCount: -1,
-      },
-    },
-    {
-      $limit: 5,
-    },
-  ]);
+  const movies = await Movie.aggregate(topRatedMoviesPipeline(type));
 
-  res.json({ movies });
+  const topRatedMovies = await Promise.all(
+    movies.map(async (m) => {
+      const reviews = await getAverageRatings(m._id);
+      return {
+        id: m._id,
+        title: m.title,
+        poster: m.poster,
+        reviews: { ...reviews },
+      };
+    })
+  );
+
+  res.json({ movies: topRatedMovies });
 };
 
 module.exports = {
