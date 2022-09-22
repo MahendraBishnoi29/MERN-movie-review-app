@@ -47,7 +47,7 @@ exports.formatActor = (actor) => {
   };
 };
 
-// Aggregation
+// Aggregation FOR AVERAGE RATINGS
 exports.averageRatingPipeline = (movieId) => {
   return [
     {
@@ -77,6 +77,7 @@ exports.averageRatingPipeline = (movieId) => {
   ];
 };
 
+// AGGREGATION FOR RELATED MOVIES
 exports.relatedMovieAggregation = (tags, movieId) => {
   return [
     {
@@ -105,6 +106,7 @@ exports.relatedMovieAggregation = (tags, movieId) => {
   ];
 };
 
+// AGGREGATION FOR AVERAGE RATINGS
 exports.getAverageRatings = async (movieId) => {
   const [aggregatedRes] = await Review.aggregate(
     this.averageRatingPipeline(movieId)
@@ -117,4 +119,40 @@ exports.getAverageRatings = async (movieId) => {
     reviews.reviewsCount = reviewCount;
   }
   return reviews;
+};
+
+// AGGREGATION FOR TOP-RATED MOVIES
+exports.topRatedMoviesPipeline = (type) => {
+  return [
+    {
+      $lookup: {
+        from: "Movie",
+        localField: "reviews",
+        foreignField: "_id",
+        as: "topRated",
+      },
+    },
+    {
+      $match: {
+        reviews: { $exists: true },
+        status: { $eq: "public" },
+        type: { $eq: type },
+      },
+    },
+    {
+      $project: {
+        title: 1,
+        poster: "$poster.url",
+        reviewsCount: { $size: "$reviews" },
+      },
+    },
+    {
+      $sort: {
+        reviewsCount: -1,
+      },
+    },
+    {
+      $limit: 5,
+    },
+  ];
 };
