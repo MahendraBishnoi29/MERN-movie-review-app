@@ -83,13 +83,13 @@ exports.relatedMovieAggregation = (tags, movieId) => {
         from: "Movie",
         localField: "tags",
         foreignField: "_id",
-        as: "relatedMovies",
+        as: "relatedMovie",
       },
     },
     {
       $match: {
         tags: { $in: [...tags] },
-        _id: { $ne: movieId },
+        id: { $ne: movieId },
       },
     },
     {
@@ -98,8 +98,8 @@ exports.relatedMovieAggregation = (tags, movieId) => {
         poster: "$poster.url",
       },
     },
-    // {
-    //   $limit: 5,
-    // },
+    {
+      $limit: 5,
+    },
   ];
 };
