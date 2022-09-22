@@ -468,16 +468,18 @@ const getRelatedMovies = async (req, res) => {
     relatedMovieAggregation(movie.tags, movie._id)
   );
 
-  const relatedMovies = movies.map(async (m) => {
-    const reviews = await getAverageRatings(m._id);
+  const relatedMovies = await Promise.all(
+    movies.map(async (m) => {
+      const reviews = await getAverageRatings(m._id);
 
-    return {
-      id: m._id,
-      title: m.title,
-      poster: m.poster,
-      reviews: { ...reviews },
-    };
-  });
+      return {
+        id: m._id,
+        title: m.title,
+        poster: m.poster,
+        reviews: { ...reviews },
+      };
+    })
+  );
 
   res.json({ relatedMovies });
 };
