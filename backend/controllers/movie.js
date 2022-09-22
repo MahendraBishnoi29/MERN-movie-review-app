@@ -461,32 +461,9 @@ const getRelatedMovies = async (req, res) => {
 
   const movie = await Movie.findById(movieId);
 
-  const movies = await Movie.aggregate([
-    {
-      $lookup: {
-        from: "Movie",
-        localField: "tags",
-        foreignField: "_id",
-        as: "relatedMovie",
-      },
-    },
-    {
-      $match: {
-        tags: { $in: [...movie.tags] },
-        id: { $ne: movie._id },
-      },
-    },
-    {
-      $project: {
-        title: 1,
-        poster: "$poster.url",
-      },
-    },
-    {
-      $limit: 5,
-    },
-  ]);
-  console.log(movies);
+  const movies = await Movie.aggregate(
+    relatedMovieAggregation(movie.tags, movie._id)
+  );
 
   res.json({ movies });
 };
