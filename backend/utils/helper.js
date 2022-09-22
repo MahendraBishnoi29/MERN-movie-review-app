@@ -1,4 +1,5 @@
 const crypto = require("crypto");
+const Review = require("../models/review");
 const cloudinary = require("./cloud");
 
 // For Password Resetting
@@ -102,4 +103,18 @@ exports.relatedMovieAggregation = (tags, movieId) => {
       $limit: 5,
     },
   ];
+};
+
+exports.getAverageRatings = async (movieId) => {
+  const [aggregatedRes] = await Review.aggregate(
+    this.averageRatingPipeline(movieId)
+  );
+  const reviews = {};
+
+  if (aggregatedRes) {
+    const { ratingAvg, reviewCount } = aggregatedRes;
+    reviews.ratingAvg = parseFloat(ratingAvg).toFixed(1);
+    reviews.reviewsCount = reviewCount;
+  }
+  return reviews;
 };
