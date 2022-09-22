@@ -8,6 +8,8 @@ const {
   updateMovie,
   searchMovie,
   getSingleMovie,
+  getLatestUploads,
+  getRelatedMovies,
 } = require("../controllers/movie");
 const router = express.Router();
 const { IsAuth, isAdmin } = require("../middlewares/authMiddlware");
@@ -64,6 +66,10 @@ router.delete("/delete-movie/:movieId", IsAuth, isAdmin, deleteMovie);
 router.get("/movies", IsAuth, isAdmin, getMovies);
 router.get("/update/:movieId", IsAuth, isAdmin, getMovieForUpdate);
 router.get("/search", IsAuth, isAdmin, searchMovie);
+
+// For Normal Users
+router.get("/latest-uploads", getLatestUploads);
 router.get("/single/:movieId", getSingleMovie);
+router.get("/related/:movieId", getRelatedMovies);
 
 module.exports = router;
