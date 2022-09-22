@@ -1,7 +1,8 @@
 const cloudinary = require("../utils/cloud");
 const Movie = require("../models/movie");
+const Review = require("../models/review");
 const { isValidObjectId } = require("mongoose");
-const { formatActor } = require("../utils/helper");
+const { formatActor, averageRatingPipeline } = require("../utils/helper");
 
 // UPLOAD TRAILER FUNCTION
 const uploadTrailer = async (req, res) => {
@@ -364,6 +365,9 @@ const getSingleMovie = async (req, res) => {
   const movie = await Movie.findById(movieId).populate(
     "director writers cast.actor"
   );
+
+  const reviews = await Review.aggregate(averageRatingPipeline(movie._id));
+  console.log(reviews);
 
   const {
     _id: id,
