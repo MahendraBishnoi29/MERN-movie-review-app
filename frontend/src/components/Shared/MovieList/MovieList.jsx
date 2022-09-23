@@ -32,7 +32,7 @@ const MovieListItem = ({ movie }) => {
         loading="lazy"
         src={poster}
         alt={title}
-        className="aspect-video object-cover"
+        className="aspect-video object-cover rounded-lg"
       />
       <h1
         title={title}
