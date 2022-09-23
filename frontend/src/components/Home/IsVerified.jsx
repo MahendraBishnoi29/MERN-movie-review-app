@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks";
-import Container from "../Navbar/Container";
 
 const IsVerified = () => {
   const { authInfo } = useAuth();
@@ -15,10 +14,10 @@ const IsVerified = () => {
   };
 
   return (
-    <Container>
+    <div>
       {isLoggedIn && !isVerified ? (
         <p className="text-2xl text-center bg-blue-50 p-3">
-          Looks Like You Haven't Verified Your Account ,&nbsp;
+          Looks Like You Haven't Verified Your Account ,{" "}
           <button
             onClick={navigateToVerification}
             className="text-blue-500 font-semibold hover:underline"
@@ -27,7 +26,7 @@ const IsVerified = () => {
           </button>
         </p>
       ) : null}
-    </Container>
+    </div>
   );
 };
 
