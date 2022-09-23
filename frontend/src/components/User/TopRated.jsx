@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
+import { AiFillStar } from "react-icons/ai";
 import { toast } from "react-toastify";
 import { getTopRatedMovies } from "../../api/movie/movie";
 import GridContainer from "../Shared/GridContainer";
@@ -32,9 +33,22 @@ const TopRated = () => {
               alt={movie.title}
               className="aspect-video object-cover"
             />
-            <h1 title={movie.title} className="">
+            <h1
+              title={movie.title}
+              className="text-lg dark:text-white text-secondary font-semibold"
+            >
               {trimMovieTitle(movie.title)}
             </h1>
+            {movie.reviews.ratingAvg ? (
+              <p className="flex items-center space-x-1 text-highlight dark:text-highlight-dark">
+                <span className="">{movie.reviews?.ratingAvg}</span>
+                <AiFillStar />
+              </p>
+            ) : (
+              <p className="text-highlight dark:text-highlight-dark">
+                No Reviews
+              </p>
+            )}
           </div>
         );
       })}
