@@ -1,6 +1,5 @@
 const cloudinary = require("../utils/cloud");
 const Movie = require("../models/movie");
-const Review = require("../models/review");
 const { isValidObjectId } = require("mongoose");
 const {
   formatActor,
