@@ -1,6 +1,8 @@
 import React from "react";
 import Container from "../Navbar/Container";
-import TopRated from "../User/TopRated";
+import TopRatedMovies from "../User/TopRatedMovies";
+import TopRatedTVSeries from "../User/TopRatedTVSeries";
+import TopRatedWebSeries from "../User/TopRatedWebSeries";
 import IsVerified from "./IsVerified";
 
 const Home = () => {
@@ -10,7 +12,9 @@ const Home = () => {
         <IsVerified />
         {/* Slider */}
 
-        <TopRated />
+        <TopRatedMovies />
+        <TopRatedWebSeries />
+        <TopRatedTVSeries />
       </Container>
     </div>
   );

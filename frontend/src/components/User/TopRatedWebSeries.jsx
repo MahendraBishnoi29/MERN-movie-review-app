@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { getTopRatedMovies } from "../../api/movie/movie";
-import MovieList from "../Shared/Movie List/MovieList";
+import MovieList from "../Shared/MovieList/MovieList";
 
 const TopRatedWebSeries = () => {
   const [movies, setMovies] = useState([]);
