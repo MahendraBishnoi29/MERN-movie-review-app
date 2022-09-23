@@ -1,5 +1,6 @@
 import React from "react";
 import { AiFillStar } from "react-icons/ai";
+import { Link } from "react-router-dom";
 import GridContainer from "../GridContainer";
 
 const trimMovieTitle = (text = "") => {
@@ -25,9 +26,9 @@ const MovieList = ({ title, movies = [] }) => {
 };
 
 const MovieListItem = ({ movie }) => {
-  const { title, poster, reviews } = movie;
+  const { title, poster, reviews, id } = movie;
   return (
-    <div>
+    <Link to={`/movie/${id}`}>
       <img
         loading="lazy"
         src={poster}
@@ -48,7 +49,7 @@ const MovieListItem = ({ movie }) => {
       ) : (
         <p className="text-highlight dark:text-highlight-dark">No Reviews</p>
       )}
-    </div>
+    </Link>
   );
 };
 
