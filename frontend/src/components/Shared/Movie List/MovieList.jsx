@@ -12,7 +12,7 @@ const MovieList = ({ title, movies = [] }) => {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold dark:text-white text-secondary mb-5">
+      <h1 className="text-2xl font-semibold dark:text-white text-secondary pt-3 pb-3">
         {title}
       </h1>
       <GridContainer>
