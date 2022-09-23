@@ -14,6 +14,7 @@ import { Routes, Route } from "react-router-dom";
 // Hooks & Functions
 import { useAuth } from "./hooks";
 import AdminNavigator from "./utils/AdminNavigator/AdminNavigator";
+import SingleMoviePage from "./components/SingleMoviePage/SingleMoviePage";
 
 function App() {
   const { authInfo } = useAuth();
@@ -31,6 +32,7 @@ function App() {
         <Route path="/email-verification" element={<EmailVerification />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/reset-password" element={<ConfirmPassword />} />
+        <Route path="/movie/:movieId" element={<SingleMoviePage />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </>
