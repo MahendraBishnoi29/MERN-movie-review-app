@@ -168,3 +168,17 @@ export const getTopRatedMovies = async (type) => {
     return error.message || error;
   }
 };
+
+// GET LATEST UPLOADS
+export const getLatestUploads = async () => {
+  try {
+    const { data } = await client("/movie/latest-uploads");
+    return data;
+  } catch (error) {
+    console.log(error.message);
+    const { res } = error;
+    if (res?.data) return res.data;
+
+    return error.message || error;
+  }
+};
