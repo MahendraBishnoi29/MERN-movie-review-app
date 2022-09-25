@@ -79,12 +79,51 @@ input[type="number"]::-webkit-inner-spin-button {
 .slide-in-right {
   animation: slideInRight 0.5s ease-in;
 }
+
+.slide-out-left {
+  animation: slideOutLeft 0.5s ease-in;
+}
+
+.slide-in-from-left {
+  animation: slideInFromLeft 0.5s ease-in;
+}
+.slide-out-to-right {
+  animation: slideOutToRight 0.5s ease-in;
+}
+
+@keyframes slideOutToRight {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
 @keyframes slideInRight {
   from {
     transform: translateX(100%);
   }
   to {
     transform: translateX(0%);
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-100%);
   }
 }
 
