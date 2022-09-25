@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { useEffect } from "react";
@@ -8,6 +9,7 @@ import { toast } from "react-toastify";
 import { getLatestUploads } from "../../api/movie/movie";
 
 let count = 0;
+let intervalId;
 
 const HeroSlideShow = () => {
   const [slide, setSlide] = useState({});
@@ -59,9 +61,24 @@ const HeroSlideShow = () => {
     setClonedSlide({});
   };
 
+  const startSlideShow = () => {
+    intervalId = setInterval(handleNextSlide, 3600);
+  };
+
+  const pauseSlideShow = () => {
+    clearInterval(intervalId);
+  };
+
   useEffect(() => {
     fetchLatestUploads();
+    return () => {
+      pauseSlideShow();
+    };
   }, []);
+
+  useEffect(() => {
+    if (slides.length) startSlideShow();
+  }, [slides.length]);
 
   return (
     <div className="w-full flex">
