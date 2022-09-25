@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
@@ -11,9 +12,11 @@ let count = 0;
 const HeroSlideShow = () => {
   const [slide, setSlide] = useState({});
   const [slides, setSlides] = useState([]);
+  const [clonedSlide, setClonedSlide] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const slideRef = useRef();
+  const clonedSlideRef = useRef();
 
   const fetchLatestUploads = async () => {
     const { error, movies } = await getLatestUploads();
@@ -22,16 +25,38 @@ const HeroSlideShow = () => {
     setSlide(movies[0]);
   };
 
+  // Next Slide
   const handleNextSlide = () => {
+    setClonedSlide(slides[count]);
+
     count = (count + 1) % slides.length;
     setSlide(slides[count]);
     setCurrentIndex(count);
 
+    clonedSlideRef.current.classList.add("slide-out-left");
     slideRef.current.classList.add("slide-in-right");
   };
 
+  // Prev Slide
+  const handlePrevSlide = () => {
+    setClonedSlide(slides[count]);
+    count = (count + slides.length - 1) % slides.length;
+    setSlide(slides[count]);
+
+    clonedSlideRef.current.classList.add("slide-out-to-right");
+    slideRef.current.classList.add("slide-in-from-left");
+  };
+
   const handleAnimationEnd = () => {
-    slideRef.current.classList.remove("slide-in-right");
+    const classes = [
+      "slide-out-to-right",
+      "slide-in-from-left",
+      "slide-in-right",
+      "slide-out-left",
+    ];
+    slideRef.current.classList.remove(...classes);
+    clonedSlideRef.current.classList.remove(...classes);
+    setClonedSlide({});
   };
 
   useEffect(() => {
@@ -49,7 +74,17 @@ const HeroSlideShow = () => {
           alt=""
           className="aspect-video object-cover"
         />
-        <SlideControlBtns onNextSlide={handleNextSlide} />
+        <img
+          onAnimationEnd={handleAnimationEnd}
+          ref={clonedSlideRef}
+          src={clonedSlide.poster}
+          alt=""
+          className="aspect-video object-cover absolute inset-0"
+        />
+        <SlideControlBtns
+          onPrevSlide={handlePrevSlide}
+          onNextSlide={handleNextSlide}
+        />
       </div>
       {/* Up Next Section */}
       <div className="w-1/5 bg-red-200 aspect-video"></div>
