@@ -37,6 +37,7 @@ const HeroSlideShow = () => {
 
   // Next Slide
   const handleNextSlide = () => {
+    pauseSlideShow();
     setClonedSlide(slides[count]);
 
     count = (count + 1) % slides.length;
@@ -48,6 +49,8 @@ const HeroSlideShow = () => {
 
   // Prev Slide
   const handlePrevSlide = () => {
+    pauseSlideShow();
+
     setClonedSlide(slides[count]);
     count = (count + slides.length - 1) % slides.length;
     setCurrentSlide(slides[count]);
@@ -56,6 +59,7 @@ const HeroSlideShow = () => {
     slideRef.current.classList.add("slide-in-from-left");
   };
 
+  // End the Animation
   const handleAnimationEnd = () => {
     const classes = [
       "slide-out-to-right",
@@ -66,6 +70,7 @@ const HeroSlideShow = () => {
     slideRef.current.classList.remove(...classes);
     clonedSlideRef.current.classList.remove(...classes);
     setClonedSlide({});
+    autoStartSlide();
   };
 
   // Visibility for Pausing the Slide Show
@@ -98,7 +103,7 @@ const HeroSlideShow = () => {
       {/* Slide Show Section  */}
       <div className="w-4/5 aspect-video relative overflow-hidden">
         <img
-          onAnimationEnd={handleAnimationEnd}
+          // onAnimationEnd={handleAnimationEnd}
           src={currentSlide.poster}
           ref={slideRef}
           alt=""
