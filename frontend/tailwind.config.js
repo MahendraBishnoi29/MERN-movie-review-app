@@ -10,7 +10,7 @@ module.exports = {
         "dark-subtle": "rgba(255, 255, 255, 0.5)",
         "light-subtle": "rgba(39, 39, 39, 0.5)",
         "highlight-dark": "#ffc200",
-        highlight: "#d98600",
+        highlight: "#058bfb",
       },
     },
   },
