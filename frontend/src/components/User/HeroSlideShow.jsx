@@ -8,21 +8,31 @@ import { toast } from "react-toastify";
 import { getLatestUploads } from "../../api/movie/movie";
 
 let count = 0;
+let intervalId;
 
 const HeroSlideShow = () => {
-  const [slide, setSlide] = useState({});
+  const [currentSlide, setCurrentSlide] = useState({});
   const [slides, setSlides] = useState([]);
+  const [visible, setVisible] = useState(true);
   const [clonedSlide, setClonedSlide] = useState({});
-  const [currentIndex, setCurrentIndex] = useState(0);
 
   const slideRef = useRef();
   const clonedSlideRef = useRef();
 
+  // Fetch Latest Uploads
   const fetchLatestUploads = async () => {
     const { error, movies } = await getLatestUploads();
     if (error) return toast.error(error);
     setSlides([...movies]);
-    setSlide(movies[0]);
+    setCurrentSlide(movies[0]);
+  };
+
+  const autoStartSlide = () => {
+    intervalId = setInterval(handleNextSlide, 3500);
+  };
+
+  const pauseSlideShow = () => {
+    clearInterval(intervalId);
   };
 
   // Next Slide
@@ -30,8 +40,7 @@ const HeroSlideShow = () => {
     setClonedSlide(slides[count]);
 
     count = (count + 1) % slides.length;
-    setSlide(slides[count]);
-    setCurrentIndex(count);
+    setCurrentSlide(slides[count]);
 
     clonedSlideRef.current.classList.add("slide-out-left");
     slideRef.current.classList.add("slide-in-right");
@@ -41,14 +50,13 @@ const HeroSlideShow = () => {
   const handlePrevSlide = () => {
     setClonedSlide(slides[count]);
     count = (count + slides.length - 1) % slides.length;
-    setSlide(slides[count]);
+    setCurrentSlide(slides[count]);
 
     clonedSlideRef.current.classList.add("slide-out-to-right");
     slideRef.current.classList.add("slide-in-from-left");
   };
 
   const handleAnimationEnd = () => {
-    slideRef.current.classList.remove("slide-in-right");
     const classes = [
       "slide-out-to-right",
       "slide-in-from-left",
@@ -60,9 +68,30 @@ const HeroSlideShow = () => {
     setClonedSlide({});
   };
 
+  // Visibility for Pausing the Slide Show
+  const handleOnVisibilityChange = () => {
+    const visibility = document.visibilityState;
+    if (visibility === "hidden") setVisible(false);
+    if (visibility === "visible") setVisible(true);
+  };
+
   useEffect(() => {
     fetchLatestUploads();
+    document.addEventListener("visibilitychange", handleOnVisibilityChange);
+
+    return () => {
+      pauseSlideShow();
+      document.removeEventListener(
+        "visibilitychange",
+        handleOnVisibilityChange
+      );
+    };
   }, []);
+
+  useEffect(() => {
+    if (slides.length && visible) autoStartSlide();
+    else pauseSlideShow();
+  }, [slides.length, visible]);
 
   return (
     <div className="w-full flex">
@@ -70,16 +99,15 @@ const HeroSlideShow = () => {
       <div className="w-4/5 aspect-video relative overflow-hidden">
         <img
           onAnimationEnd={handleAnimationEnd}
+          src={currentSlide.poster}
           ref={slideRef}
-          src={slide.poster}
           alt=""
           className="aspect-video object-cover"
         />
-        <SlideControlBtns onNextSlide={handleNextSlide} />
         <img
           onAnimationEnd={handleAnimationEnd}
-          ref={clonedSlideRef}
           src={clonedSlide.poster}
+          ref={clonedSlideRef}
           alt=""
           className="aspect-video object-cover absolute inset-0"
         />
