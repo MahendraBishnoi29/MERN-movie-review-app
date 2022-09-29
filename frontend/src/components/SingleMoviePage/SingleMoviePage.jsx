@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getSingleMovie } from "../../api/movie/movie";
+import Container from "../Navbar/Container";
 
 const SingleMoviePage = () => {
   const [movie, setMovie] = useState({});
@@ -31,7 +32,28 @@ const SingleMoviePage = () => {
       </div>
     );
 
-  return <div className="text-2xl">{movie?.title}</div>;
+  const { trailer, poster, title, id, reviews = {} } = movie;
+
+  return (
+    <div className="bg-white dark:bg-primary ">
+      <Container>
+        <video poster={poster} src={trailer} controls></video>
+        <div className="flex justify-between">
+          <h1 className="text-4xl text-highlight dark:text-highlight-dark font-semibold py-3">
+            {title}
+          </h1>
+          <div className="">
+            <Link
+              to={`/movie/reviews/${id}`}
+              className="text-highlight dark:text-highlight-dark hover:underline"
+            >
+              {reviews.reviewsCount} Reviews
+            </Link>
+          </div>
+        </div>
+      </Container>
+    </div>
+  );
 };
 
 export default SingleMoviePage;
