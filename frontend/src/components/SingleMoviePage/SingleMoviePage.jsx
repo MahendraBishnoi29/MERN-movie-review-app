@@ -14,12 +14,22 @@ const SingleMoviePage = () => {
   const fetchMovie = async () => {
     const { error, movie } = await getSingleMovie(movieId);
     if (error) return toast.error(error + "Error Fetching Single Movie");
+    setReady(true);
     setMovie(movie);
   };
 
   useEffect(() => {
     if (movieId) fetchMovie();
   }, [movieId]);
+
+  if (!ready)
+    return (
+      <div className="h-screen flex justify-center items-center bg-white dark:bg-primary">
+        <p className="text-4xl text-light-subtle dark:text-dark-subtle animate-pulse">
+          Wait Please....
+        </p>
+      </div>
+    );
 
   return <div className="text-2xl">{movie?.title}</div>;
 };
