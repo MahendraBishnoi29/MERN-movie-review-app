@@ -15,6 +15,7 @@ const HeroSlideShow = () => {
   const [currentSlide, setCurrentSlide] = useState({});
   const [slides, setSlides] = useState([]);
   const [visible, setVisible] = useState(true);
+  const [upNext, setUpNext] = useState([]);
   const [clonedSlide, setClonedSlide] = useState({});
 
   const slideRef = useRef();
@@ -36,6 +37,21 @@ const HeroSlideShow = () => {
     clearInterval(intervalId);
   };
 
+  // Update Up Next Section
+  const updateUpNext = (currentIndex) => {
+    if (!slides.length) return;
+    const upNextCount = currentIndex + 1;
+    const end = upNextCount + 3;
+
+    let newSlides = [...slides];
+    newSlides = newSlides.slice(upNext, end);
+
+    if (!newSlides.length) {
+      newSlides = [...slides].slice(0, 3);
+    }
+    setUpNext([...newSlides]);
+  };
+
   // Next Slide
   const handleNextSlide = () => {
     pauseSlideShow();
@@ -46,6 +62,7 @@ const HeroSlideShow = () => {
 
     clonedSlideRef.current.classList.add("slide-out-left");
     slideRef.current.classList.add("slide-in-right");
+    updateUpNext(count);
   };
 
   // Prev Slide
@@ -58,6 +75,7 @@ const HeroSlideShow = () => {
 
     clonedSlideRef.current.classList.add("slide-out-to-right");
     slideRef.current.classList.add("slide-in-from-left");
+    updateUpNext(count);
   };
 
   // End the Animation
@@ -95,8 +113,10 @@ const HeroSlideShow = () => {
   }, []);
 
   useEffect(() => {
-    if (slides.length && visible) autoStartSlide();
-    else pauseSlideShow();
+    if (slides.length && visible) {
+      autoStartSlide();
+      updateUpNext(count);
+    } else pauseSlideShow();
   }, [slides.length, visible]);
 
   return (
