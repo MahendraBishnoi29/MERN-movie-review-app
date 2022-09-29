@@ -102,18 +102,26 @@ const HeroSlideShow = () => {
     <div className="w-full flex">
       {/* Slide Show Section  */}
       <div className="w-4/5 aspect-video relative overflow-hidden">
-        <img
-          // onAnimationEnd={handleAnimationEnd}
-          src={currentSlide.poster}
-          ref={slideRef}
-          alt=""
-          className="aspect-video object-cover"
-        />
+        <div className="w-full cursor-pointer">
+          <img
+            src={currentSlide.poster}
+            ref={slideRef}
+            alt="movie poster"
+            loading="lazy"
+            className="aspect-video object-cover"
+          />
+          <div className="absolute inset-0 flex flex-col justify-end py-3 bg-gradient-to-t from-white dark:from-primary">
+            <h1 className="font-semibold text-4xl dark:text-highlight-dark text-highlight ">
+              {currentSlide.title}
+            </h1>
+          </div>
+        </div>
         <img
           onAnimationEnd={handleAnimationEnd}
           src={clonedSlide.poster}
           ref={clonedSlideRef}
           alt=""
+          loading="lazy"
           className="aspect-video object-cover absolute inset-0"
         />
         <SlideControlBtns
