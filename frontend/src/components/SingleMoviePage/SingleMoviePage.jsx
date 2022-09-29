@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getSingleMovie } from "../../api/movie/movie";
 import Container from "../Navbar/Container";
+import RatingStar from "../Shared/RatingStar";
 
 const SingleMoviePage = () => {
   const [movie, setMovie] = useState({});
@@ -42,7 +43,8 @@ const SingleMoviePage = () => {
           <h1 className="text-4xl text-highlight dark:text-highlight-dark font-semibold py-3">
             {title}
           </h1>
-          <div className="">
+          <div className="flex flex-col items-end">
+            <RatingStar rating={reviews.ratingAvg} />
             <Link
               to={`/movie/reviews/${id}`}
               className="text-highlight dark:text-highlight-dark hover:underline"
