@@ -44,7 +44,7 @@ const HeroSlideShow = () => {
     const end = upNextCount + 3;
 
     let newSlides = [...slides];
-    newSlides = newSlides.slice(upNext, end);
+    newSlides = newSlides.slice(upNextCount, end);
 
     if (!newSlides.length) {
       newSlides = [...slides].slice(0, 3);
@@ -143,7 +143,21 @@ const HeroSlideShow = () => {
         />
       </div>
       {/* Up Next Section */}
-      <div className="w-1/5 bg-red-200 aspect-video"></div>
+      <div className="w-1/5 space-y-3 px-3">
+        <h1 className="font-semibold text-2xl text-primary dark:text-white">
+          Up Next
+        </h1>
+        {upNext.map(({ poster, id }) => {
+          return (
+            <img
+              key={id}
+              src={poster}
+              className="aspect-video object-cover rounded"
+              alt=""
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };
