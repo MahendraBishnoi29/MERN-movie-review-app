@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { forwardRef } from "react";
 import { useState } from "react";
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from "react-icons/ai";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getLatestUploads } from "../../api/movie/movie";
 
@@ -127,6 +128,7 @@ const HeroSlideShow = () => {
           title={currentSlide.title}
           src={currentSlide.poster}
           ref={slideRef}
+          id={currentSlide.id}
         />
         {/* Cloned Slide */}
         <Slide
@@ -134,6 +136,7 @@ const HeroSlideShow = () => {
           src={clonedSlide.poster}
           title={clonedSlide.title}
           ref={clonedSlideRef}
+          id={currentSlide.id}
           className="absolute inset-0"
         />
 
@@ -184,9 +187,14 @@ const SlideControlBtns = ({ onPrevSlide, onNextSlide }) => {
 };
 
 const Slide = forwardRef((props, ref) => {
-  const { title, src, className = "", ...rest } = props;
+  const { title, id, src, className = "", ...rest } = props;
   return (
-    <div {...rest} ref={ref} className={"w-full cursor-pointer " + className}>
+    <Link
+      to={`/movie/${id}`}
+      {...rest}
+      ref={ref}
+      className={"w-full cursor-pointer " + className}
+    >
       {src ? (
         <img
           src={src}
@@ -202,7 +210,7 @@ const Slide = forwardRef((props, ref) => {
           </h1>
         </div>
       ) : null}
-    </div>
+    </Link>
   );
 });
 
