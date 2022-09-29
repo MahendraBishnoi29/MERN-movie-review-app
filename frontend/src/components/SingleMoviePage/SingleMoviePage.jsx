@@ -7,6 +7,10 @@ import { getSingleMovie } from "../../api/movie/movie";
 import Container from "../Navbar/Container";
 import RatingStar from "../Shared/RatingStar";
 
+const convertDate = (date = "") => {
+  return date.split("T")[0];
+};
+
 const SingleMoviePage = () => {
   const [movie, setMovie] = useState({});
   const [ready, setReady] = useState(false);
@@ -39,13 +43,16 @@ const SingleMoviePage = () => {
     storyLine,
     director = {},
     writers = [],
+    cast = [],
     title,
+    releaseDate,
+    language,
     id,
     reviews = {},
   } = movie;
 
   return (
-    <div className="bg-white dark:bg-primary min-h-screen">
+    <div className="bg-white dark:bg-primary min-h-screen pb-10">
       <Container>
         <video poster={poster} src={trailer} controls></video>
         <div className="flex justify-between">
@@ -85,15 +92,54 @@ const SingleMoviePage = () => {
             <p className="text-light-subtle dark:text-dark-subtle font-semibold mr-2">
               Writers:
             </p>
-            <div className="space-x-2 flex flex-row">
+            <div className="space-x-2 flex">
               {writers.map((w) => {
                 return (
-                  <p className="text-highlight dark:text-highlight-dark hover:underline cursor-pointer">
+                  <p
+                    key={w.id}
+                    className="text-highlight dark:text-highlight-dark hover:underline cursor-pointer"
+                  >
                     {w.name}
                   </p>
                 );
               })}
             </div>
+          </div>
+
+          <div className="flex">
+            <p className="text-light-subtle dark:text-dark-subtle font-semibold mr-2">
+              Cast:
+            </p>
+            <div className="space-x-2 flex">
+              {cast.map((c) => {
+                return c.leadActor ? (
+                  <p
+                    key={c.profile.id}
+                    className="text-highlight dark:text-highlight-dark hover:underline cursor-pointer"
+                  >
+                    {c.profile.name}
+                  </p>
+                ) : null;
+              })}
+            </div>
+          </div>
+
+          <div className="flex space-x-2">
+            <p className="text-light-subtle dark:text-dark-subtle font-semibold">
+              Language:
+            </p>
+            <p className="text-highlight dark:text-highlight-dark">
+              {language}
+            </p>
+          </div>
+
+          <div className="flex space-x-2">
+            <p className="text-light-subtle dark:text-dark-subtle font-semibold">
+              Release Date:
+            </p>
+            <p className="text-highlight dark:text-highlight-dark">
+              {convertDate(releaseDate)}
+            </p>
           </div>
         </div>
       </Container>
