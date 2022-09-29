@@ -182,3 +182,17 @@ export const getLatestUploads = async () => {
     return error.message || error;
   }
 };
+
+// GET SINGLE MOVIE
+export const getSingleMovie = async (id) => {
+  try {
+    const { data } = await client("/movie/single/" + id);
+    return data;
+  } catch (error) {
+    console.log(error.message);
+    const { res } = error;
+    if (res?.data) return res.data;
+
+    return error.message || error;
+  }
+};
