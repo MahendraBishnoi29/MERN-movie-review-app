@@ -33,10 +33,19 @@ const SingleMoviePage = () => {
       </div>
     );
 
-  const { trailer, poster, title, id, reviews = {} } = movie;
+  const {
+    trailer,
+    poster,
+    storyLine,
+    director = {},
+    writers = [],
+    title,
+    id,
+    reviews = {},
+  } = movie;
 
   return (
-    <div className="bg-white dark:bg-primary ">
+    <div className="bg-white dark:bg-primary min-h-screen">
       <Container>
         <video poster={poster} src={trailer} controls></video>
         <div className="flex justify-between">
@@ -51,6 +60,40 @@ const SingleMoviePage = () => {
             >
               {reviews.reviewsCount} Reviews
             </Link>
+
+            <button
+              className="text-highlight dark:text-highlight-dark hover:underline"
+              type="button"
+            >
+              Rate This Movie
+            </button>
+          </div>
+        </div>
+        <div className="space-y-3">
+          <p className="text-light-subtle dark:text-dark-subtle">{storyLine}</p>
+
+          <div className="flex space-x-2">
+            <p className="text-light-subtle dark:text-dark-subtle font-semibold">
+              Director:
+            </p>
+            <p className="text-highlight dark:text-highlight-dark hover:underline cursor-pointer">
+              {director.name}
+            </p>
+          </div>
+
+          <div className="flex">
+            <p className="text-light-subtle dark:text-dark-subtle font-semibold mr-2">
+              Writers:
+            </p>
+            <div className="space-x-2 flex flex-row">
+              {writers.map((w) => {
+                return (
+                  <p className="text-highlight dark:text-highlight-dark hover:underline cursor-pointer">
+                    {w.name}
+                  </p>
+                );
+              })}
+            </div>
           </div>
         </div>
       </Container>
