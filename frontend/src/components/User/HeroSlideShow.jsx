@@ -193,7 +193,7 @@ const Slide = forwardRef((props, ref) => {
       to={`/movie/${id}`}
       {...rest}
       ref={ref}
-      className={"w-full cursor-pointer " + className}
+      className={"w-full cursor-pointer block " + className}
     >
       {src ? (
         <img
