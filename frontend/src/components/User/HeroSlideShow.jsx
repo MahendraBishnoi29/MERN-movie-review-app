@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useRef } from "react";
 import { useEffect } from "react";
+import { forwardRef } from "react";
 import { useState } from "react";
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from "react-icons/ai";
 import { toast } from "react-toastify";
@@ -102,28 +103,20 @@ const HeroSlideShow = () => {
     <div className="w-full flex">
       {/* Slide Show Section  */}
       <div className="w-4/5 aspect-video relative overflow-hidden">
-        <div className="w-full cursor-pointer">
-          <img
-            src={currentSlide.poster}
-            ref={slideRef}
-            alt="movie poster"
-            loading="lazy"
-            className="aspect-video object-cover"
-          />
-          <div className="absolute inset-0 flex flex-col justify-end py-3 bg-gradient-to-t from-white dark:from-primary">
-            <h1 className="font-semibold text-4xl dark:text-highlight-dark text-highlight ">
-              {currentSlide.title}
-            </h1>
-          </div>
-        </div>
-        <img
+        <Slide
+          title={currentSlide.title}
+          src={currentSlide.poster}
+          ref={slideRef}
+        />
+        {/* Cloned Slide */}
+        <Slide
           onAnimationEnd={handleAnimationEnd}
           src={clonedSlide.poster}
+          title={clonedSlide.title}
           ref={clonedSlideRef}
-          alt=""
-          loading="lazy"
-          className="aspect-video object-cover absolute inset-0"
+          className="absolute inset-0"
         />
+
         <SlideControlBtns
           onPrevSlide={handlePrevSlide}
           onNextSlide={handleNextSlide}
@@ -155,5 +148,28 @@ const SlideControlBtns = ({ onPrevSlide, onNextSlide }) => {
     </div>
   );
 };
+
+const Slide = forwardRef((props, ref) => {
+  const { title, src, className = "", ...rest } = props;
+  return (
+    <div {...rest} ref={ref} className={"w-full cursor-pointer " + className}>
+      {src ? (
+        <img
+          src={src}
+          alt=""
+          loading="lazy"
+          className="aspect-video object-cover"
+        />
+      ) : null}
+      {title ? (
+        <div className="absolute inset-0 flex flex-col justify-end py-3 bg-gradient-to-t from-white dark:from-primary">
+          <h1 className="font-semibold text-4xl dark:text-highlight-dark text-highlight ">
+            {title}
+          </h1>
+        </div>
+      ) : null}
+    </div>
+  );
+});
 
 export default HeroSlideShow;
