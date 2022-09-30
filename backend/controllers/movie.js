@@ -299,6 +299,7 @@ const getMovies = async (req, res) => {
     id: movie._id,
     title: movie.title,
     poster: movie.poster?.url,
+    responsivePoster: movie.poster?.responsive,
     genres: movie.genres,
     status: movie.status,
   }));
@@ -447,6 +448,7 @@ const getLatestUploads = async (req, res) => {
       id: m._id,
       title: m.title,
       poster: m.poster?.url,
+      responsivePosters: m.poster.responsive,
       trailer: m.trailer?.url,
       storyLine: m.storyLine,
     };
@@ -474,6 +476,7 @@ const getRelatedMovies = async (req, res) => {
         id: m._id,
         title: m.title,
         poster: m.poster,
+        responsivePosters: m.responsivePosters,
         reviews: { ...reviews },
       };
     })
@@ -495,6 +498,7 @@ const getTopRatedMovies = async (req, res) => {
         id: m._id,
         title: m.title,
         poster: m.poster,
+        responsivePosters: m.responsivePosters,
         reviews: { ...reviews },
       };
     })
