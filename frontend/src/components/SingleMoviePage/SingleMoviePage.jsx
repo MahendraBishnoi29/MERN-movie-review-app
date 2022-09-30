@@ -26,7 +26,7 @@ const SingleMoviePage = () => {
 
   const fetchMovie = async () => {
     const { error, movie } = await getSingleMovie(movieId);
-    if (error) return toast.error(error + "Error Fetching Single Movie");
+    if (error) return toast.error(error);
     setReady(true);
     setMovie(movie);
   };
@@ -37,6 +37,10 @@ const SingleMoviePage = () => {
       navigate("/signIn");
     }
     setShowRatingModal(true);
+  };
+
+  const handleOnRatingSuccess = (reviews) => {
+    setMovie({ ...movie, reviews });
   };
 
   useEffect(() => {
@@ -223,6 +227,7 @@ const SingleMoviePage = () => {
       </Container>
 
       <AddRatingModal
+        onSuccess={handleOnRatingSuccess}
         visible={showRatingModal}
         onClose={() => setShowRatingModal(false)}
       />
