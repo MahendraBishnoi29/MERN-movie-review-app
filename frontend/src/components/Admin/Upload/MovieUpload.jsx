@@ -92,7 +92,7 @@ const MovieUpload = ({ visible, onClose }) => {
   );
 };
 
-// TRAILER SELCET COMPONENT
+// TRAILER SELECT COMPONENT
 const TrailerSelector = ({ visible, handleChange, onTypeError }) => {
   if (!visible) return null;
 
