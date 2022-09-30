@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getSingleMovie } from "../../api/movie/movie";
+import { useAuth } from "../../hooks";
 import Container from "../Navbar/Container";
 import RatingStar from "../Shared/RatingStar";
 import RelatedMovies from "../User/RelatedMovies";
@@ -16,13 +17,22 @@ const SingleMoviePage = () => {
   const [movie, setMovie] = useState({});
   const [ready, setReady] = useState(false);
 
+  const { isLoggedIn } = useAuth();
   const { movieId } = useParams();
+  const navigate = useNavigate();
 
   const fetchMovie = async () => {
     const { error, movie } = await getSingleMovie(movieId);
     if (error) return toast.error(error + "Error Fetching Single Movie");
     setReady(true);
     setMovie(movie);
+  };
+
+  const handleOnRateMovie = () => {
+    if (!isLoggedIn) {
+      toast.info("Please SignIn/SignUp First!");
+      navigate("/signIn");
+    }
   };
 
   useEffect(() => {
@@ -74,6 +84,7 @@ const SingleMoviePage = () => {
             <button
               className="text-highlight dark:text-highlight-dark hover:underline"
               type="button"
+              onClick={handleOnRateMovie}
             >
               Rate This Movie
             </button>
