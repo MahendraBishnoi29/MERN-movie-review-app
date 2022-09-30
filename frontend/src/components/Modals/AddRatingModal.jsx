@@ -5,13 +5,15 @@ import { addReview } from "../../api/review";
 import RatingForm from "../Form/RatingForm";
 import ModalContainer from "../Modals/ModalContainer";
 
-const AddRatingModal = ({ visible, onClose }) => {
+const AddRatingModal = ({ visible, onClose, onSuccess }) => {
   const { movieId } = useParams();
 
   const handleSubmit = async (data) => {
-    const { error, message } = await addReview(movieId, data);
-    if (error) return toast.error("Error Adding Review" + error);
+    const { error, message, reviews } = await addReview(movieId, data);
+    if (error) return toast.error(error);
     toast.success(message);
+    onSuccess(reviews);
+    onClose();
   };
 
   return (
