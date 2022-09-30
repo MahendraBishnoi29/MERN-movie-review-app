@@ -299,7 +299,7 @@ const getMovies = async (req, res) => {
     id: movie._id,
     title: movie.title,
     poster: movie.poster?.url,
-    responsivePoster: movie.poster?.responsive,
+    responsivePosters: movie.poster?.responsive,
     genres: movie.genres,
     status: movie.status,
   }));
