@@ -7,6 +7,7 @@ import { getSingleMovie } from "../../api/movie/movie";
 import { useAuth } from "../../hooks";
 import AddRatingModal from "../Modals/AddRatingModal";
 import Container from "../Navbar/Container";
+import CustomButtonLink from "../Shared/CustomButtonLink";
 import RatingStar from "../Shared/RatingStar";
 import RelatedMovies from "../User/RelatedMovies";
 
@@ -82,20 +83,16 @@ const SingleMoviePage = () => {
           </h1>
           <div className="flex flex-col items-end">
             <RatingStar rating={reviews.ratingAvg} />
-            <Link
-              to={`/movie/reviews/${id}`}
-              className="text-highlight dark:text-highlight-dark hover:underline"
-            >
-              {reviews.reviewsCount} Reviews
-            </Link>
 
-            <button
-              className="text-highlight dark:text-highlight-dark hover:underline"
-              type="button"
+            <CustomButtonLink
+              onClick={() => navigate(`/movie/reviews/${id}`)}
+              label={reviews.reviewsCount + " Reviews"}
+            />
+
+            <CustomButtonLink
               onClick={handleOnRateMovie}
-            >
-              Rate This Movie
-            </button>
+              label="Rate This Movie"
+            />
           </div>
         </div>
         <div className="space-y-3">
