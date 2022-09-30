@@ -458,8 +458,7 @@ const getLatestUploads = async (req, res) => {
 // GET RELATED MOVIES
 const getRelatedMovies = async (req, res) => {
   const { movieId } = req.params;
-  if (!isValidObjectId(movieId))
-    return res.json({ error: "Invalid Movies ID" });
+  if (!isValidObjectId(movieId)) return res.json({ error: "Invalid Movie ID" });
 
   const movie = await Movie.findById(movieId);
 

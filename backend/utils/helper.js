@@ -91,7 +91,7 @@ exports.relatedMovieAggregation = (tags, movieId) => {
     {
       $match: {
         tags: { $in: [...tags] },
-        id: { $ne: movieId },
+        _id: { $ne: movieId },
       },
     },
     {
