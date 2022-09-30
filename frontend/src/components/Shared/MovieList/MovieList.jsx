@@ -1,6 +1,7 @@
 import React from "react";
 import { AiFillStar } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import { getPoster } from "../../../utils/helper";
 import GridContainer from "../GridContainer";
 import RatingStar from "../RatingStar";
 
@@ -27,12 +28,12 @@ const MovieList = ({ title, movies = [] }) => {
 };
 
 const MovieListItem = ({ movie }) => {
-  const { title, poster, reviews, id } = movie;
+  const { title, responsivePosters, poster, reviews, id } = movie;
   return (
     <Link to={`/movie/${id}`}>
       <img
         loading="lazy"
-        src={poster}
+        src={getPoster(responsivePosters) || poster}
         alt={title}
         className="aspect-video object-cover rounded-lg"
       />
