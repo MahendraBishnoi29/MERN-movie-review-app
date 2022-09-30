@@ -196,3 +196,17 @@ export const getSingleMovie = async (id) => {
     return error.message || error;
   }
 };
+
+// GET RELATED MOVIES
+export const getRelatedMovies = async (id) => {
+  try {
+    const { data } = await client("/movie/related/" + id);
+    return data;
+  } catch (error) {
+    console.log(error.message);
+    const { res } = error;
+    if (res?.data) return res.data;
+
+    return error.message || error;
+  }
+};
