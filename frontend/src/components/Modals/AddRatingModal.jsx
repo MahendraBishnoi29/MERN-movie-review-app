@@ -6,12 +6,26 @@ import { useState } from "react";
 
 const ratings = new Array(10).fill("");
 
-const AddRatingModal = ({}) => {
+const AddRatingModal = ({ onSubmit }) => {
   const [selectedRatings, setSelectedRatings] = useState([]);
+  const [content, setContent] = useState("");
 
   const handleMouseEnter = (index) => {
     const ratings = new Array(index + 1).fill(index);
     setSelectedRatings([...ratings]);
+  };
+
+  const handleOnChange = ({ target }) => {
+    setContent(target.value);
+  };
+
+  const handleSubmit = () => {
+    if (!selectedRatings.length) return;
+    const data = {
+      ratings: selectedRatings.length,
+      content,
+    };
+    onSubmit(data);
   };
 
   return (
@@ -41,8 +55,12 @@ const AddRatingModal = ({}) => {
             })}
           </div>
         </div>
-        <textarea className="w-full h-24 border-2 p-2 dark:text-white text-primary rounded outline-none bg-transparent resize-none"></textarea>
-        <Submit value="Rate This Movie" />
+        <textarea
+          value={content}
+          onChange={handleOnChange}
+          className="w-full h-24 border-2 p-2 dark:text-white text-primary rounded outline-none bg-transparent resize-none"
+        ></textarea>
+        <Submit onClick={handleSubmit} value="Rate This Movie" />
       </div>
     </ModalContainer>
   );
