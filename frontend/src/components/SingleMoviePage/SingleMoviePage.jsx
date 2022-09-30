@@ -44,7 +44,9 @@ const SingleMoviePage = () => {
     director = {},
     writers = [],
     cast = [],
+    genres = [],
     title,
+    type,
     releaseDate,
     language,
     id,
@@ -140,6 +142,31 @@ const SingleMoviePage = () => {
             <p className="text-highlight dark:text-highlight-dark">
               {convertDate(releaseDate)}
             </p>
+          </div>
+
+          <div className="flex">
+            <p className="text-light-subtle dark:text-dark-subtle font-semibold mr-2">
+              Genres:
+            </p>
+            <div className="space-x-2 flex">
+              {genres.map((g) => {
+                return (
+                  <p
+                    key={g}
+                    className="text-highlight dark:text-highlight-dark"
+                  >
+                    {g}
+                  </p>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="flex space-x-2">
+            <p className="text-light-subtle dark:text-dark-subtle font-semibold">
+              Type:
+            </p>
+            <p className="text-highlight dark:text-highlight-dark">{type}</p>
           </div>
         </div>
       </Container>
