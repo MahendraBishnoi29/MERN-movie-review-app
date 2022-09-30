@@ -480,7 +480,7 @@ const getRelatedMovies = async (req, res) => {
     })
   );
 
-  res.json({ relatedMovies });
+  res.json({ movies: relatedMovies });
 };
 
 // GET TOP RATED MOVIES
