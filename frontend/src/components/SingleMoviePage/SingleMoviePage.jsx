@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getSingleMovie } from "../../api/movie/movie";
 import { useAuth } from "../../hooks";
+import AddRatingModal from "../Modals/AddRatingModal";
 import Container from "../Navbar/Container";
 import RatingStar from "../Shared/RatingStar";
 import RelatedMovies from "../User/RelatedMovies";
@@ -217,6 +218,8 @@ const SingleMoviePage = () => {
           <RelatedMovies movieId={movieId} />
         </div>
       </Container>
+
+      <AddRatingModal />
     </div>
   );
 };
