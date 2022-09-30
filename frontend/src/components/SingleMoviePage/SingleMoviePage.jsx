@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { getSingleMovie } from "../../api/movie/movie";
 import Container from "../Navbar/Container";
 import RatingStar from "../Shared/RatingStar";
+import RelatedMovies from "../User/RelatedMovies";
 
 const convertDate = (date = "") => {
   return date.split("T")[0];
@@ -177,7 +178,10 @@ const SingleMoviePage = () => {
           <div className="grid grid-cols-11">
             {cast.map((c) => {
               return (
-                <div key={c.profile.id} className="flex flex-col items-center">
+                <div
+                  key={c.profile.id}
+                  className="flex flex-col items-center text-center text-ellipsis"
+                >
                   <img
                     src={c.profile.avatar}
                     alt=""
@@ -197,6 +201,9 @@ const SingleMoviePage = () => {
               );
             })}
           </div>
+        </div>
+        <div className="mt-3">
+          <RelatedMovies movieId={movieId} />
         </div>
       </Container>
     </div>
