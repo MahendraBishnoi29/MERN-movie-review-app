@@ -98,93 +98,44 @@ const SingleMoviePage = () => {
         <div className="space-y-3">
           <p className="text-light-subtle dark:text-dark-subtle">{storyLine}</p>
 
-          <div className="flex space-x-2">
-            <p className="text-light-subtle dark:text-dark-subtle font-semibold">
-              Director:
-            </p>
-            <p className="text-highlight dark:text-highlight-dark hover:underline cursor-pointer">
-              {director.name}
-            </p>
-          </div>
+          <ListWithLabel label="Director:">
+            <CustomButtonLink label={director.name} />
+          </ListWithLabel>
 
-          <div className="flex">
-            <p className="text-light-subtle dark:text-dark-subtle font-semibold mr-2">
-              Writers:
-            </p>
-            <div className="space-x-2 flex">
-              {writers.map((w) => {
-                return (
-                  <p
-                    key={w.id}
-                    className="text-highlight dark:text-highlight-dark hover:underline cursor-pointer"
-                  >
-                    {w.name}
-                  </p>
-                );
-              })}
-            </div>
-          </div>
+          <ListWithLabel label="Writers:">
+            {writers.map((w) => (
+              <CustomButtonLink label={w.name} key={w.id} />
+            ))}
+          </ListWithLabel>
 
-          <div className="flex">
-            <p className="text-light-subtle dark:text-dark-subtle font-semibold mr-2">
-              Cast:
-            </p>
-            <div className="space-x-2 flex">
-              {cast.map((c) => {
-                return c.leadActor ? (
-                  <p
-                    key={c.profile.id}
-                    className="text-highlight dark:text-highlight-dark hover:underline cursor-pointer"
-                  >
-                    {c.profile.name}
-                  </p>
-                ) : null;
-              })}
-            </div>
-          </div>
+          <ListWithLabel label="Cast:">
+            {cast.map(({ profile, id, leadActor }) => {
+              return leadActor ? (
+                <CustomButtonLink key={id} label={profile.name} />
+              ) : null;
+            })}
+          </ListWithLabel>
 
-          <div className="flex space-x-2">
-            <p className="text-light-subtle dark:text-dark-subtle font-semibold">
-              Language:
-            </p>
-            <p className="text-highlight dark:text-highlight-dark">
-              {language}
-            </p>
-          </div>
+          <ListWithLabel label="Language:">
+            <CustomButtonLink label={language} clickable={false} />
+          </ListWithLabel>
 
-          <div className="flex space-x-2">
-            <p className="text-light-subtle dark:text-dark-subtle font-semibold">
-              Release Date:
-            </p>
-            <p className="text-highlight dark:text-highlight-dark">
-              {convertDate(releaseDate)}
-            </p>
-          </div>
+          <ListWithLabel label="Release Date:">
+            <CustomButtonLink
+              label={convertDate(releaseDate)}
+              clickable={false}
+            />
+          </ListWithLabel>
 
-          <div className="flex">
-            <p className="text-light-subtle dark:text-dark-subtle font-semibold mr-2">
-              Genres:
-            </p>
-            <div className="space-x-2 flex">
-              {genres.map((g) => {
-                return (
-                  <p
-                    key={g}
-                    className="text-highlight dark:text-highlight-dark"
-                  >
-                    {g}
-                  </p>
-                );
-              })}
-            </div>
-          </div>
+          <ListWithLabel label="Genres:">
+            {genres.map((g) => (
+              <CustomButtonLink label={g} key={g} clickable={false} />
+            ))}
+          </ListWithLabel>
 
-          <div className="flex space-x-2">
-            <p className="text-light-subtle dark:text-dark-subtle font-semibold">
-              Type:
-            </p>
-            <p className="text-highlight dark:text-highlight-dark">{type}</p>
-          </div>
+          <ListWithLabel label="Type:">
+            <CustomButtonLink label={type} clickable={false} />
+          </ListWithLabel>
         </div>
 
         <div className="mt-4">
@@ -228,6 +179,17 @@ const SingleMoviePage = () => {
         visible={showRatingModal}
         onClose={() => setShowRatingModal(false)}
       />
+    </div>
+  );
+};
+
+const ListWithLabel = ({ label, children }) => {
+  return (
+    <div className="flex space-x-2">
+      <p className="text-light-subtle dark:text-dark-subtle font-semibold">
+        {label}
+      </p>
+      {children}
     </div>
   );
 };
