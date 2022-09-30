@@ -47,7 +47,7 @@ const SingleMoviePage = () => {
     return (
       <div className="h-screen flex justify-center items-center bg-white dark:bg-primary">
         <p className="text-4xl text-light-subtle dark:text-dark-subtle animate-pulse">
-          Wait Please....
+          Loading Your Movie....
         </p>
       </div>
     );

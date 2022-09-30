@@ -20,7 +20,7 @@ const RatingForm = ({ onSubmit, busy }) => {
   const handleSubmit = () => {
     if (!selectedRatings.length) return;
     const data = {
-      ratings: selectedRatings.length,
+      rating: selectedRatings.length,
       content,
     };
     onSubmit(data);
