@@ -169,6 +169,35 @@ const SingleMoviePage = () => {
             <p className="text-highlight dark:text-highlight-dark">{type}</p>
           </div>
         </div>
+
+        <div className="mt-4">
+          <h1 className="text-light-subtle dark:text-dark-subtle font-semibold text-2xl mb-2">
+            Cast:
+          </h1>
+          <div className="grid grid-cols-11">
+            {cast.map((c) => {
+              return (
+                <div key={c.profile.id} className="flex flex-col items-center">
+                  <img
+                    src={c.profile.avatar}
+                    alt=""
+                    className="w-24 h-24 aspect-square object-contain rounded-full"
+                  />
+
+                  <p className="text-highlight dark:text-highlight-dark hover:underline cursor-pointer">
+                    {c.profile.name}
+                  </p>
+                  <span className="text-light-subtle dark:text-dark-subtle text-sm">
+                    as
+                  </span>
+                  <p className="text-light-subtle dark:text-dark-subtle">
+                    {c.roleAs}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </Container>
     </div>
   );
