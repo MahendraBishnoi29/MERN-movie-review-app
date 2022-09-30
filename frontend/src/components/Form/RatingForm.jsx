@@ -2,6 +2,7 @@ import React from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import Submit from "../Form/Submit";
 import { useState } from "react";
+import { toast } from "react-toastify";
 const ratings = new Array(10).fill("");
 
 const RatingForm = ({ onSubmit, busy }) => {
@@ -18,7 +19,8 @@ const RatingForm = ({ onSubmit, busy }) => {
   };
 
   const handleSubmit = () => {
-    if (!selectedRatings.length) return;
+    if (!selectedRatings.length)
+      return toast.error("Choose ⭐ from 1 to 10 & Write Your Review!");
     const data = {
       rating: selectedRatings.length,
       content,

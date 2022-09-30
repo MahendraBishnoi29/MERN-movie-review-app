@@ -11,6 +11,7 @@ const AddRatingModal = ({ visible, onClose, onSuccess }) => {
   const handleSubmit = async (data) => {
     const { error, message, reviews } = await addReview(movieId, data);
     if (error) return toast.error(error);
+
     toast.success(message);
     onSuccess(reviews);
     onClose();
