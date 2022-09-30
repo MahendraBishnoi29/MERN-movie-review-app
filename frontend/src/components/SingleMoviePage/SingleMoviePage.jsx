@@ -17,8 +17,10 @@ const convertDate = (date = "") => {
 const SingleMoviePage = () => {
   const [movie, setMovie] = useState({});
   const [ready, setReady] = useState(false);
+  const [showRatingModal, setShowRatingModal] = useState(false);
 
-  const { isLoggedIn } = useAuth();
+  const { authInfo } = useAuth();
+  const { isLoggedIn } = authInfo;
   const { movieId } = useParams();
   const navigate = useNavigate();
 
@@ -34,6 +36,7 @@ const SingleMoviePage = () => {
       toast.info("Please SignIn/SignUp First!");
       navigate("/signIn");
     }
+    setShowRatingModal(true);
   };
 
   useEffect(() => {
@@ -219,7 +222,10 @@ const SingleMoviePage = () => {
         </div>
       </Container>
 
-      <AddRatingModal />
+      <AddRatingModal
+        visible={showRatingModal}
+        onClose={() => setShowRatingModal(false)}
+      />
     </div>
   );
 };
