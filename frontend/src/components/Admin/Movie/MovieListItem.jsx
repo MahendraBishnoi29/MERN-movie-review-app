@@ -101,13 +101,13 @@ const MovieCard = ({ movie, onDelete, onEdit, onOpen }) => {
           </td>
           <td>
             <div className="flex items-center space-x-3 text-primary dark:text-white">
-              <button onClick={() => onDelete()} type="button" className="">
+              <button onClick={() => onDelete()} type="button">
                 <BsTrash />
               </button>
-              <button onClick={() => onEdit()} type="button" className="">
+              <button onClick={() => onEdit()} type="button">
                 <BsPencilSquare />
               </button>
-              <button onClick={() => onOpen()} type="button" className="">
+              <button onClick={() => onOpen()} type="button">
                 <BsBoxArrowUpRight />
               </button>
             </div>
