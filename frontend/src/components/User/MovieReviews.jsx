@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
+import Container from "../Navbar/Container";
+import CustomButtonLink from "../Shared/CustomButtonLink";
+import RatingStar from "../Shared/RatingStar";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getReviewsByMovie } from "../../api/review";
 import { useAuth } from "../../hooks";
-import Container from "../Navbar/Container";
-import CustomButtonLink from "../Shared/CustomButtonLink";
-import RatingStar from "../Shared/RatingStar";
+import { BsPencilSquare, BsTrash } from "react-icons/bs";
 
 const getNameInitial = (name = "") => {
   return name[0].toUpperCase();
@@ -61,6 +62,14 @@ const MovieReviews = () => {
         {profileOwners ? (
           <div className="mt-3">
             <ReviewCard review={profileOwners} />
+            <div className="flex space-x-3 dark:text-white text-primary text-xl p-3">
+              <button type="button">
+                <BsTrash />
+              </button>
+              <button type="button">
+                <BsPencilSquare />
+              </button>
+            </div>
           </div>
         ) : (
           <div className="space-y-3 mt-4">
