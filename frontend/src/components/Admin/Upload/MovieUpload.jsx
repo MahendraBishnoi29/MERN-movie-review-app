@@ -14,6 +14,13 @@ const MovieUpload = ({ visible, onClose }) => {
   const [videoInfo, setVideoInfo] = useState({});
   const [busy, setBusy] = useState(false);
 
+  const resetState = () => {
+    setVideoSelected(false);
+    setVideoUploaded(false);
+    setUploadProgress(0);
+    setVideoInfo({});
+  };
+
   // Handle Upload Trailer
   const handleUploadTrailer = async (data) => {
     const { error, url, public_id } = await uploadTrailer(
@@ -61,6 +68,7 @@ const MovieUpload = ({ visible, onClose }) => {
     data.append("trailer", JSON.stringify(videoInfo));
     const res = uploadMovie(data);
     setBusy(false);
+    resetState();
     onClose();
     toast.success("Movie Uploaded Successfully 🎉");
   };
@@ -116,7 +124,7 @@ const TrailerSelector = ({ visible, handleChange, onTypeError }) => {
 const UploadProgress = ({ message, width, visible }) => {
   if (!visible) return null;
   return (
-    <div className="dark:bg-secondary bg-white draopshadow-lg rounded p-3">
+    <div className="dark:bg-secondary bg-white drop-shadow-lg rounded p-3">
       <div className="relative h-3 dark:bg-dark-subtle bg-light-subtle overflow-hidden">
         <div
           style={{ width: width + "%" }}
