@@ -67,7 +67,7 @@ export const getActors = async (pageNo, limit) => {
   }
 };
 
-// CREATE ACTOR
+// UPDATE ACTOR
 export const updateActor = async (id, formData) => {
   const token = getToken();
 
@@ -85,5 +85,15 @@ export const updateActor = async (id, formData) => {
     if (res?.data) return res.data;
 
     return error.message || error;
+  }
+};
+
+// GET ACTOR PROFILE
+export const getActorProfile = async (id) => {
+  try {
+    const { data } = await client(`/actor/single/${id}`, {});
+    return data;
+  } catch (error) {
+    console.log("Error in getActorProfile" + error.message);
   }
 };
