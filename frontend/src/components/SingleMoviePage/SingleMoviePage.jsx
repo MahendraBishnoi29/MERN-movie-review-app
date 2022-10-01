@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { getSingleMovie } from "../../api/movie/movie";
 import { useAuth } from "../../hooks";
 import AddRatingModal from "../Modals/AddRatingModal";
+import ProfileModal from "../Modals/ProfileModal";
 import Container from "../Navbar/Container";
 import CustomButtonLink from "../Shared/CustomButtonLink";
 import RatingStar from "../Shared/RatingStar";
@@ -19,6 +20,8 @@ const SingleMoviePage = () => {
   const [movie, setMovie] = useState({});
   const [ready, setReady] = useState(false);
   const [showRatingModal, setShowRatingModal] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [selectedProfile, setSelectedProfile] = useState({});
 
   const { authInfo } = useAuth();
   const { isLoggedIn } = authInfo;
@@ -42,6 +45,15 @@ const SingleMoviePage = () => {
 
   const handleOnRatingSuccess = (reviews) => {
     setMovie({ ...movie, reviews });
+  };
+
+  const handleProfileClick = (profile) => {
+    setSelectedProfile(profile);
+    setShowProfileModal(true);
+  };
+
+  const hideProfileModal = () => {
+    setShowProfileModal(false);
   };
 
   useEffect(() => {
@@ -99,7 +111,10 @@ const SingleMoviePage = () => {
           <p className="text-light-subtle dark:text-dark-subtle">{storyLine}</p>
 
           <ListWithLabel label="Director:">
-            <CustomButtonLink label={director.name} />
+            <CustomButtonLink
+              label={director.name}
+              onClick={() => handleProfileClick(director)}
+            />
           </ListWithLabel>
 
           <ListWithLabel label="Writers:">
@@ -141,6 +156,12 @@ const SingleMoviePage = () => {
           <RelatedMovies movieId={movieId} />
         </div>
       </Container>
+
+      <ProfileModal
+        visible={showProfileModal}
+        onClose={hideProfileModal}
+        profileId={selectedProfile.id}
+      />
 
       <AddRatingModal
         onSuccess={handleOnRatingSuccess}
