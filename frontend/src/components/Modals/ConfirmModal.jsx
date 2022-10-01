@@ -10,7 +10,7 @@ const ConfirmModal = ({ onConfirm, onCancel, visible, busy, onClose }) => {
       <div className="dark:bg-primary bg-white rounded p-4">
         <h1 className="text-red-400 font-semibold text-2xl">Are You Sure?</h1>
         <p className="text-secondary dark:text-white text-sm">
-          This action will remove this Movie Permanently.
+          This action will remove this Data Permanently.
         </p>
 
         <div className="flex items-center space-x-3 mt-3">
