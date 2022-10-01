@@ -12,6 +12,11 @@ import CustomButtonLink from "../Shared/CustomButtonLink";
 import RatingStar from "../Shared/RatingStar";
 import RelatedMovies from "../User/RelatedMovies";
 
+const convertReviewCount = (count = 0) => {
+  if (count <= 999) return count;
+  return parseFloat(count / 1000).toFixed(2) + "k";
+};
+
 const convertDate = (date = "") => {
   return date.split("T")[0];
 };
@@ -98,7 +103,7 @@ const SingleMoviePage = () => {
 
             <CustomButtonLink
               onClick={() => navigate(`/movie/reviews/${id}`)}
-              label={reviews.reviewsCount + " Reviews"}
+              label={convertReviewCount(reviews.reviewsCount) + " Reviews"}
             />
 
             <CustomButtonLink
