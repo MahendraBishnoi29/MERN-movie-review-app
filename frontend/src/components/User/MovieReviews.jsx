@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { getReviewsByMovie } from "../../api/review";
 import { useAuth } from "../../hooks";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
+import ConfirmModal from "../Modals/ConfirmModal";
 
 const getNameInitial = (name = "") => {
   return name[0].toUpperCase();
@@ -18,6 +19,7 @@ const getNameInitial = (name = "") => {
 const MovieReviews = () => {
   const [movieReviews, setMovieReviews] = useState([]);
   const [profileOwners, setProfileOwners] = useState(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const { movieId } = useParams();
   const { authInfo } = useAuth();
@@ -35,6 +37,8 @@ const MovieReviews = () => {
     if (!match) return toast.error("You don't have any review!");
     setProfileOwners(match);
   };
+
+  const displayConfirmModal = () => setShowConfirmModal(true);
 
   useEffect(() => {
     if (movieId) fetchReviews();
@@ -63,7 +67,7 @@ const MovieReviews = () => {
           <div className="mt-3">
             <ReviewCard review={profileOwners} />
             <div className="flex space-x-3 dark:text-white text-primary text-xl p-3">
-              <button type="button">
+              <button onClick={displayConfirmModal} type="button">
                 <BsTrash />
               </button>
               <button type="button">
@@ -79,6 +83,11 @@ const MovieReviews = () => {
           </div>
         )}
       </Container>
+
+      <ConfirmModal
+        visible={showConfirmModal}
+        onCancel={() => setShowConfirmModal(false)}
+      />
     </div>
   );
 };
