@@ -119,7 +119,7 @@ const getSingleActor = async (req, res) => {
   if (!actor)
     return res.status(404).json({ error: "Invalid Request, actor not found " });
 
-  res.json(formatActor(actor));
+  res.json({ actor: formatActor(actor) });
 };
 
 // Get Actors
