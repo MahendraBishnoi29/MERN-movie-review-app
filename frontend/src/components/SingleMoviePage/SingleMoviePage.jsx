@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getSingleMovie } from "../../api/movie/movie";
 import { useAuth } from "../../hooks";
@@ -172,6 +172,7 @@ const SingleMoviePage = () => {
   );
 };
 
+// List With Label
 const ListWithLabel = ({ label, children }) => {
   return (
     <div className="flex space-x-2">
