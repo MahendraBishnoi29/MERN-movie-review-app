@@ -125,7 +125,11 @@ const MovieReviews = () => {
         onCancel={() => setShowConfirmModal(false)}
       />
 
-      <EditRatingModal visible={showEditModal} initialState={selectedReview} />
+      <EditRatingModal
+        visible={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        initialState={selectedReview}
+      />
     </div>
   );
 };
