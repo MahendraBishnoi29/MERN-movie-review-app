@@ -11,6 +11,7 @@ import { deleteReview, getReviewsByMovie } from "../../api/review";
 import { useAuth } from "../../hooks";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import ConfirmModal from "../Modals/ConfirmModal";
+import NotFoundText from "../Shared/NotFoundText";
 
 const getNameInitial = (name = "") => {
   return name[0].toUpperCase();
@@ -78,6 +79,8 @@ const MovieReviews = () => {
             />
           ) : null}
         </div>
+
+        <NotFoundText text="No Reviews!" visible={!movieReviews.length} />
 
         {profileOwners ? (
           <div className="mt-3">
