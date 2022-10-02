@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getReviewsByMovie } from "../../api/review";
+import { deleteReview, getReviewsByMovie } from "../../api/review";
 import { useAuth } from "../../hooks";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import ConfirmModal from "../Modals/ConfirmModal";
@@ -20,6 +20,7 @@ const MovieReviews = () => {
   const [movieReviews, setMovieReviews] = useState([]);
   const [profileOwners, setProfileOwners] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [busy, setBusy] = useState(false);
 
   const { movieId } = useParams();
   const { authInfo } = useAuth();
@@ -39,6 +40,21 @@ const MovieReviews = () => {
   };
 
   const displayConfirmModal = () => setShowConfirmModal(true);
+
+  const handleDeleteReviews = async () => {
+    setBusy(true);
+    const { error, message } = await deleteReview(profileOwners.id);
+    setBusy(false);
+    if (error) return toast.error(error + " Error Deleting Review");
+    toast.success(message);
+
+    const updatedReviews = movieReviews.filter(
+      (r) => r.id !== profileOwners.id
+    );
+    setMovieReviews([...updatedReviews]);
+    setProfileOwners(null);
+    setShowConfirmModal(false);
+  };
 
   useEffect(() => {
     if (movieId) fetchReviews();
@@ -85,7 +101,9 @@ const MovieReviews = () => {
       </Container>
 
       <ConfirmModal
+        busy={busy}
         visible={showConfirmModal}
+        onConfirm={handleDeleteReviews}
         onCancel={() => setShowConfirmModal(false)}
       />
     </div>
