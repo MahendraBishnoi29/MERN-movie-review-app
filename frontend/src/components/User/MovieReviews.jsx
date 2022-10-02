@@ -46,7 +46,12 @@ const MovieReviews = () => {
   };
 
   const displayConfirmModal = () => setShowConfirmModal(true);
+  const hideEditModal = () => {
+    setShowEditModal(false);
+    setSelectedReview(null);
+  };
 
+  // Delete Review
   const handleDeleteReviews = async () => {
     setBusy(true);
     const { error, message } = await deleteReview(profileOwners.id);
@@ -70,6 +75,23 @@ const MovieReviews = () => {
       rating,
     });
     setShowEditModal(true);
+  };
+
+  // Update Reviews
+  const handleReviewUpdate = (review) => {
+    const updatedReview = {
+      ...profileOwners,
+      rating: review.rating,
+      content: review.content,
+    };
+    setProfileOwners({ ...updatedReview });
+
+    const newReviews = movieReviews.map((r) => {
+      if (r.id === updatedReview.id) return updatedReview;
+      return r;
+    });
+
+    setMovieReviews([...newReviews]);
   };
 
   useEffect(() => {
@@ -127,7 +149,8 @@ const MovieReviews = () => {
 
       <EditRatingModal
         visible={showEditModal}
-        onClose={() => setShowEditModal(false)}
+        onSuccess={handleReviewUpdate}
+        onClose={hideEditModal}
         initialState={selectedReview}
       />
     </div>
