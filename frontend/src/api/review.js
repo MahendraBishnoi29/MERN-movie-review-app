@@ -26,3 +26,19 @@ export const getReviewsByMovie = async (movieId) => {
     console.log("Error in Get Review for Movie" + error.message);
   }
 };
+
+// DELETE REVIEW
+export const deleteReview = async (reviewId) => {
+  const token = getToken();
+  try {
+    const { data } = await client.delete(`/review/${reviewId}`, {
+      headers: {
+        authorization: "Bearer " + token,
+      },
+    });
+
+    return data;
+  } catch (error) {
+    console.log("Error in Get Review for Movie" + error.message);
+  }
+};
