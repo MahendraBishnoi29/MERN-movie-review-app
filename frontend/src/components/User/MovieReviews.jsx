@@ -12,6 +12,7 @@ import { useAuth } from "../../hooks";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import ConfirmModal from "../Modals/ConfirmModal";
 import NotFoundText from "../Shared/NotFoundText";
+import EditRatingModal from "../Modals/Review/EditRatingModal";
 
 const getNameInitial = (name = "") => {
   return name[0].toUpperCase();
@@ -20,17 +21,21 @@ const getNameInitial = (name = "") => {
 const MovieReviews = () => {
   const [movieReviews, setMovieReviews] = useState([]);
   const [profileOwners, setProfileOwners] = useState(null);
+  const [selectedReview, setSelectedReview] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [movieTitle, setMovieTitle] = useState(" ");
 
   const { movieId } = useParams();
   const { authInfo } = useAuth();
   const profileId = authInfo.profile?.id;
 
   const fetchReviews = async () => {
-    const { reviews, error } = await getReviewsByMovie(movieId);
+    const { movie, error } = await getReviewsByMovie(movieId);
     if (error) return toast.error(error + "Error Fetching Reviews by Movie!");
-    setMovieReviews([...reviews]);
+    setMovieReviews([...movie.reviews]);
+    setMovieTitle(movie.title);
   };
 
   const findProfileOwnerReview = () => {
@@ -57,6 +62,16 @@ const MovieReviews = () => {
     setShowConfirmModal(false);
   };
 
+  const handleOnEdit = () => {
+    const { id, content, rating } = profileOwners;
+    setSelectedReview({
+      id,
+      content,
+      rating,
+    });
+    setShowEditModal(true);
+  };
+
   useEffect(() => {
     if (movieId) fetchReviews();
   }, [movieId]);
@@ -69,7 +84,7 @@ const MovieReviews = () => {
             <span className="text-light-subtle dark:text-dark-subtle font-normal">
               Reviews For:{" "}
             </span>
-            This is Title
+            {movieTitle}
           </h1>
 
           {profileId ? (
@@ -89,7 +104,7 @@ const MovieReviews = () => {
               <button onClick={displayConfirmModal} type="button">
                 <BsTrash />
               </button>
-              <button type="button">
+              <button onClick={handleOnEdit} type="button">
                 <BsPencilSquare />
               </button>
             </div>
@@ -109,6 +124,8 @@ const MovieReviews = () => {
         onConfirm={handleDeleteReviews}
         onCancel={() => setShowConfirmModal(false)}
       />
+
+      <EditRatingModal visible={showEditModal} initialState={selectedReview} />
     </div>
   );
 };
