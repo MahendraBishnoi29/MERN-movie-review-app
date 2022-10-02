@@ -39,6 +39,22 @@ export const deleteReview = async (reviewId) => {
 
     return data;
   } catch (error) {
-    console.log("Error in Get Review for Movie" + error.message);
+    console.log("Error in Delete Review" + error.message);
+  }
+};
+
+// EDIT REVIEW
+export const editReview = async (reviewId, reviewData) => {
+  const token = getToken();
+  try {
+    const { data } = await client.patch(`/review/${reviewId}`, reviewData, {
+      headers: {
+        authorization: "Bearer " + token,
+      },
+    });
+
+    return data;
+  } catch (error) {
+    console.log("Error in Get Edit Review for Movie" + error.message);
   }
 };
