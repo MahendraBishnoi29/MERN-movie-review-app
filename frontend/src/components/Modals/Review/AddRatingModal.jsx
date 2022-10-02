@@ -1,9 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { addReview } from "../../api/review";
-import RatingForm from "../Form/RatingForm";
-import ModalContainer from "../Modals/ModalContainer";
+import { addReview } from "../../../api/review";
+import RatingForm from "../../Form/RatingForm";
+import ModalContainer from "../ModalContainer";
 
 const AddRatingModal = ({ visible, onClose, onSuccess }) => {
   const { movieId } = useParams();
