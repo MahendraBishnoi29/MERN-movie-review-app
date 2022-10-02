@@ -3,14 +3,20 @@ import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import Submit from "../Form/Submit";
 import { useState } from "react";
 import { toast } from "react-toastify";
-const ratings = new Array(10).fill("");
+import { useEffect } from "react";
 
-const RatingForm = ({ onSubmit, busy }) => {
+const createArray = (count) => {
+  return new Array(count).fill("");
+};
+
+const ratings = createArray(10);
+
+const RatingForm = ({ onSubmit, busy, initialState }) => {
   const [selectedRatings, setSelectedRatings] = useState([]);
   const [content, setContent] = useState("");
 
   const handleMouseEnter = (index) => {
-    const ratings = new Array(index + 1).fill(index);
+    const ratings = createArray(index + 1);
     setSelectedRatings([...ratings]);
   };
 
@@ -27,6 +33,13 @@ const RatingForm = ({ onSubmit, busy }) => {
     };
     onSubmit(data);
   };
+
+  useEffect(() => {
+    if (initialState) {
+      setContent(initialState.content);
+      setSelectedRatings(createArray(initialState.rating));
+    }
+  }, [initialState]);
 
   return (
     <div>
