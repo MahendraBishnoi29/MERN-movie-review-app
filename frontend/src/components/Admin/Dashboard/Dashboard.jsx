@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { getAppInfo } from "../../../api/admin";
 import AppInfoBox from "../../Shared/AppInfoBox";
 import LatestUpload from "../../Shared/LatestUpload";
+import MostRated from "../../Shared/MostRated";
 
 const Dashboard = () => {
   const [appInfo, setAppInfo] = useState({
@@ -29,6 +30,7 @@ const Dashboard = () => {
       <AppInfoBox title="Total Users" subtitle={appInfo.userCount} />
 
       <LatestUpload />
+      <MostRated />
     </div>
   );
 };
