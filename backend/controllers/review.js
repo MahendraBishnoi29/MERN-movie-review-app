@@ -9,6 +9,9 @@ const addReview = async (req, res) => {
   const { content, rating } = req.body;
   const userId = req.user._id;
 
+  if (!req.user.isVerified)
+    return res.json({ error: "Please Verify Your Email First!" });
+
   if (!isValidObjectId(movieId)) return res.json({ error: "Invalid MovieID!" });
 
   const movie = await Movie.findOne({ _id: movieId, status: "public" });
