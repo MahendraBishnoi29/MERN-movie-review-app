@@ -5,17 +5,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getSingleMovie } from "../../api/movie/movie";
 import { useAuth } from "../../hooks";
+import { convertReviewCount } from "../../utils/helper";
 import ProfileModal from "../Modals/ProfileModal";
 import AddRatingModal from "../Modals/Review/AddRatingModal";
 import Container from "../Navbar/Container";
 import CustomButtonLink from "../Shared/CustomButtonLink";
 import RatingStar from "../Shared/RatingStar";
 import RelatedMovies from "../User/RelatedMovies";
-
-const convertReviewCount = (count = 0) => {
-  if (count <= 999) return count;
-  return parseFloat(count / 1000).toFixed(2) + "k";
-};
 
 const convertDate = (date = "") => {
   return date.split("T")[0];
