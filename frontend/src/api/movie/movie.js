@@ -210,3 +210,17 @@ export const getRelatedMovies = async (id) => {
     return error.message || error;
   }
 };
+
+// GET RELATED MOVIES
+export const searchPublicMovies = async (title) => {
+  try {
+    const { data } = await client("/movie/public-search?title=" + title);
+    return data;
+  } catch (error) {
+    console.log(error.message);
+    const { res } = error;
+    if (res?.data) return res.data;
+
+    return error.message || error;
+  }
+};
