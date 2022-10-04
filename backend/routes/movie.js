@@ -11,6 +11,7 @@ const {
   getLatestUploads,
   getRelatedMovies,
   getTopRatedMovies,
+  searchPublicMovies,
 } = require("../controllers/movie");
 const router = express.Router();
 const { IsAuth, isAdmin } = require("../middlewares/authMiddlware");
@@ -73,5 +74,6 @@ router.get("/latest-uploads", getLatestUploads);
 router.get("/single/:movieId", getSingleMovie);
 router.get("/related/:movieId", getRelatedMovies);
 router.get("/top-rated", getTopRatedMovies);
+router.get("/public-search", searchPublicMovies);
 
 module.exports = router;
