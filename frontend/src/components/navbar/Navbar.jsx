@@ -17,24 +17,24 @@ const Navbar = () => {
           <Link to="/">
             <img
               src="./logo2.png"
-              className="cursor-pointer h-10"
+              className="cursor-pointer sm:h-10 h-8"
               alt="appLogo"
             />
           </Link>
 
-          <ul className="flex items-center space-x-4">
+          <ul className="flex items-center sm:space-x-4 space-x-2">
             <li>
               <button
                 onClick={toggleTheme}
-                className="dark:bg-white  bg-dark-subtle p-1 rounded"
+                className="dark:bg-white  bg-dark-subtle p-1 rounded sm:text-2xl text-lg"
               >
-                <BsFillSunFill className="text-secondary" size={22} />
+                <BsFillSunFill className="text-secondary" />
               </button>
             </li>
             <li>
               <SearchInputForm
                 placeholder="Search..."
-                inputClassName="border-dark-subtle text-white focus:border-white"
+                inputClassName="border-dark-subtle text-white focus:border-white sm:w-auto w-40 sm:text-lg"
               />
             </li>
             {isLoggedIn ? (
