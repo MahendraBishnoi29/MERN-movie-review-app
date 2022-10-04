@@ -34,7 +34,7 @@ const MovieListItem = ({ movie }) => {
         loading="lazy"
         src={getPoster(responsivePosters) || poster}
         alt={title}
-        className="aspect-video object-cover rounded-lg"
+        className="aspect-video object-cover rounded-lg w-full"
       />
       <h1
         title={title}
