@@ -123,7 +123,7 @@ const HeroSlideShow = () => {
   return (
     <div className="w-full flex">
       {/* Slide Show Section  */}
-      <div className="w-4/5 aspect-video relative overflow-hidden">
+      <div className="md:w-4/5 w-full aspect-video relative overflow-hidden">
         <Slide
           title={currentSlide.title}
           src={currentSlide.poster}
@@ -146,7 +146,7 @@ const HeroSlideShow = () => {
         />
       </div>
       {/* Up Next Section */}
-      <div className="w-1/5 space-y-3 px-3">
+      <div className="w-1/5 md:block hidden space-y-3 px-3">
         <h1 className="font-semibold text-2xl text-primary dark:text-white">
           Up Next
         </h1>
