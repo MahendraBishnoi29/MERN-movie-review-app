@@ -507,6 +507,33 @@ const getTopRatedMovies = async (req, res) => {
   res.json({ movies: topRatedMovies });
 };
 
+// SEARCH MOVIE (PUBLIC)
+const searchPublicMovies = async (req, res) => {
+  const { title } = req.query;
+
+  if (!title.trim()) return res.json({ error: "Invalid Search ❌" });
+
+  const movies = await Movie.find({
+    title: { $regex: title, $options: "i" },
+    status: "public",
+  });
+
+  const topRatedMovies = await Promise.all(
+    movies.map(async (m) => {
+      const reviews = await getAverageRatings(m._id);
+      return {
+        id: m._id,
+        title: m.title,
+        poster: m.poster?.url,
+        responsivePosters: m.poster?.responsive,
+        reviews: { ...reviews },
+      };
+    })
+  );
+
+  res.json({ topRatedMovies });
+};
+
 module.exports = {
   uploadTrailer,
   createMovie,
@@ -520,4 +547,5 @@ module.exports = {
   getLatestUploads,
   getRelatedMovies,
   getTopRatedMovies,
+  searchPublicMovies,
 };
