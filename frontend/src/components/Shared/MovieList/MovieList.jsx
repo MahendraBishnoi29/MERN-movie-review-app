@@ -14,9 +14,11 @@ const MovieList = ({ title, movies = [] }) => {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold dark:text-white text-secondary pt-3 pb-3">
-        {title}
-      </h1>
+      {title ? (
+        <h1 className="text-2xl font-semibold dark:text-white text-secondary pt-3 pb-3">
+          {title}
+        </h1>
+      ) : null}
       <GridContainer>
         {movies.map((movie) => {
           return <MovieListItem key={movie.id} movie={movie} />;
