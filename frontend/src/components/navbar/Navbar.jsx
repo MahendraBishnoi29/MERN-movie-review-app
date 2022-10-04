@@ -2,6 +2,7 @@ import React from "react";
 import { BsFillSunFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { useAuth, useTheme } from "../../hooks";
+import SearchInputForm from "../Shared/SearchInputForm";
 import Container from "./Container";
 
 const Navbar = () => {
@@ -31,10 +32,9 @@ const Navbar = () => {
               </button>
             </li>
             <li>
-              <input
-                type="text"
-                className="border-2 border-dark-subtle p-1 rounded bg-transparent text-l  outline-none focus:border-white transition text-white"
-                placeholder="Search a movie"
+              <SearchInputForm
+                placeholder="Search..."
+                inputClassName="border-dark-subtle text-white focus:border-white"
               />
             </li>
             {isLoggedIn ? (
