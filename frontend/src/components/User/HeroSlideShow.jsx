@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useRef } from "react";
+import React, { startTransition, useRef } from "react";
 import { useEffect } from "react";
 import { forwardRef } from "react";
 import { useState } from "react";
@@ -28,6 +28,10 @@ const HeroSlideShow = () => {
     if (error) return toast.error(error);
     setSlides([...movies]);
     setCurrentSlide(movies[0]);
+  };
+
+  const autoPlaySlide = () => {
+    setInterval(handleOnNextClick, 3300);
   };
 
   // Update Up Next Section
@@ -70,6 +74,10 @@ const HeroSlideShow = () => {
   useEffect(() => {
     fetchLatestUploads();
   }, []);
+
+  useEffect(() => {
+    if (slides.length) autoPlaySlide();
+  }, [slides.length]);
 
   return (
     <div className="w-full flex">
