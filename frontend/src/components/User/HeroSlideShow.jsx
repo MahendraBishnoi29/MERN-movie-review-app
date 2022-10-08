@@ -14,10 +14,10 @@ let intervalId;
 
 const HeroSlideShow = () => {
   const [currentSlide, setCurrentSlide] = useState({});
-  const [slides, setSlides] = useState([]);
+  const [clonedSlide, setClonedSlide] = useState({});
   const [visible, setVisible] = useState(true);
   const [upNext, setUpNext] = useState([]);
-  const [clonedSlide, setClonedSlide] = useState({});
+  const [slides, setSlides] = useState([]);
 
   const slideRef = useRef();
   const clonedSlideRef = useRef();
@@ -30,119 +30,68 @@ const HeroSlideShow = () => {
     setCurrentSlide(movies[0]);
   };
 
-  const autoStartSlide = () => {
-    intervalId = setInterval(handleNextSlide, 3500);
-  };
-
-  const pauseSlideShow = () => {
-    clearInterval(intervalId);
-  };
-
   // Update Up Next Section
-  const updateUpNext = (currentIndex) => {
-    if (!slides.length) return;
-    const upNextCount = currentIndex + 1;
-    const end = upNextCount + 3;
-
-    let newSlides = [...slides];
-    newSlides = newSlides.slice(upNextCount, end);
-
-    if (!newSlides.length) {
-      newSlides = [...slides].slice(0, 3);
-    }
-    setUpNext([...newSlides]);
-  };
+  const updateUpNext = (currentIndex) => {};
 
   // Next Slide
-  const handleNextSlide = () => {
-    pauseSlideShow();
+  const handleOnNextClick = () => {
     setClonedSlide(slides[count]);
 
     count = (count + 1) % slides.length;
     setCurrentSlide(slides[count]);
 
-    clonedSlideRef.current.classList.add("slide-out-left");
-    slideRef.current.classList.add("slide-in-right");
-    updateUpNext(count);
+    clonedSlideRef.current.classList.add("slide-out-to-left");
+    slideRef.current.classList.add("slide-in-from-right");
   };
 
   // Prev Slide
-  const handlePrevSlide = () => {
-    pauseSlideShow();
-
+  const handleOnPrevClick = () => {
     setClonedSlide(slides[count]);
+
     count = (count + slides.length - 1) % slides.length;
     setCurrentSlide(slides[count]);
 
     clonedSlideRef.current.classList.add("slide-out-to-right");
     slideRef.current.classList.add("slide-in-from-left");
-    updateUpNext(count);
   };
 
-  // End the Animation
   const handleAnimationEnd = () => {
     const classes = [
       "slide-out-to-right",
       "slide-in-from-left",
-      "slide-in-right",
-      "slide-out-left",
+      "slide-in-from-right",
+      "slide-out-to-left",
     ];
     slideRef.current.classList.remove(...classes);
     clonedSlideRef.current.classList.remove(...classes);
     setClonedSlide({});
-    autoStartSlide();
-  };
-
-  // Visibility for Pausing the Slide Show
-  const handleOnVisibilityChange = () => {
-    const visibility = document.visibilityState;
-    if (visibility === "hidden") setVisible(false);
-    if (visibility === "visible") setVisible(true);
   };
 
   useEffect(() => {
     fetchLatestUploads();
-    document.addEventListener("visibilitychange", handleOnVisibilityChange);
-
-    return () => {
-      pauseSlideShow();
-      document.removeEventListener(
-        "visibilitychange",
-        handleOnVisibilityChange
-      );
-    };
   }, []);
-
-  useEffect(() => {
-    if (slides.length && visible) {
-      autoStartSlide();
-      updateUpNext(count);
-    } else pauseSlideShow();
-  }, [slides.length, visible]);
 
   return (
     <div className="w-full flex">
       {/* Slide Show Section  */}
       <div className="md:w-4/5 w-full aspect-video relative overflow-hidden">
-        <Slide
-          title={currentSlide.title}
-          src={currentSlide.poster}
-          ref={slideRef}
-          id={currentSlide.id}
-        />
-        {/* Cloned Slide */}
-        <Slide
+        <img
           onAnimationEnd={handleAnimationEnd}
-          src={clonedSlide.poster}
-          title={clonedSlide.title}
-          ref={clonedSlideRef}
-          id={currentSlide.id}
-          className="absolute inset-0"
+          ref={slideRef}
+          className="aspect-video object-cover"
+          src={currentSlide.poster}
+          alt=""
         />
-
+        {/* <img
+          onAnimationEnd={handleAnimationEnd}
+          ref={clonedSlideRef}
+          className="aspect-video object-cover absolute inset-0"
+          src={clonedSlide.poster}
+          alt=""
+        /> */}
         <SlideControlBtns
-          onPrevSlide={handlePrevSlide}
-          onNextSlide={handleNextSlide}
+          onPrevSlide={handleOnPrevClick}
+          onNextClick={handleOnNextClick}
         />
       </div>
       {/* Up Next Section */}
@@ -165,7 +114,7 @@ const HeroSlideShow = () => {
   );
 };
 
-const SlideControlBtns = ({ onPrevSlide, onNextSlide }) => {
+const SlideControlBtns = ({ onPrevSlide, onNextClick }) => {
   return (
     <div className="absolute top-1/2 -translate-y-1/2 w-full flex items-center justify-between px-2">
       <button
@@ -176,7 +125,7 @@ const SlideControlBtns = ({ onPrevSlide, onNextSlide }) => {
         <AiOutlineDoubleLeft />
       </button>
       <button
-        onClick={onNextSlide}
+        onClick={onNextClick}
         className="bg-primary rounded border-2 text-white text-lg p-2 outline-none"
         type="button"
       >
