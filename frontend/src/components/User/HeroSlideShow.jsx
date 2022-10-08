@@ -39,10 +39,15 @@ const HeroSlideShow = () => {
   };
 
   // Update Up Next Section
-  const updateUpNext = (currentIndex) => {};
+  const handleVisibilityChange = () => {
+    const visibility = document.visibilityState;
+    if (visibility === "hidden") setVisible(false);
+    if (visibility === "visible") setVisible(true);
+  };
 
   // Next Slide
   const handleOnNextClick = () => {
+    puaseSlideShow();
     setClonedSlide(slides[count]);
 
     count = (count + 1) % slides.length;
@@ -54,6 +59,7 @@ const HeroSlideShow = () => {
 
   // Prev Slide
   const handleOnPrevClick = () => {
+    puaseSlideShow();
     setClonedSlide(slides[count]);
 
     count = (count + slides.length - 1) % slides.length;
@@ -73,38 +79,34 @@ const HeroSlideShow = () => {
     slideRef.current.classList.remove(...classes);
     clonedSlideRef.current.classList.remove(...classes);
     setClonedSlide({});
+    autoPlaySlide();
   };
 
   useEffect(() => {
     fetchLatestUploads();
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       puaseSlideShow();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 
   useEffect(() => {
-    if (slides.length) autoPlaySlide();
-  }, [slides.length]);
+    if (slides.length && visible) autoPlaySlide();
+    else puaseSlideShow();
+  }, [slides.length, visible]);
 
   return (
     <div className="w-full flex">
       {/* Slide Show Section  */}
       <div className="md:w-4/5 w-full aspect-video relative overflow-hidden">
-        <img
-          onAnimationEnd={handleAnimationEnd}
-          ref={slideRef}
-          className="aspect-video object-cover"
+        <Slide
+          title={currentSlide.title}
           src={currentSlide.poster}
-          alt=""
+          ref={slideRef}
         />
-        {/* <img
-          onAnimationEnd={handleAnimationEnd}
-          ref={clonedSlideRef}
-          className="aspect-video object-cover absolute inset-0"
-          src={clonedSlide.poster}
-          alt=""
-        /> */}
+
         <SlideControlBtns
           onPrevSlide={handleOnPrevClick}
           onNextClick={handleOnNextClick}
