@@ -31,7 +31,11 @@ const HeroSlideShow = () => {
   };
 
   const autoPlaySlide = () => {
-    setInterval(handleOnNextClick, 3300);
+    intervalId = setInterval(handleOnNextClick, 3300);
+  };
+
+  const puaseSlideShow = () => {
+    clearInterval(intervalId);
   };
 
   // Update Up Next Section
@@ -73,6 +77,10 @@ const HeroSlideShow = () => {
 
   useEffect(() => {
     fetchLatestUploads();
+
+    return () => {
+      puaseSlideShow();
+    };
   }, []);
 
   useEffect(() => {
