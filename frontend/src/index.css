@@ -76,17 +76,18 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 /* Slider Animation */
-.slide-in-right {
-  animation: slideInRight 0.5s ease-in;
+.slide-in-from-right {
+  animation: slideInFromRight 0.5s ease-in;
 }
 
-.slide-out-left {
-  animation: slideOutLeft 0.5s ease-in;
+.slide-out-to-left {
+  animation: slideOutToLeft 0.5s ease-in;
 }
 
 .slide-in-from-left {
   animation: slideInFromLeft 0.5s ease-in;
 }
+
 .slide-out-to-right {
   animation: slideOutToRight 0.5s ease-in;
 }
@@ -109,7 +110,7 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 }
 
-@keyframes slideInRight {
+@keyframes slideInFromRight {
   from {
     transform: translateX(100%);
   }
@@ -118,7 +119,7 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 }
 
-@keyframes slideOutLeft {
+@keyframes slideOutToLeft {
   from {
     transform: translateX(0%);
   }
