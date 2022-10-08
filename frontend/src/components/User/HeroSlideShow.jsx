@@ -47,7 +47,6 @@ const HeroSlideShow = () => {
 
   // Next Slide
   const handleOnNextClick = () => {
-    puaseSlideShow();
     setClonedSlide(slides[count]);
 
     count = (count + 1) % slides.length;
@@ -59,7 +58,6 @@ const HeroSlideShow = () => {
 
   // Prev Slide
   const handleOnPrevClick = () => {
-    puaseSlideShow();
     setClonedSlide(slides[count]);
 
     count = (count + slides.length - 1) % slides.length;
@@ -79,7 +77,6 @@ const HeroSlideShow = () => {
     slideRef.current.classList.remove(...classes);
     clonedSlideRef.current.classList.remove(...classes);
     setClonedSlide({});
-    autoPlaySlide();
   };
 
   useEffect(() => {
@@ -101,12 +98,20 @@ const HeroSlideShow = () => {
     <div className="w-full flex">
       {/* Slide Show Section  */}
       <div className="md:w-4/5 w-full aspect-video relative overflow-hidden">
-        <Slide
-          title={currentSlide.title}
-          src={currentSlide.poster}
+        <img
+          onAnimationEnd={handleAnimationEnd}
           ref={slideRef}
+          className="aspect-video object-cover"
+          src={currentSlide.poster}
+          alt=""
         />
-
+        {/* <img
+          onAnimationEnd={handleAnimationEnd}
+          ref={clonedSlideRef}
+          className="aspect-video object-cover absolute inset-0"
+          src={clonedSlide.poster}
+          alt=""
+        /> */}
         <SlideControlBtns
           onPrevSlide={handleOnPrevClick}
           onNextClick={handleOnNextClick}
