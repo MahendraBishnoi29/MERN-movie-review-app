@@ -31,7 +31,7 @@ const HeroSlideShow = () => {
   };
 
   const autoPlaySlide = () => {
-    intervalId = setInterval(handleOnNextClick, 3300);
+    intervalId = setInterval(handleOnNextClick, 3500);
   };
 
   const puaseSlideShow = () => {
