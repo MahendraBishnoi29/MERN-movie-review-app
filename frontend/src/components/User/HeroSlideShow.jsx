@@ -123,9 +123,10 @@ const HeroSlideShow = () => {
         <Slide
           onAnimationEnd={handleAnimationEnd}
           title={currentSlide.title}
+          id={currentSlide.id}
           ref={slideRef}
           src={currentSlide.poster}
-          alt=""
+          alt={currentSlide.title}
         />
         {/* <img
           onAnimationEnd={handleAnimationEnd}
