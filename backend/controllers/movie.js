@@ -415,7 +415,7 @@ const getSingleMovie = async (req, res) => {
       cast: cast.map((c) => ({
         id: c._id,
         profile: {
-          id: c.actor._id,
+          id: c.actor?._id,
           name: c.actor.name,
           avatar: c.actor?.avatar?.url,
         },
