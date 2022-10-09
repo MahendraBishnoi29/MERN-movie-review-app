@@ -70,7 +70,7 @@ const HeroSlideShow = () => {
     setCurrentSlide(slides[count]);
 
     updateUpNext(count);
-    clonedSlideRef.current.classList.add("slide-out-to-left");
+
     slideRef.current.classList.add("slide-in-from-right");
   };
 
@@ -82,7 +82,7 @@ const HeroSlideShow = () => {
     setCurrentSlide(slides[count]);
 
     updateUpNext(count);
-    clonedSlideRef.current.classList.add("slide-out-to-right");
+
     slideRef.current.classList.add("slide-in-from-left");
   };
 
@@ -94,7 +94,7 @@ const HeroSlideShow = () => {
       "slide-out-to-left",
     ];
     slideRef.current.classList.remove(...classes);
-    clonedSlideRef.current.classList.remove(...classes);
+
     setClonedSlide({});
   };
 
