@@ -127,7 +127,11 @@ const SingleMoviePage = () => {
           <ListWithLabel label="Cast:">
             {cast.map(({ profile, id, leadActor }) => {
               return leadActor ? (
-                <CustomButtonLink key={id} label={profile.name} />
+                <CustomButtonLink
+                  onClick={() => handleProfileClick(profile)}
+                  key={id}
+                  label={profile.name}
+                />
               ) : null;
             })}
           </ListWithLabel>
