@@ -45,6 +45,23 @@ const HeroSlideShow = () => {
     if (visibility === "visible") setVisible(true);
   };
 
+  // UP Next
+  const updateUpNext = (currentIndex) => {
+    if (!slides.length) return;
+
+    const upNextCount = currentIndex + 1;
+    const end = upNextCount + 3;
+
+    let newSlides = [...slides];
+    newSlides = newSlides.slice(upNextCount, end);
+
+    if (!newSlides.length) {
+      newSlides = [...slides].slice(0, 3);
+    }
+
+    setUpNext([...newSlides]);
+  };
+
   // Next Slide
   const handleOnNextClick = () => {
     setClonedSlide(slides[count]);
@@ -52,6 +69,7 @@ const HeroSlideShow = () => {
     count = (count + 1) % slides.length;
     setCurrentSlide(slides[count]);
 
+    updateUpNext(count);
     clonedSlideRef.current.classList.add("slide-out-to-left");
     slideRef.current.classList.add("slide-in-from-right");
   };
@@ -63,6 +81,7 @@ const HeroSlideShow = () => {
     count = (count + slides.length - 1) % slides.length;
     setCurrentSlide(slides[count]);
 
+    updateUpNext(count);
     clonedSlideRef.current.classList.add("slide-out-to-right");
     slideRef.current.classList.add("slide-in-from-left");
   };
@@ -90,18 +109,21 @@ const HeroSlideShow = () => {
   }, []);
 
   useEffect(() => {
-    if (slides.length && visible) autoPlaySlide();
-    else puaseSlideShow();
+    updateUpNext(count);
+    if (slides.length && visible) {
+      autoPlaySlide();
+      updateUpNext(count);
+    } else puaseSlideShow();
   }, [slides.length, visible]);
 
   return (
     <div className="w-full flex">
       {/* Slide Show Section  */}
       <div className="md:w-4/5 w-full aspect-video relative overflow-hidden">
-        <img
+        <Slide
           onAnimationEnd={handleAnimationEnd}
+          title={currentSlide.title}
           ref={slideRef}
-          className="aspect-video object-cover"
           src={currentSlide.poster}
           alt=""
         />
