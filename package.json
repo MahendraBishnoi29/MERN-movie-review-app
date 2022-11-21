@@ -1,0 +1,22 @@
+{
+  "name": "mern-movie-rating",
+  "version": "1.0.0",
+  "description": "Movie Review App",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd backend && npm install  && cd ../frontend && npm install && npm run build",
+    "start": "node backend/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MahendraBishnoi29/MERN-movie-review-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MahendraBishnoi29/MERN-movie-review-app/issues"
+  },
+  "homepage": "https://github.com/MahendraBishnoi29/MERN-movie-review-app#readme"
+}
