@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
-import { getActors, searchActor } from "../../../api/actor";
+import { deleteActor, getActors, searchActor } from "../../../api/actor";
 import { toast } from "react-toastify";
 import NextPrevBtn from "./NextPrevBtn";
 import UpdateActorModal from "../../Modals/UpdateActorModal";
@@ -88,9 +88,15 @@ const Actors = () => {
   };
 
   // Delete Actor
-  const handleOnDelete = () => {
-    setShowConfirmModal(true);
-  };
+  // const handleOnDelete = async () => {
+  //   setBusy(true);
+  //   const { error, message } = await deleteActor(selectedProfile?.id);
+  //   console.log(selectedProfile?.id);
+  //   setBusy(false);
+  //   if (error) return toast.error("Failed Deleting Actor " + error);
+  //   toast.success(message);
+  //   fetchActors(currentPageNo);
+  // };
 
   useEffect(() => {
     fetchActors(currentPageNo);
@@ -117,7 +123,7 @@ const Actors = () => {
                   key={actor.id}
                   profile={actor}
                   onEdit={() => handleEdit(actor)}
-                  onDelete={() => handleOnDelete(actor)}
+                  // onDelete={() => handleOnDelete(actor)}
                 />
               ))
             : actors.map((actor) => (
@@ -125,7 +131,7 @@ const Actors = () => {
                   key={actor.id}
                   profile={actor}
                   onEdit={() => handleEdit(actor)}
-                  onDelete={() => handleOnDelete(actor)}
+                  // onDelete={() => handleOnDelete(actor)}
                 />
               ))}
         </div>
@@ -135,12 +141,12 @@ const Actors = () => {
         ) : null}
       </div>
 
-      <ConfirmModal
+      {/* <ConfirmModal
+        onConfirm={handleOnDelete}
         visible={showConfirmModal}
         busy={busy}
-        onConfirm={handleOnDelete}
         onCancel={() => setShowConfirmModal(false)}
-      />
+      /> */}
 
       <UpdateActorModal
         OnUpdatedActor={handleOnUpdatedActor}
@@ -196,20 +202,19 @@ const ActorProfile = ({ profile, onEdit, onDelete }) => {
           </p>
         </div>
 
-        <Options onEdit={onEdit} visible={showOptions} onDelete={onDelete} />
+        <Options onEdit={onEdit} visible={showOptions} />
       </div>
     </div>
   );
 };
 
 // Options Component
-const Options = ({ visible, onEdit, onDelete }) => {
+const Options = ({ visible, onEdit }) => {
   if (!visible) return null;
 
   return (
     <div className="absolute inset-0 bg-primary bg-opacity-25 backdrop-blur-sm space-x-2">
       <button
-        onClick={onDelete}
         className="p-2 rounded-full bg-white text-primary hover:opacity-80 m-2"
         type="button"
       >
