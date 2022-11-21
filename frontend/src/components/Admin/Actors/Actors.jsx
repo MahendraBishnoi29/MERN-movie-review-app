@@ -9,6 +9,7 @@ import UpdateActorModal from "../../Modals/UpdateActorModal";
 import SearchInputForm from "../../Shared/SearchInputForm";
 import { useSearch } from "../../../hooks";
 import NotFoundText from "../../Shared/NotFoundText";
+import ConfirmModal from "../../Modals/ConfirmModal";
 
 let currentPageNo = 0;
 const limit = 12;
@@ -16,6 +17,7 @@ const limit = 12;
 const Actors = () => {
   const [actors, setActors] = useState([]);
   const [reachedToEnd, setReachedToEnd] = useState(false);
+  const [busy, setBusy] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -85,6 +87,11 @@ const Actors = () => {
     setResults([]);
   };
 
+  // Delete Actor
+  const handleOnDelete = () => {
+    setShowConfirmModal(true);
+  };
+
   useEffect(() => {
     fetchActors(currentPageNo);
   }, []);
@@ -110,6 +117,7 @@ const Actors = () => {
                   key={actor.id}
                   profile={actor}
                   onEdit={() => handleEdit(actor)}
+                  onDelete={() => handleOnDelete(actor)}
                 />
               ))
             : actors.map((actor) => (
@@ -117,6 +125,7 @@ const Actors = () => {
                   key={actor.id}
                   profile={actor}
                   onEdit={() => handleEdit(actor)}
+                  onDelete={() => handleOnDelete(actor)}
                 />
               ))}
         </div>
@@ -125,6 +134,14 @@ const Actors = () => {
           <NextPrevBtn onNext={onNext} onPrev={onPrev} />
         ) : null}
       </div>
+
+      <ConfirmModal
+        visible={showConfirmModal}
+        busy={busy}
+        onConfirm={handleOnDelete}
+        onCancel={() => setShowConfirmModal(false)}
+      />
+
       <UpdateActorModal
         OnUpdatedActor={handleOnUpdatedActor}
         initialState={selectedProfile}
@@ -135,7 +152,8 @@ const Actors = () => {
   );
 };
 
-const ActorProfile = ({ profile, onEdit }) => {
+// ActorProfile Component
+const ActorProfile = ({ profile, onEdit, onDelete }) => {
   const [showOptions, setShowOptions] = useState(false);
   const acceptedNameLength = 15;
 
@@ -178,12 +196,13 @@ const ActorProfile = ({ profile, onEdit }) => {
           </p>
         </div>
 
-        <Options onEdit={onEdit} visible={showOptions} />
+        <Options onEdit={onEdit} visible={showOptions} onDelete={onDelete} />
       </div>
     </div>
   );
 };
 
+// Options Component
 const Options = ({ visible, onEdit, onDelete }) => {
   if (!visible) return null;
 
