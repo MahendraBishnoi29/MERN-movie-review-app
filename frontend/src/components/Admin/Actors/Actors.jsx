@@ -18,6 +18,7 @@ const Actors = () => {
   const [reachedToEnd, setReachedToEnd] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [results, setResults] = useState([]);
 
   const { handleSearch, resetSearch, resultNotFound } = useSearch();
@@ -57,7 +58,7 @@ const Actors = () => {
     setSelectedProfile(profile);
   };
 
-  // Edit Actor
+  // Edit Actor Modal
   const hideUpdateModal = () => {
     setShowUpdateModal(false);
   };
