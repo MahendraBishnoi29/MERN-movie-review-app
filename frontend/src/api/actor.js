@@ -97,3 +97,13 @@ export const getActorProfile = async (id) => {
     console.log("Error in getActorProfile" + error.message);
   }
 };
+
+// Delete Actor
+export const deleteActor = async (id) => {
+  try {
+    const { data } = await client.delete(`/actor/delete/${id}`);
+    return data;
+  } catch (error) {
+    console.log("Error in DeleteActor method" + error.message);
+  }
+};
