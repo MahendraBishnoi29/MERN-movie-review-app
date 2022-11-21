@@ -1,5 +1,6 @@
 import React, { createContext, useState } from "react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getIsAuth, SignInUser } from "../api/auth";
 
@@ -14,6 +15,7 @@ const defaultAuthInfo = {
 
 const AuthProvider = ({ children }) => {
   const [authInfo, setAuthInfo] = useState({ ...defaultAuthInfo });
+  const navigate = useNavigate();
 
   const handleLogIn = async (email, password) => {
     setAuthInfo({ ...authInfo, isPending: true });
@@ -24,6 +26,7 @@ const AuthProvider = ({ children }) => {
       return setAuthInfo({ ...authInfo, isPending: false, error });
     }
 
+    navigate("/");
     toast.success("Signed In 🎉");
 
     setAuthInfo({
@@ -61,6 +64,7 @@ const AuthProvider = ({ children }) => {
     setAuthInfo({
       ...defaultAuthInfo,
     });
+    navigate("/");
     toast.success("Logged Out");
   };
 
