@@ -1,9 +1,9 @@
 import React from "react";
+import SearchInputForm from "../Shared/SearchInputForm";
+import Container from "./Container";
 import { BsFillSunFill } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth, useTheme } from "../../hooks";
-import SearchInputForm from "../Shared/SearchInputForm";
-import Container from "./Container";
 
 const Navbar = () => {
   const { toggleTheme } = useTheme();
