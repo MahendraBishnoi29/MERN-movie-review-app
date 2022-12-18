@@ -4,7 +4,7 @@ Movie Review App like imdb with CRUD features for all movies and actors. Where w
 
 ## Link
 
-deploying soon...
+https://mrp-frontend.onrender.com/
 
 # Build Photos ⬇
 
